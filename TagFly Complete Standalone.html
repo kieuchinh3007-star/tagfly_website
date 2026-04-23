@@ -1,0 +1,4304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>TagFly — 100% Accurate Shopify Tracking</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/shared.css">
+
+<style>
+/* ========== SHARED STYLES ========== */
+
+:root{
+  /* Brand - TagFly palette (Deep Green / Tech Blue / Bright Yellow / Youth Pink) */
+  --brand-900:#0a3d1f;
+  --brand-800:#0b5c31;
+  --brand-700:#0e7d42;   /* Deep Green */
+  --brand-600:#159a54;
+  --brand-500:#1fb867;
+  --brand-400:#5dd48e;
+  --brand-300:#a8ebc1;
+  --brand-100:#d7f5e3;
+  --brand-50:#e8faee;
+
+  --forest-950:#0b1410;
+  --forest-900:#141e16;
+  --forest-800:#1a241a;   /* near-black from palette */
+
+  --tech-blue:#00a6d6;
+  --tech-blue-700:#0085be;
+  --tech-blue-100:#d0f0fa;
+  --tech-blue-50:#e8f8fd;
+
+  --yellow:#ffc53d;
+  --yellow-deep:#ffa41b;
+  --yellow-100:#fff3d6;
+
+  --pink:#ff6fb5;
+  --pink-light:#ffcce3;
+  --pink-50:#fff0f7;
+
+  --ink-900:#0a120d;
+  --ink-800:#1a241a;
+  --ink-700:#2d3830;
+  --ink-600:#4a544d;
+  --ink-500:#6a7470;
+  --ink-400:#8c958f;
+  --ink-300:#bac3bd;
+  --ink-200:#dde3df;
+  --ink-150:#e8ede9;
+  --ink-100:#f2f5f3;
+  --ink-50:#f6f9f7;
+
+  --paper:#ffffff;
+  --cream:#faf8f3;
+
+  --accent-violet:#6e56cf;
+  --accent-coral:#ff6b4a;
+  --accent-amber:var(--yellow);
+
+  --shadow-sm: 0 1px 2px rgba(10,15,13,.04), 0 1px 1px rgba(10,15,13,.03);
+  --shadow-md: 0 4px 12px rgba(10,15,13,.06), 0 2px 4px rgba(10,15,13,.04);
+  --shadow-lg: 0 24px 48px -12px rgba(10,15,13,.12), 0 8px 16px -8px rgba(10,15,13,.06);
+  --shadow-xl: 0 40px 80px -20px rgba(6,46,38,.25), 0 16px 32px -12px rgba(10,15,13,.08);
+
+  --r-sm:6px; --r-md:10px; --r-lg:16px; --r-xl:24px; --r-2xl:32px;
+
+  --type-display: 'Poppins', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --type-sans: 'Poppins', 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --type-body: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --type-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --maxw:1200px;
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+html,body{background:var(--paper); color:var(--ink-900);}
+body{
+  font-family:var(--type-body);
+  font-size:16px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+a{color:inherit; text-decoration:none;}
+img{max-width:100%; display:block;}
+button{font:inherit; cursor:pointer; border:none; background:none; color:inherit;}
+
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px;}
+.eyebrow{
+  font-family:var(--type-mono);
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--brand-700);
+  font-weight:500;
+}
+.h-display{
+  font-family:var(--type-display);
+  font-weight:700;
+  letter-spacing:-.025em;
+  line-height:1.02;
+}
+.h-sans{
+  font-family:var(--type-sans);
+  font-weight:600;
+  letter-spacing:-.02em;
+  line-height:1.1;
+}
+
+/* ========== NAV ========== */
+.nav{
+  position:sticky; top:0; z-index:50;
+  backdrop-filter:saturate(180%) blur(14px);
+  -webkit-backdrop-filter:saturate(180%) blur(14px);
+  background:rgba(255,255,255,.72);
+  border-bottom:1px solid transparent;
+  transition:border-color .2s ease, background .2s ease;
+}
+.nav.scrolled{ border-bottom-color:var(--ink-150); background:rgba(255,255,255,.88);}
+.nav-inner{
+  display:flex; align-items:center; justify-content:space-between;
+  height:64px;
+}
+.logo{
+  display:flex; align-items:center; gap:10px;
+  font-weight:600; font-size:17px; letter-spacing:-.01em;
+  color:var(--ink-900);
+}
+.logo-mark{
+  width:30px; height:30px; border-radius:8px;
+  background:
+    radial-gradient(130% 130% at 20% 10%, #1b7a40 0%, #0a3d1f 55%, #0b1410 100%);
+  display:grid; place-items:center;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.06), 0 1px 2px rgba(6,46,38,.2);
+}
+.logo-mark svg{ width:20px; height:20px; }
+.nav-links{
+  display:flex; align-items:center; gap:32px;
+}
+.nav-links a{
+  font-size:14px; color:var(--ink-600); font-weight:500;
+  transition:color .15s ease;
+  position:relative;
+}
+.nav-links a:hover{ color:var(--ink-900); }
+.nav-cta{
+  display:flex; align-items:center; gap:8px;
+}
+
+/* Buttons */
+.btn{
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:14px; font-weight:500;
+  padding:9px 16px; border-radius:999px;
+  transition:all .15s ease;
+  white-space:nowrap;
+}
+.btn-ghost{ color:var(--ink-700); }
+.btn-ghost:hover{ color:var(--ink-900); background:var(--ink-100); }
+.btn-primary{
+  background:var(--ink-900); color:#fff;
+  box-shadow:0 1px 2px rgba(0,0,0,.08), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.btn-primary:hover{ background:var(--ink-800); transform:translateY(-1px); box-shadow:0 6px 16px rgba(10,15,13,.18);}
+.btn-brand{
+  background:linear-gradient(180deg, var(--brand-700) 0%, var(--brand-800) 100%);
+  color:#fff;
+  box-shadow:0 1px 0 rgba(255,255,255,.18) inset, 0 1px 2px rgba(10,61,31,.3), 0 10px 24px -8px rgba(14,125,66,.45);
+}
+.btn-brand:hover{ transform:translateY(-1px); box-shadow:0 1px 0 rgba(255,255,255,.18) inset, 0 2px 4px rgba(10,61,31,.3), 0 16px 32px -8px rgba(14,125,66,.55); }
+.btn-outline{
+  color:var(--ink-800); background:var(--paper);
+  box-shadow: 0 0 0 1px var(--ink-200), 0 1px 2px rgba(10,15,13,.04);
+}
+.btn-outline:hover{ box-shadow: 0 0 0 1px var(--ink-300), 0 4px 12px rgba(10,15,13,.08); transform:translateY(-1px); }
+.btn-lg{ padding:12px 22px; font-size:15px; }
+.chev{width:12px; height:12px; transition:transform .15s ease;}
+.btn:hover .chev{ transform:translateX(2px); }
+
+/* ========== HERO ========== */
+.hero{
+  position:relative;
+  padding:72px 0 120px;
+  overflow:hidden;
+  isolation:isolate;
+}
+.hero-bg{
+  position:absolute; inset:0; z-index:-1; pointer-events:none;
+}
+.hero-bg::before{
+  content:""; position:absolute; inset:0;
+  background:
+    radial-gradient(60% 60% at 85% 0%, rgba(31,184,103,.14) 0%, rgba(31,184,103,0) 60%),
+    radial-gradient(70% 60% at 5% 5%, rgba(0,166,214,.10) 0%, rgba(0,166,214,0) 55%),
+    radial-gradient(60% 50% at 95% 95%, rgba(255,111,181,.12) 0%, rgba(255,111,181,0) 60%),
+    linear-gradient(180deg, #ffffff 0%, var(--cream) 100%);
+}
+.hero-grid-lines{
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(to right, rgba(10,15,13,.035) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: linear-gradient(180deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,0) 100%);
+}
+
+.hero-content{
+  text-align:center;
+  max-width:860px; margin:0 auto;
+  position:relative;
+}
+.hero-badge{
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--paper);
+  border:1px solid var(--ink-200);
+  padding:6px 14px 6px 6px;
+  border-radius:999px;
+  font-size:13px;
+  color:var(--ink-700);
+  margin-bottom:24px;
+  box-shadow:var(--shadow-sm);
+}
+.hero-badge .pill{
+  background:var(--brand-700); color:#fff;
+  padding:3px 10px; border-radius:999px;
+  font-size:11px; font-weight:600; letter-spacing:.02em;
+  display:inline-flex; align-items:center;
+}
+.hero-badge .dot{
+  width:6px; height:6px; border-radius:50%; background:var(--pink);
+  box-shadow:0 0 0 3px rgba(255,111,181,.35);
+}
+
+.hero h1{
+  font-size:clamp(44px, 7vw, 84px);
+  font-family:var(--type-display);
+  font-weight:700;
+  line-height:1.02;
+  letter-spacing:-.03em;
+  color:var(--ink-900);
+  margin-bottom:20px;
+}
+.hero h1 em{
+  font-style:normal;
+  color:var(--brand-700);
+  position:relative;
+  display:inline-block;
+}
+.hero h1 em::after{
+  content:"";
+  position:absolute; left:-2%; right:-2%; bottom:3%; height:14%;
+  background:var(--pink);
+  z-index:-1;
+  border-radius:4px;
+  transform:skewX(-4deg);
+  opacity:.85;
+}
+.hero-sub{
+  font-size:clamp(16px, 1.3vw, 19px);
+  color:var(--ink-600);
+  max-width:620px; margin:0 auto 32px;
+  line-height:1.5;
+}
+.hero-ctas{
+  display:flex; gap:12px; justify-content:center; align-items:center;
+  flex-wrap:wrap;
+  margin-bottom:56px;
+}
+.hero-meta{
+  display:flex; align-items:center; gap:24px; justify-content:center;
+  color:var(--ink-500); font-size:13px;
+}
+.hero-meta .check{ color:var(--brand-600); }
+
+/* Hero product shot */
+.hero-product{
+  position:relative;
+  max-width:1100px; margin:72px auto 0;
+  border-radius:var(--r-xl);
+  background:linear-gradient(180deg, #0e7d42 0%, #0a3d1f 100%);
+  padding:14px;
+  box-shadow:var(--shadow-xl), 0 0 0 1px rgba(255,255,255,.04) inset;
+}
+.hero-product::before{
+  /* ambient glow */
+  content:""; position:absolute;
+  left:-10%; right:-10%; top:-40px; bottom:-40px;
+  background:
+    radial-gradient(50% 50% at 50% 50%, rgba(31,184,103,.28), rgba(31,184,103,0) 70%);
+  z-index:-1;
+  filter:blur(40px);
+}
+.hero-product-top{
+  display:flex; align-items:center; gap:8px;
+  padding:6px 8px 12px;
+}
+.tl-dot{ width:12px; height:12px; border-radius:50%; }
+.tl-dot.r{ background:#ff5f57; }
+.tl-dot.y{ background:#febc2e; }
+.tl-dot.g{ background:#28c840; }
+.url-pill{
+  margin-left:16px;
+  flex:1;
+  background:rgba(255,255,255,.06);
+  color:rgba(255,255,255,.6);
+  font-family:var(--type-mono);
+  font-size:12px;
+  padding:5px 12px;
+  border-radius:6px;
+  max-width:420px;
+}
+.hero-product-body{
+  background:#fff;
+  border-radius:calc(var(--r-xl) - 6px);
+  overflow:hidden;
+  min-height:520px;
+  position:relative;
+  display:grid;
+  grid-template-columns: 240px 1fr;
+}
+
+/* App sidebar */
+.app-sidebar{
+  background:#fafbfa;
+  border-right:1px solid var(--ink-150);
+  padding:20px 14px;
+  display:flex; flex-direction:column; gap:4px;
+}
+.app-brand{
+  display:flex; align-items:center; gap:8px;
+  padding:6px 10px; margin-bottom:16px;
+  font-weight:600; font-size:14px;
+}
+.app-nav-group{
+  font-size:11px; font-weight:500;
+  color:var(--ink-400);
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  padding:14px 10px 6px;
+}
+.app-nav-item{
+  display:flex; align-items:center; gap:10px;
+  padding:7px 10px; border-radius:7px;
+  font-size:13px; color:var(--ink-700);
+  cursor:default;
+}
+.app-nav-item.active{
+  background:var(--ink-900); color:#fff;
+}
+.app-nav-item .ico{width:14px; height:14px; opacity:.9;}
+.app-nav-item.active .ico{ opacity:1; }
+.app-nav-item .badge{
+  margin-left:auto;
+  background:var(--brand-100); color:var(--brand-700);
+  font-size:10px; font-weight:600;
+  padding:1px 6px; border-radius:4px;
+}
+
+/* App main */
+.app-main{
+  padding:22px 26px;
+  display:flex; flex-direction:column; gap:18px;
+  background:#fff;
+}
+.app-head{
+  display:flex; align-items:center; justify-content:space-between;
+}
+.app-head h4{ font-size:15px; font-weight:600; letter-spacing:-.01em; }
+.app-head .sub{ font-size:12px; color:var(--ink-500); }
+.app-head-actions{ display:flex; gap:8px; }
+.mini-btn{
+  font-size:12px; font-weight:500;
+  padding:5px 10px; border-radius:6px;
+  box-shadow:0 0 0 1px var(--ink-200);
+  color:var(--ink-700);
+}
+.mini-btn.primary{
+  background:var(--ink-900); color:#fff; box-shadow:none;
+}
+
+/* KPI cards */
+.kpi-row{
+  display:grid; grid-template-columns: repeat(4, 1fr); gap:10px;
+}
+.kpi{
+  border:1px solid var(--ink-150);
+  border-radius:10px;
+  padding:12px 14px;
+  background:#fff;
+}
+.kpi-label{
+  font-size:11px; color:var(--ink-500); font-weight:500;
+  display:flex; align-items:center; gap:6px;
+  margin-bottom:6px;
+}
+.kpi-value{
+  font-size:20px; font-weight:600; letter-spacing:-.02em;
+  color:var(--ink-900);
+}
+.kpi-delta{
+  font-size:11px; margin-top:4px;
+  color:var(--brand-600); font-weight:500;
+  display:flex; align-items:center; gap:3px;
+}
+.kpi-delta.down{ color:#c04e41; }
+
+/* Chart card */
+.chart-card{
+  border:1px solid var(--ink-150);
+  border-radius:10px;
+  padding:16px 18px;
+  background:#fff;
+  display:flex; flex-direction:column; gap:12px;
+}
+.chart-head{
+  display:flex; align-items:center; justify-content:space-between;
+}
+.chart-title{ font-size:13px; font-weight:600; }
+.chart-tabs{
+  display:flex; gap:2px;
+  background:var(--ink-100);
+  padding:2px;
+  border-radius:6px;
+}
+.chart-tabs .t{
+  font-size:11px; padding:3px 8px; border-radius:4px;
+  color:var(--ink-500);
+}
+.chart-tabs .t.active{ background:#fff; color:var(--ink-800); box-shadow:0 1px 2px rgba(0,0,0,.05);}
+
+.chart-area{
+  height:140px; position:relative;
+}
+.chart-area svg{ width:100%; height:100%; }
+
+/* Channels list */
+.channels{
+  display:grid; grid-template-columns:1fr 1fr; gap:10px;
+}
+.channel{
+  display:flex; align-items:center; gap:10px;
+  padding:8px 10px; border-radius:8px;
+  background:var(--ink-50);
+  border:1px solid var(--ink-150);
+  font-size:12px;
+}
+.channel .ci{
+  width:22px; height:22px; border-radius:5px;
+  display:grid; place-items:center;
+  color:#fff; font-size:10px; font-weight:700;
+}
+.channel .cn{ font-weight:500; color:var(--ink-800); }
+.channel .cv{ margin-left:auto; color:var(--ink-500); font-weight:500; }
+.bar-track{
+  flex:1; height:5px; background:var(--ink-150);
+  border-radius:99px; overflow:hidden;
+  margin:0 8px;
+}
+.bar-fill{
+  height:100%; background:var(--brand-500);
+  border-radius:99px;
+}
+
+/* Floating accents on product */
+.float-card{
+  position:absolute;
+  background:#fff;
+  border-radius:12px;
+  padding:12px 14px;
+  box-shadow:var(--shadow-lg), 0 0 0 1px rgba(10,15,13,.06);
+  font-size:12px;
+  display:flex; align-items:center; gap:10px;
+}
+.float-card .ico-wrap{
+  width:30px; height:30px; border-radius:8px;
+  background:var(--brand-50); color:var(--brand-700);
+  display:grid; place-items:center;
+  flex-shrink:0;
+}
+.float-card .t1{ font-weight:600; color:var(--ink-900); font-size:12.5px; }
+.float-card .t2{ color:var(--ink-500); font-size:11px; margin-top:1px; }
+.float-a{ left:-40px; top:140px; }
+.float-b{ right:-30px; top:280px; }
+.float-c{ left:40%; top:-22px; }
+
+/* ========== PARTNERS BAR ========== */
+.partners{
+  padding:56px 0;
+  border-bottom:1px solid var(--ink-150);
+}
+.partners-label{
+  text-align:center; color:var(--ink-500); font-size:13px;
+  margin-bottom:28px;
+  font-weight:500;
+}
+.partners-row{
+  display:grid;
+  grid-template-columns: repeat(8, 1fr);
+  align-items:center;
+  gap:16px;
+  opacity:.75;
+}
+.partner{
+  display:flex; align-items:center; justify-content:center;
+  color:var(--ink-500);
+  font-weight:600; font-size:15px;
+  letter-spacing:-.01em;
+  height:40px;
+}
+.partner svg{ height:24px; width:auto; }
+
+/* ========== SECTION BASICS ========== */
+section.block{
+  padding:110px 0;
+}
+.section-head{
+  max-width:720px; margin:0 auto 56px;
+  text-align:center;
+}
+.section-head h2{
+  font-family:var(--type-display);
+  font-size:clamp(34px, 4.6vw, 56px);
+  font-weight:700;
+  letter-spacing:-.025em;
+  line-height:1.08;
+  color:var(--ink-900);
+  margin:14px 0 18px;
+}
+.section-head h2 em{ font-style:normal; color:var(--brand-700); }
+.section-head p{
+  font-size:17px; color:var(--ink-600); line-height:1.55;
+  max-width:560px; margin:0 auto;
+}
+
+/* ========== FEATURE ZIPPER ========== */
+.feature{
+  display:grid; grid-template-columns: 1fr 1.15fr;
+  gap:80px;
+  align-items:center;
+  padding:72px 0;
+}
+.feature.reverse{ grid-template-columns: 1.15fr 1fr; }
+.feature.reverse .feature-text{ order:2; }
+.feature-tag{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--type-mono);
+  font-size:11px; letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--brand-800);
+  font-weight:600;
+  background:var(--brand-50);
+  padding:5px 10px;
+  border-radius:6px;
+  margin-bottom:16px;
+  border:1px solid var(--brand-100);
+}
+.feature h3{
+  font-family:var(--type-display);
+  font-size:clamp(30px, 3.4vw, 44px);
+  font-weight:700;
+  letter-spacing:-.025em;
+  line-height:1.1;
+  margin-bottom:18px;
+  color:var(--ink-900);
+}
+.feature h3 em{ font-style:normal; color:var(--brand-700); }
+.feature-body{
+  color:var(--ink-600); font-size:16px; line-height:1.6;
+  margin-bottom:24px;
+}
+.feature-list{
+  list-style:none;
+  display:flex; flex-direction:column; gap:14px;
+  margin-bottom:28px;
+}
+.feature-list li{
+  display:flex; gap:12px; align-items:flex-start;
+  color:var(--ink-700); font-size:15px;
+}
+.feature-list .bullet{
+  flex-shrink:0;
+  width:22px; height:22px; border-radius:6px;
+  background:var(--brand-50); color:var(--brand-600);
+  display:grid; place-items:center;
+  margin-top:1px;
+}
+.feature-cta{
+  color:var(--brand-700); font-weight:500; font-size:15px;
+  display:inline-flex; align-items:center; gap:6px;
+  border-bottom:1px solid var(--brand-200, #cbead8);
+  padding-bottom:2px;
+  transition:gap .15s ease;
+}
+.feature-cta:hover{ gap:10px; }
+
+/* Product visual containers */
+.product-visual{
+  position:relative;
+  aspect-ratio: 4 / 3;
+  border-radius:var(--r-xl);
+  background: linear-gradient(180deg, #f4f7f4 0%, #eef2ef 100%);
+  box-shadow: var(--shadow-lg), inset 0 0 0 1px rgba(10,15,13,.04);
+  overflow:hidden;
+  padding:24px;
+  display:flex; flex-direction:column;
+}
+
+/* FEATURE 1: GTM + GA4 coverage */
+.coverage-board{
+  flex:1;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  min-height:0;
+}
+.cov-panel{
+  background:#fff;
+  border:1px solid var(--ink-150);
+  border-radius:14px;
+  padding:16px;
+  display:flex; flex-direction:column; gap:10px;
+  box-shadow:var(--shadow-sm);
+}
+.cov-panel h5{
+  font-size:12px; font-weight:600; color:var(--ink-800);
+  display:flex; align-items:center; gap:8px;
+}
+.cov-dot{ width:7px; height:7px; border-radius:50%; }
+.cov-events{ display:flex; flex-direction:column; gap:6px; }
+.cov-ev{
+  display:flex; align-items:center; gap:8px;
+  font-size:11px; color:var(--ink-700);
+  padding:5px 8px; border-radius:6px;
+  background:var(--ink-50);
+}
+.cov-ev .ev-name{ flex:1; font-family:var(--type-mono); }
+.cov-ev .ev-ok{
+  width:14px; height:14px; border-radius:50%;
+  background:var(--brand-500); color:#fff;
+  display:grid; place-items:center;
+  font-size:8px;
+}
+
+/* FEATURE 2: bypass ad-blockers, bar comparison */
+.bypass-panel{
+  flex:1;
+  background:#fff;
+  border-radius:14px;
+  border:1px solid var(--ink-150);
+  box-shadow:var(--shadow-sm);
+  padding:18px;
+  display:flex; flex-direction:column; gap:16px;
+}
+.bp-head{ display:flex; justify-content:space-between; align-items:flex-end; }
+.bp-title{ font-size:13px; font-weight:600; }
+.bp-meta{ font-size:11px; color:var(--ink-500); }
+.bp-compare{
+  display:flex; flex-direction:column; gap:18px;
+  flex:1; justify-content:center;
+}
+.bp-row{ display:flex; flex-direction:column; gap:6px; }
+.bp-row-label{
+  display:flex; align-items:center; gap:8px;
+  font-size:12px; color:var(--ink-700);
+}
+.bp-row-label .tag-pill{
+  font-size:9.5px; font-weight:600;
+  padding:1px 6px; border-radius:3px;
+  background:var(--ink-150); color:var(--ink-700);
+}
+.bp-row.on .tag-pill{ background:var(--brand-500); color:#fff; }
+.bp-row-value{ margin-left:auto; font-size:12px; font-weight:600; color:var(--ink-800); font-variant-numeric:tabular-nums;}
+.bp-bar{ height:10px; background:var(--ink-100); border-radius:99px; overflow:hidden; position:relative; }
+.bp-bar .fill{ height:100%; border-radius:99px; background:linear-gradient(90deg,#c0cfc9 0%,#a0b4ad 100%); }
+.bp-row.on .fill{ background:linear-gradient(90deg, var(--brand-500) 0%, var(--brand-400) 100%); }
+.bp-foot{
+  display:flex; align-items:center; gap:10px;
+  padding-top:12px;
+  border-top:1px dashed var(--ink-200);
+  font-size:11px; color:var(--ink-500);
+}
+
+/* FEATURE 3: destinations grid */
+.dest-grid{
+  flex:1;
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  grid-template-rows:repeat(2, 1fr);
+  gap:10px;
+  min-height:0;
+}
+.dest-tile{
+  background:#fff;
+  border:1px solid var(--ink-150);
+  border-radius:12px;
+  padding:12px;
+  display:flex; flex-direction:column; justify-content:space-between;
+  box-shadow:var(--shadow-sm);
+  position:relative;
+}
+.dest-tile .d-ico{
+  width:28px; height:28px; border-radius:7px;
+  display:grid; place-items:center;
+  color:#fff; font-size:13px; font-weight:700;
+}
+.dest-tile .d-name{ font-size:11.5px; font-weight:600; color:var(--ink-800); margin-top:8px;}
+.dest-tile .d-status{
+  display:flex; align-items:center; gap:4px;
+  font-size:10px; color:var(--brand-600); font-weight:500;
+  margin-top:3px;
+}
+.dest-tile .d-status .sd{ width:6px; height:6px; border-radius:50%; background:var(--brand-500);}
+
+/* FEATURE 4: server-side gtm hosting */
+.server-panel{
+  flex:1;
+  background:#fff;
+  border-radius:14px; border:1px solid var(--ink-150);
+  padding:18px; box-shadow:var(--shadow-sm);
+  display:flex; flex-direction:column; gap:14px;
+}
+.sp-head{display:flex; align-items:center; gap:10px;}
+.sp-head-ico{
+  width:32px; height:32px; border-radius:8px;
+  background:var(--ink-900); color:#fff;
+  display:grid; place-items:center;
+}
+.sp-title{ font-size:13px; font-weight:600; }
+.sp-sub{ font-size:11px; color:var(--ink-500); }
+.sp-flow{
+  display:flex; align-items:center; gap:10px;
+  padding:12px; background:var(--ink-50); border-radius:10px;
+}
+.sp-node{
+  flex:1;
+  background:#fff; border:1px solid var(--ink-150);
+  border-radius:8px; padding:10px;
+  text-align:center;
+}
+.sp-node .n-ico{
+  width:24px; height:24px; border-radius:6px;
+  margin:0 auto 6px;
+  display:grid; place-items:center;
+  color:#fff;
+}
+.sp-node .n-label{ font-size:10px; font-weight:600; color:var(--ink-800); }
+.sp-node .n-meta{ font-size:9px; color:var(--ink-500); margin-top:2px; font-family:var(--type-mono);}
+.sp-arrow{ color:var(--brand-500); font-size:16px;}
+.sp-metrics{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:8px;
+}
+.sp-metric{
+  padding:10px;
+  background:var(--brand-50);
+  border-radius:8px;
+}
+.sp-metric .mv{font-size:18px; font-weight:600; color:var(--brand-800); letter-spacing:-.02em;}
+.sp-metric .ml{font-size:10px; color:var(--brand-700); margin-top:2px;}
+
+/* ========== INTEGRATIONS SECTION ========== */
+.integrations{
+  padding:100px 0;
+  background: var(--ink-50);
+  border-top:1px solid var(--ink-150);
+  border-bottom:1px solid var(--ink-150);
+  position:relative;
+}
+.integrations::before{
+  content:""; position:absolute; inset:0;
+  background-image:radial-gradient(circle at 1px 1px, rgba(10,15,13,.06) 1px, transparent 0);
+  background-size:24px 24px;
+  opacity:.4;
+  pointer-events:none;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+}
+.int-grid{
+  position:relative;
+  max-width:1000px; margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:12px;
+}
+.int-card{
+  background:#fff;
+  border-radius:14px;
+  padding:20px;
+  box-shadow:var(--shadow-sm), 0 0 0 1px var(--ink-150);
+  display:flex; flex-direction:column; gap:10px;
+  transition:all .45s cubic-bezier(.34,.46,.35,1);
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+}
+.int-card:hover{
+  transform:scale(1.08);
+  box-shadow:var(--shadow-xl);
+  z-index:10;
+  background:linear-gradient(180deg, var(--ink-900) 0%, var(--brand-900) 100%);
+  color:#fff;
+  padding:24px;
+}
+.int-card:hover .int-name{
+  color:#fff;
+}
+.int-desc-short{
+  display:block;
+}
+.int-desc-full{
+  display:none;
+}
+.int-card:hover .int-desc-short{
+  display:none;
+}
+.int-card:hover .int-desc-full{
+  display:block;
+  color:rgba(255,255,255,0.85);
+}
+.int-tags{
+  display:none;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:4px;
+}
+.int-card:hover .int-tags{
+  display:flex;
+}
+.int-tags span{
+  font-size:10px;
+  font-weight:600;
+  padding:4px 8px;
+  background:rgba(255,255,255,0.15);
+  color:#fff;
+  border-radius:4px;
+  text-transform:uppercase;
+  letter-spacing:0.3px;
+}
+.int-meta{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  font-size:11px;
+  color:var(--ink-600);
+  font-weight:500;
+}
+.int-card:hover .int-meta{
+  color:rgba(255,255,255,0.7);
+}
+.int-card:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--shadow-lg), 0 0 0 1px var(--ink-200);
+}
+
+.int-ico{
+  width:40px; height:40px; border-radius:10px;
+  display:grid; place-items:center;
+  color:#fff; font-size:18px; font-weight:700;
+  letter-spacing:-.02em;
+}
+.int-card.featured .int-ico{ background:rgba(255,255,255,.1); color:#fff; }
+.int-name{ font-weight:600; font-size:15px; letter-spacing:-.01em;}
+.int-desc{ font-size:13px; color:var(--ink-500); line-height:1.5; }
+.int-card.featured .int-desc{ color:rgba(255,255,255,.65); }
+.int-card.featured .int-name{ font-size:19px; margin-top:4px;}
+.int-tags{
+  display:flex; flex-wrap:wrap; gap:6px;
+  margin-top:4px;
+}
+.int-tags span{
+  font-size:11px;
+  padding:3px 8px;
+  border-radius:4px;
+  background:rgba(255,255,255,.08);
+  color:rgba(255,255,255,.8);
+  font-weight:500;
+}
+.int-meta{
+  font-size:11px;
+  color:var(--brand-600);
+  font-weight:500;
+  display:flex; align-items:center; gap:5px;
+  margin-top:auto;
+}
+.int-meta .d{ width:6px; height:6px; border-radius:50%; background:var(--brand-500);}
+
+/* ========== HOW IT WORKS ========== */
+.steps{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:24px;
+  position:relative;
+  counter-reset:step;
+}
+.step{
+  background:#fff;
+  border:1px solid var(--ink-150);
+  border-radius:var(--r-lg);
+  padding:32px 28px;
+  position:relative;
+  box-shadow:var(--shadow-sm);
+  display:flex; flex-direction:column;
+}
+.step-num{
+  font-family:var(--type-mono);
+  font-size:12px; font-weight:500;
+  color:var(--brand-700);
+  letter-spacing:.1em;
+  margin-bottom:16px;
+}
+.step-num::before{
+  counter-increment:step;
+  content:"0" counter(step) " - ";
+}
+.step h4{
+  font-family:var(--type-display);
+  font-weight:700;
+  font-size:24px;
+  letter-spacing:-.02em;
+  line-height:1.15;
+  margin-bottom:10px;
+  color:var(--ink-900);
+}
+.step p{
+  font-size:14px; color:var(--ink-600); line-height:1.55;
+  margin-bottom:20px;
+}
+.step-visual{
+  margin-top:auto;
+  background:var(--ink-50);
+  border-radius:10px;
+  border:1px solid var(--ink-150);
+  padding:14px;
+  min-height:130px;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* ========== PRICING ========== */
+.pricing{
+  background:linear-gradient(180deg, var(--forest-800) 0%, var(--brand-900) 100%);
+  color:#fff;
+  padding:110px 0;
+  position:relative;
+  overflow:hidden;
+}
+.pricing::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    radial-gradient(40% 40% at 20% 0%, rgba(31,184,103,.18) 0%, transparent 60%),
+    radial-gradient(40% 40% at 100% 100%, rgba(255,111,181,.12) 0%, transparent 60%),
+    radial-gradient(50% 50% at 90% 0%, rgba(0,166,214,.08) 0%, transparent 60%);
+  pointer-events:none;
+}
+.pricing .section-head h2{ color:#fff;}
+.pricing .section-head p{ color:rgba(255,255,255,.65);}
+.pricing .eyebrow{ color:var(--brand-300);}
+
+.billing-toggle{
+  display:inline-flex;
+  padding:4px;
+  background:rgba(255,255,255,.07);
+  border-radius:999px;
+  margin:0 auto 48px;
+  position:relative; z-index:1;
+}
+.billing-toggle button{
+  padding:8px 20px; border-radius:999px;
+  font-size:14px; color:rgba(255,255,255,.7);
+  font-weight:500;
+  transition:all .2s ease;
+}
+.billing-toggle button.active{
+  background:#fff; color:var(--ink-900);
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+.billing-toggle .save{
+  font-size:10px; margin-left:6px; background:var(--pink);
+  color:#fff; padding:2px 6px; border-radius:4px; font-weight:700;
+}
+
+.plans{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:16px;
+  max-width:1050px; margin:0 auto;
+  position:relative; z-index:1;
+}
+.plan{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--r-xl);
+  padding:32px 28px;
+  display:flex; flex-direction:column;
+  backdrop-filter:blur(6px);
+  transition:all .2s ease;
+}
+.plan:hover{ background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.12); }
+.plan.featured{
+  background:#fff; color:var(--ink-900);
+  border-color:transparent;
+  transform:translateY(-8px);
+  box-shadow: var(--shadow-xl), 0 0 0 1px rgba(255,255,255,.12);
+  position:relative;
+}
+.plan-popular{
+  position:absolute; top:-12px; left:50%;
+  transform:translateX(-50%);
+  font-size:11px; font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase;
+  background:var(--pink); color:#fff;
+  padding:5px 12px; border-radius:999px;
+  box-shadow:0 4px 12px rgba(255,111,181,.45);
+}
+.plan-name{
+  font-size:14px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.08em;
+  color:inherit;
+  opacity:.8;
+  margin-bottom:12px;
+}
+.plan.featured .plan-name{ color:var(--brand-700); opacity:1; }
+.plan-price{
+  font-family:var(--type-display);
+  font-size:62px; font-weight:700; line-height:1; letter-spacing:-.03em;
+  color:inherit;
+  margin-bottom:4px;
+  display:flex; align-items:flex-start; gap:4px;
+}
+.plan-price .cur{ font-size:22px; margin-top:14px; }
+.plan-price .per{
+  font-family:var(--type-sans);
+  font-size:13px; font-weight:500;
+  color:inherit; opacity:.6;
+  margin-top:18px;
+  margin-left:2px;
+}
+.plan-tag{
+  font-size:14px; color:inherit; opacity:.7;
+  margin-bottom:28px;
+  min-height:42px;
+}
+.plan.featured .plan-tag{ opacity:.65; }
+.plan-features{
+  list-style:none;
+  display:flex; flex-direction:column; gap:12px;
+  margin-bottom:32px;
+  flex:1;
+}
+.plan-features li{
+  display:flex; gap:10px; align-items:flex-start;
+  font-size:14px; color:inherit; opacity:.88;
+}
+.plan-features .ch{
+  color:var(--brand-400); flex-shrink:0;
+  margin-top:2px;
+}
+.plan.featured .plan-features .ch{ color:var(--brand-600); }
+.plan .btn-plan{
+  display:flex; justify-content:center;
+  padding:12px; border-radius:10px;
+  font-size:14px; font-weight:500;
+  background:rgba(255,255,255,.08); color:#fff;
+  border:1px solid rgba(255,255,255,.1);
+  transition:all .15s ease;
+}
+.plan .btn-plan:hover{ background:rgba(255,255,255,.14); }
+.plan.featured .btn-plan{
+  background:var(--ink-900); color:#fff;
+  border-color:var(--ink-900);
+}
+.plan.featured .btn-plan:hover{ background:var(--ink-800); }
+
+/* ========== TESTIMONIALS ========== */
+.testimonials{
+  padding:110px 0;
+}
+.test-grid{
+  display:grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap:16px;
+}
+.testimonial{
+  background:var(--paper);
+  border:1px solid var(--ink-150);
+  border-radius:var(--r-lg);
+  padding:28px;
+  display:flex; flex-direction:column;
+  transition:all .2s ease;
+}
+.testimonial:hover{ box-shadow:var(--shadow-md); border-color:var(--ink-200);}
+.testimonial.size-lg{ grid-column:span 6; padding:40px 36px;}
+.testimonial.size-md{ grid-column:span 4;}
+.testimonial.size-sm{ grid-column:span 3;}
+.test-stars{
+  display:flex; gap:2px; color:var(--yellow-deep);
+  margin-bottom:14px;
+}
+.test-stars svg{ width:14px; height:14px; }
+.test-quote{
+  font-family:var(--type-display);
+  font-style:normal;
+  font-weight:500;
+  font-size:19px;
+  line-height:1.35;
+  letter-spacing:-.01em;
+  color:var(--ink-800);
+  margin-bottom:auto;
+  padding-bottom:24px;
+}
+.testimonial.size-lg .test-quote{ font-size:26px; }
+.testimonial.size-sm .test-quote{ font-size:17px; }
+.test-author{
+  display:flex; align-items:center; gap:10px;
+  padding-top:20px;
+  border-top:1px solid var(--ink-150);
+}
+.test-ava{
+  width:36px; height:36px; border-radius:50%;
+  background:var(--brand-100); color:var(--brand-900);
+  display:grid; place-items:center;
+  font-weight:600; font-size:13px;
+  flex-shrink:0;
+}
+.test-name{ font-size:13px; font-weight:600; color:var(--ink-900);}
+.test-shop{
+  font-size:11px; color:var(--ink-500); font-family:var(--type-mono);
+  display:flex; align-items:center; gap:4px;
+}
+.test-shop::before{
+  content:""; width:12px; height:12px; border-radius:3px;
+  background:#95bf47; display:inline-block;
+}
+
+/* ========== FAQ ========== */
+.faq{
+  padding:110px 0;
+  background:var(--ink-50);
+  border-top:1px solid var(--ink-150);
+}
+.faq-layout{
+  display:grid;
+  grid-template-columns: 360px 1fr;
+  gap:80px;
+  max-width:1100px; margin:0 auto;
+}
+.faq-left h2{
+  font-family:var(--type-display); font-weight:700;
+  font-size:44px; letter-spacing:-.025em; line-height:1.08;
+  margin:10px 0 18px;
+}
+.faq-left p{ color:var(--ink-600); font-size:15px; margin-bottom:24px; }
+.faq-list{ display:flex; flex-direction:column; gap:10px;}
+.faq-item{
+  background:#fff;
+  border:1px solid var(--ink-150);
+  border-radius:12px;
+  overflow:hidden;
+  transition:all .2s ease;
+}
+.faq-item[open]{ box-shadow:var(--shadow-md);}
+.faq-item summary{
+  list-style:none;
+  cursor:pointer;
+  padding:18px 22px;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:16px;
+  font-weight:500; font-size:15.5px;
+  color:var(--ink-900);
+}
+.faq-item summary::-webkit-details-marker{ display:none; }
+.faq-item summary:hover{ background:var(--ink-50);}
+.faq-item .ic{
+  width:28px; height:28px; border-radius:50%;
+  border:1px solid var(--ink-200);
+  display:grid; place-items:center;
+  flex-shrink:0;
+  transition:all .2s ease;
+  color:var(--ink-600);
+}
+.faq-item[open] .ic{
+  background:var(--ink-900); color:#fff; border-color:var(--ink-900);
+  transform:rotate(45deg);
+}
+.faq-body{
+  padding:0 22px 22px;
+  color:var(--ink-600);
+  font-size:14.5px;
+  line-height:1.65;
+}
+.faq-body strong{ color:var(--ink-800); }
+
+/* ========== BIG CTA ========== */
+.cta-block{
+  padding:110px 0 140px;
+  position:relative;
+}
+.cta-card{
+  background:
+    radial-gradient(80% 120% at 100% 0%, rgba(31,184,103,.22) 0%, rgba(31,184,103,0) 60%),
+    radial-gradient(60% 100% at 0% 100%, rgba(255,111,181,.16) 0%, transparent 60%),
+    linear-gradient(180deg, var(--forest-800) 0%, var(--brand-900) 100%);
+  color:#fff;
+  border-radius:var(--r-2xl);
+  padding:80px 60px;
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  gap:48px;
+  align-items:center;
+  position:relative;
+  overflow:hidden;
+  box-shadow:var(--shadow-xl);
+}
+.cta-card::before{
+  content:""; position:absolute; inset:0;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse at top right, black 20%, transparent 60%);
+  pointer-events:none;
+}
+.cta-card h2{
+  font-family:var(--type-display); font-weight:700;
+  font-size:clamp(34px, 4.2vw, 52px);
+  letter-spacing:-.025em;
+  line-height:1.08;
+  margin-bottom:20px;
+}
+.cta-card h2 em{ font-style:normal; color:var(--pink-light);}
+.cta-card p{
+  font-size:16.5px; color:rgba(255,255,255,.72);
+  max-width:440px;
+  margin-bottom:28px;
+  line-height:1.55;
+}
+.cta-actions{ display:flex; gap:10px; flex-wrap:wrap;}
+.cta-card .btn-primary{
+  background:#fff; color:var(--ink-900);
+}
+.cta-card .btn-primary:hover{ background:var(--ink-100);}
+.cta-card .btn-ghost{ color:rgba(255,255,255,.85); }
+.cta-card .btn-ghost:hover{ background:rgba(255,255,255,.08); color:#fff;}
+
+.cta-illus{
+  position:relative;
+  padding:24px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--r-lg);
+}
+.cta-stat{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:14px 16px;
+  background:rgba(255,255,255,.05);
+  border-radius:10px;
+  margin-bottom:10px;
+}
+.cta-stat:last-child{ margin-bottom:0;}
+.cta-stat .cs-label{ font-size:13px; color:rgba(255,255,255,.7);}
+.cta-stat .cs-val{
+  font-family:var(--type-display); font-size:24px; font-weight:700; color:#fff;
+  letter-spacing:-.02em;
+}
+.cta-stat .cs-val em{ font-style:normal; color:var(--pink-light); }
+
+/* ========== FOOTER ========== */
+footer{
+  background:var(--forest-950);
+  color:rgba(255,255,255,.6);
+  padding:72px 0 40px;
+}
+.footer-grid{
+  display:grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap:48px;
+  padding-bottom:56px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.footer-brand{ max-width:320px;}
+.footer-brand .logo{ color:#fff; margin-bottom:20px;}
+.footer-brand p{ font-size:13px; line-height:1.6; margin-bottom:20px;}
+.footer-contact{
+  display:flex; flex-direction:column; gap:10px;
+  font-size:13px;
+}
+.footer-contact .row{ display:flex; align-items:flex-start; gap:10px;}
+.footer-contact .row svg{ margin-top:2px; color:rgba(255,255,255,.4); flex-shrink:0;}
+
+.footer-col h5{
+  font-size:12px; font-weight:600; letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#fff;
+  margin-bottom:16px;
+}
+.footer-col ul{ list-style:none; display:flex; flex-direction:column; gap:10px;}
+.footer-col a{
+  font-size:13.5px;
+  transition:color .15s ease;
+}
+.footer-col a:hover{ color:#fff;}
+
+.footer-bot{
+  padding-top:32px;
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:12.5px;
+  color:rgba(255,255,255,.4);
+}
+.footer-bot .socials{
+  display:flex; gap:10px;
+}
+.footer-bot .socials a{
+  width:32px; height:32px; border-radius:8px;
+  display:grid; place-items:center;
+  background:rgba(255,255,255,.06);
+  color:rgba(255,255,255,.6);
+  transition:all .15s ease;
+}
+.footer-bot .socials a:hover{ background:rgba(255,255,255,.12); color:#fff;}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1000px){
+  .feature{ grid-template-columns:1fr; gap:40px; padding:56px 0;}
+  .feature.reverse{ grid-template-columns:1fr;}
+  .feature.reverse .feature-text{ order:0;}
+  .steps{ grid-template-columns:1fr;}
+  .plans{ grid-template-columns:1fr; max-width:440px;}
+  .plan.featured{ transform:none;}
+  .int-grid{ grid-template-columns:repeat(2,1fr);}
+  .int-card.featured{ grid-column:span 2;}
+  .test-grid{ grid-template-columns:1fr;}
+  .testimonial{ grid-column:span 1 !important;}
+  .faq-layout{ grid-template-columns:1fr; gap:32px;}
+  .cta-card{ grid-template-columns:1fr; padding:48px 32px;}
+  .footer-grid{ grid-template-columns:1fr 1fr; gap:32px;}
+  .hero-product-body{ grid-template-columns:1fr;}
+  .app-sidebar{ display:none;}
+  .float-card{ display:none;}
+  .partners-row{ grid-template-columns:repeat(4,1fr);}
+  .nav-links{ display:none;}
+}
+@media (max-width: 600px){
+  section.block{ padding:72px 0;}
+  .kpi-row{ grid-template-columns:repeat(2,1fr);}
+  .channels{ grid-template-columns:1fr;}
+  .dest-grid{ grid-template-columns:repeat(2,1fr);}
+  .footer-grid{ grid-template-columns:1fr;}
+  .footer-bot{ flex-direction:column; gap:16px;}
+}
+
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(24px); }
+  to { opacity:1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity:0; }
+  to { opacity:1; }
+}
+@keyframes scaleIn {
+  from { opacity:0; transform: scale(.96); }
+  to { opacity:1; transform: scale(1); }
+}
+@keyframes floatY {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes pulseGlow {
+  0%,100% { box-shadow: 0 0 0 0 rgba(255,111,181,.45); }
+  50% { box-shadow: 0 0 0 8px rgba(255,111,181,0); }
+}
+@keyframes shine {
+  0% { background-position: -150% 0; }
+  100% { background-position: 250% 0; }
+}
+@keyframes chartDraw {
+  from { stroke-dashoffset: 1400; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes barFill {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes spinSlow {
+  to { transform: rotate(360deg); }
+}
+@keyframes ping {
+  0% { transform: scale(1); opacity:.7; }
+  70%,100% { transform: scale(2.4); opacity:0; }
+}
+@keyframes slideIn {
+  from { opacity:0; transform: translateX(-12px); }
+  to { opacity:1; transform: translateX(0); }
+}
+
+/* Reveal-on-scroll base */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
+  will-change: opacity, transform;
+}
+.reveal.in {
+  opacity: 1; transform: translateY(0);
+}
+.reveal.delay-1 { transition-delay:.08s; }
+.reveal.delay-2 { transition-delay:.16s; }
+.reveal.delay-3 { transition-delay:.24s; }
+.reveal.delay-4 { transition-delay:.32s; }
+
+/* Hero entrance */
+.hero .hero-badge { animation: fadeUp .7s ease both; }
+.hero h1 { animation: fadeUp .8s .1s ease both; }
+.hero h1 em::after { 
+  transform-origin: left center;
+  animation: fadeUp .6s .9s ease both, underlineDraw .7s .9s cubic-bezier(.7,0,.3,1) both;
+}
+@keyframes underlineDraw {
+  from { transform: skewX(-4deg) scaleX(0); }
+  to { transform: skewX(-4deg) scaleX(1); }
+}
+.hero-sub { animation: fadeUp .8s .22s ease both; }
+.hero-ctas { animation: fadeUp .8s .32s ease both; }
+.hero-meta { animation: fadeUp .8s .42s ease both; }
+.hero-product { animation: scaleIn 1s .5s cubic-bezier(.2,.7,.2,1) both; }
+
+/* Floating cards gentle float */
+.float-card { animation: fadeUp .8s 1s ease both; }
+.float-a { animation: fadeUp .8s 1s ease both, floatY 5s 1.8s ease-in-out infinite; }
+.float-b { animation: fadeUp .8s 1.15s ease both, floatY 5.5s 2.2s ease-in-out infinite; }
+.float-c { animation: fadeUp .8s 1.3s ease both, floatY 5.2s 2s ease-in-out infinite; }
+
+/* Hero badge dot pulse */
+.hero-badge .dot { animation: pulseGlow 2s ease-in-out infinite; }
+
+/* Chart draws in */
+.chart-area svg path[stroke="#14a085"],
+.chart-area svg path[stroke="#1fb867"] {
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: chartDraw 2.2s 1.2s cubic-bezier(.7,0,.3,1) forwards;
+}
+
+/* KPI cards staggered */
+.kpi { animation: fadeUp .6s ease both; opacity:0; }
+.kpi:nth-child(1){ animation-delay: .9s; }
+.kpi:nth-child(2){ animation-delay: 1.0s; }
+.kpi:nth-child(3){ animation-delay: 1.1s; }
+.kpi:nth-child(4){ animation-delay: 1.2s; }
+
+/* Channel bars */
+.bar-fill { transform-origin:left center; animation: barFill 1.2s 1.4s cubic-bezier(.2,.7,.2,1) both; }
+
+/* Bypass panel compare bars */
+.bp-bar .fill { transform-origin:left center; }
+.reveal.in .bp-bar .fill { animation: barFill 1.3s .3s cubic-bezier(.2,.7,.2,1) both; }
+
+/* Partner logos subtle fade cycle */
+.partner {
+  transition: color .25s ease, transform .25s ease;
+}
+.partner:hover { color: var(--brand-800); transform: translateY(-2px); }
+
+/* Buttons: subtle shine on hover */
+.btn-brand { position:relative; overflow:hidden; }
+.btn-brand::after{
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(110deg, transparent 40%, rgba(255,255,255,.28) 50%, transparent 60%);
+  background-size: 250% 100%;
+  background-position: -150% 0;
+  pointer-events:none;
+}
+.btn-brand:hover::after { animation: shine 1s ease; }
+
+/* Int cards hover lift */
+.int-card { transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease; }
+.int-card:hover .int-ico { animation: floatY 1.8s ease-in-out infinite; }
+
+/* Plan hover */
+.plan { transition: transform .3s cubic-bezier(.2,.7,.2,1), background .2s ease, border-color .2s ease; }
+.plan:not(.featured):hover { transform: translateY(-4px); }
+.plan.featured { animation: scaleIn .7s .3s cubic-bezier(.2,.7,.2,1) both; }
+
+/* FAQ expand smooth */
+.faq-item .faq-body { overflow:hidden; }
+.faq-item[open] .faq-body { animation: fadeIn .35s ease; }
+.faq-item .ic { transition: transform .3s ease, background .2s ease, color .2s ease, border-color .2s ease; }
+
+/* Nav link underline */
+.nav-links a::after{
+  content:""; position:absolute; left:0; right:0; bottom:-4px;
+  height:2px; background: var(--brand-700);
+  transform: scaleX(0); transform-origin: left center;
+  transition: transform .25s cubic-bezier(.2,.7,.2,1);
+  border-radius:2px;
+}
+.nav-links a:hover::after { transform: scaleX(1); }
+
+/* Feature product visual hover tilt */
+.product-visual { transition: transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s ease; }
+.feature:hover .product-visual { transform: translateY(-4px); box-shadow: 0 36px 60px -16px rgba(10,15,13,.14), inset 0 0 0 1px rgba(10,15,13,.04); }
+
+/* Server panel flow pulsing arrow */
+.sp-arrow { animation: floatXPulse 1.8s ease-in-out infinite; }
+@keyframes floatXPulse {
+  0%,100% { transform: translateX(0); opacity:.6; }
+  50% { transform: translateX(3px); opacity:1; }
+}
+
+/* Active indicator dots (.d, .sd) gentle pulse */
+.dest-tile .sd, .int-meta .d {
+  position:relative;
+}
+.dest-tile .sd::after, .int-meta .d::after {
+  content:""; position:absolute; inset:0; border-radius:50%;
+  background: var(--brand-500);
+  animation: ping 1.8s cubic-bezier(0,0,.2,1) infinite;
+}
+
+/* Testimonial hover */
+.testimonial { transition: transform .25s ease, box-shadow .25s ease, border-color .2s ease; }
+.testimonial:hover { transform: translateY(-3px); }
+
+/* Billing toggle sliding pill */
+.billing-toggle { position:relative; }
+.billing-toggle button { transition: color .25s ease; position:relative; z-index:1; }
+
+/* Feature CTA arrow wiggle on hover */
+.feature-cta { transition: gap .2s ease, color .2s ease; }
+.feature-cta:hover { color: var(--brand-800); }
+
+/* Step cards hover lift */
+.step { transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease, border-color .2s ease; }
+.step:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--brand-200, var(--brand-100)); }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+  .reveal { opacity:1 !important; transform:none !important; }
+}
+
+
+
+
+
+/* ========== PRICING STYLES ========== */
+
+/* Pricing page specific */
+.pr-hero{
+  padding:88px 0 40px;
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+}
+.pr-hero::before{
+  content:""; position:absolute; inset:0; z-index:-1;
+  background:
+    radial-gradient(60% 60% at 85% 0%, rgba(31,184,103,.14) 0%, rgba(31,184,103,0) 60%),
+    radial-gradient(70% 60% at 5% 5%, rgba(0,166,214,.08) 0%, rgba(0,166,214,0) 55%),
+    linear-gradient(180deg, #ffffff 0%, var(--cream) 100%);
+}
+.pr-hero-inner{ text-align:center; max-width:720px; margin:0 auto; }
+.pr-hero .eyebrow{ margin-bottom:16px; display:inline-block; }
+.pr-hero h1{
+  font-family:var(--type-display);
+  font-weight:700;
+  font-size:clamp(40px, 5.2vw, 60px);
+  letter-spacing:-.03em;
+  line-height:1.02;
+  margin-bottom:18px;
+}
+.pr-hero h1 em{
+  font-style:normal;
+  color:var(--brand-700);
+}
+.pr-hero p.sub{
+  font-size:18px; color:var(--ink-600);
+  max-width:580px; margin:0 auto;
+}
+.pr-toggle-wrap{
+  display:flex; justify-content:center;
+  margin-top:36px;
+}
+.pr-toggle{
+  display:inline-flex; align-items:center;
+  background:#fff; border:1px solid var(--ink-200);
+  border-radius:999px; padding:5px;
+  box-shadow: var(--shadow-sm);
+  position:relative;
+}
+.pr-toggle button{
+  position:relative; z-index:1;
+  padding:9px 20px; border-radius:999px;
+  font-size:14px; font-weight:600;
+  color:var(--ink-600);
+  transition:color .25s ease;
+}
+.pr-toggle button.active{ color:#fff; }
+.pr-toggle .slider{
+  position:absolute; top:5px; bottom:5px;
+  background:var(--ink-900);
+  border-radius:999px;
+  transition: left .3s cubic-bezier(.2,.7,.2,1), width .3s cubic-bezier(.2,.7,.2,1);
+  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+.pr-toggle .save-tag{
+  display:inline-flex; align-items:center;
+  font-size:10px; font-weight:700;
+  background:var(--pink); color:#fff;
+  padding:2px 6px; border-radius:4px;
+  margin-left:6px;
+  letter-spacing:.04em;
+}
+
+/* Plans grid */
+.pr-plans{
+  padding:40px 0 80px;
+  position:relative;
+}
+.pr-plans-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:20px;
+  max-width:1100px;
+  margin:0 auto;
+}
+.pr-plan{
+  background:#fff;
+  border-radius:var(--r-xl);
+  border:1px solid var(--ink-150);
+  padding:32px 28px 28px;
+  position:relative;
+  display:flex; flex-direction:column;
+  transition:transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease, border-color .2s ease;
+}
+.pr-plan:hover{ transform:translateY(-4px); box-shadow: var(--shadow-lg); }
+.pr-plan.featured{
+  border-color: transparent;
+  background:
+    linear-gradient(180deg, #0e2819 0%, #0a3d1f 100%);
+  color: #fff;
+  box-shadow: 0 40px 80px -20px rgba(6,46,38,.45), 0 16px 32px -12px rgba(10,15,13,.18);
+}
+.pr-plan.featured .pr-price,
+.pr-plan.featured .pr-name,
+.pr-plan.featured .pr-desc,
+.pr-plan.featured .pr-feat li{ color:#fff; }
+.pr-plan.featured .pr-desc{ color:rgba(255,255,255,.72); }
+.pr-plan.featured .pr-feat li{ color:rgba(255,255,255,.88); }
+.pr-plan.featured .pr-feat-sep{ background: rgba(255,255,255,.12); }
+.pr-plan.featured .pr-per{ color: rgba(255,255,255,.6); }
+.pr-popular{
+  position:absolute; top:-12px; left:50%;
+  transform:translateX(-50%);
+  font-size:11px; font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase;
+  background:var(--pink); color:#fff;
+  padding:5px 12px; border-radius:999px;
+  box-shadow:0 4px 12px rgba(255,111,181,.45);
+}
+.pr-name{
+  font-family:var(--type-display);
+  font-size:22px; font-weight:700;
+  color:var(--ink-900);
+  letter-spacing:-.01em;
+  margin-bottom:6px;
+}
+.pr-desc{
+  font-size:14px; color:var(--ink-600);
+  margin-bottom:20px; min-height:40px;
+}
+.pr-price-row{
+  display:flex; align-items:baseline; gap:4px;
+  margin-bottom:20px;
+}
+.pr-price{
+  font-family:var(--type-display);
+  font-size:44px; font-weight:700;
+  color:var(--ink-900);
+  letter-spacing:-.02em;
+  line-height:1;
+}
+.pr-per{
+  font-size:14px; color:var(--ink-500);
+  font-weight:500;
+}
+.pr-price-old{
+  font-size:14px; color:var(--ink-400);
+  text-decoration:line-through;
+  margin-left:8px;
+}
+.pr-plan.featured .pr-price-old{ color:rgba(255,255,255,.45);}
+.pr-cta{
+  display:flex; align-items:center; justify-content:center;
+  gap:6px;
+  width:100%;
+  padding:12px 18px;
+  border-radius:999px;
+  font-size:14px; font-weight:600;
+  margin-bottom:28px;
+  transition:all .2s ease;
+}
+.pr-plan:not(.featured) .pr-cta{
+  background:var(--ink-900); color:#fff;
+}
+.pr-plan:not(.featured) .pr-cta:hover{ background:var(--ink-800); transform:translateY(-1px); }
+.pr-plan.featured .pr-cta{
+  background:#fff; color:var(--ink-900);
+}
+.pr-plan.featured .pr-cta:hover{ transform:translateY(-1px); box-shadow:0 10px 24px -6px rgba(0,0,0,.35); }
+.pr-feat-sep{
+  height:1px; background:var(--ink-150);
+  margin:0 -28px 20px;
+}
+.pr-feat{
+  list-style:none; padding:0; margin:0;
+  display:flex; flex-direction:column; gap:10px;
+}
+.pr-feat li{
+  display:flex; align-items:flex-start; gap:10px;
+  font-size:14px; color:var(--ink-700);
+}
+.pr-feat .check{
+  flex:none; width:18px; height:18px; border-radius:50%;
+  background:var(--brand-100); color:var(--brand-700);
+  display:grid; place-items:center;
+  margin-top:1px;
+}
+.pr-plan.featured .pr-feat .check{
+  background:rgba(255,255,255,.14);
+  color:#a8ebc1;
+}
+.pr-feat .check svg{ width:10px; height:10px; }
+
+/* Compare table */
+.pr-compare{
+  padding:80px 0;
+  background:var(--ink-50);
+  border-top:1px solid var(--ink-150);
+  border-bottom:1px solid var(--ink-150);
+}
+.pr-compare h2{
+  font-family:var(--type-display);
+  font-size:clamp(28px, 3.2vw, 40px);
+  font-weight:700;
+  letter-spacing:-.02em;
+  text-align:center;
+  margin-bottom:12px;
+}
+.pr-compare p.sub{
+  text-align:center;
+  color:var(--ink-600);
+  max-width:520px;
+  margin:0 auto 40px;
+}
+.cmp-table{
+  max-width:960px; margin:0 auto;
+  background:#fff;
+  border:1px solid var(--ink-150);
+  border-radius:var(--r-xl);
+  overflow:hidden;
+  box-shadow: var(--shadow-md);
+}
+.cmp-row{
+  display:grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  align-items:center;
+  border-bottom:1px solid var(--ink-150);
+}
+.cmp-row:last-child{ border-bottom:none; }
+.cmp-row > *{
+  padding:16px 20px;
+  font-size:14px;
+}
+.cmp-head{
+  background:var(--ink-100);
+  border-bottom:1px solid var(--ink-200);
+}
+.cmp-head > *{
+  font-family:var(--type-display);
+  font-weight:700;
+  font-size:14px;
+  color:var(--ink-800);
+  letter-spacing:-.005em;
+}
+.cmp-head .col-plan{
+  text-align:center;
+}
+.cmp-row .col-label{
+  font-weight:500; color:var(--ink-800);
+}
+.cmp-row .col-plan{
+  text-align:center;
+  color:var(--ink-700);
+}
+.cmp-check{
+  display:inline-grid; place-items:center;
+  width:22px; height:22px; border-radius:50%;
+  background:var(--brand-100); color:var(--brand-700);
+}
+.cmp-check svg{ width:12px; height:12px; }
+.cmp-dash{ color:var(--ink-400); font-weight:600; }
+.cmp-group{
+  grid-column:1 / -1;
+  padding:14px 20px !important;
+  background:#fafbfa;
+  font-family:var(--type-mono);
+  font-size:11px !important;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--brand-700);
+  font-weight:600;
+  border-top:1px solid var(--ink-150);
+  border-bottom:1px solid var(--ink-150);
+}
+
+/* FAQ */
+.pr-faq{
+  padding:80px 0;
+  background: var(--paper);
+}
+.pr-faq-inner{
+  max-width:760px; margin:0 auto;
+}
+.pr-faq h2{
+  font-family:var(--type-display);
+  font-size:clamp(28px, 3.2vw, 40px);
+  font-weight:700;
+  letter-spacing:-.02em;
+  margin-bottom:32px;
+  text-align:center;
+}
+.pr-faq details{
+  border-bottom:1px solid var(--ink-150);
+  padding:20px 0;
+}
+.pr-faq details[open]{
+  background: linear-gradient(180deg, #ffffff, var(--ink-50) 200%);
+}
+.pr-faq summary{
+  list-style:none;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:16px;
+  cursor:pointer;
+  font-family:var(--type-display);
+  font-size:17px; font-weight:600;
+  color:var(--ink-900);
+  letter-spacing:-.01em;
+}
+.pr-faq summary::-webkit-details-marker{display:none;}
+.pr-faq .faq-ic{
+  flex:none; width:26px; height:26px; border-radius:50%;
+  border:1px solid var(--ink-200);
+  display:grid; place-items:center;
+  color:var(--ink-600);
+  transition:all .2s ease;
+}
+.pr-faq details[open] .faq-ic{
+  background:var(--brand-700); color:#fff; border-color:transparent;
+  transform:rotate(45deg);
+}
+.pr-faq .faq-ic svg{ width:12px; height:12px; }
+.pr-faq .faq-body{
+  margin-top:14px; padding-right:42px;
+  font-size:15px; color:var(--ink-600);
+  line-height:1.65;
+}
+.pr-faq .faq-body strong{ color:var(--ink-900); }
+
+/* Final CTA */
+.pr-final{
+  padding: 80px 0 100px;
+  background: linear-gradient(180deg, var(--paper) 0%, var(--cream) 100%);
+  text-align:center;
+}
+.pr-final-card{
+  background: linear-gradient(135deg, #0e2819 0%, #0a3d1f 60%, #0b5c31 100%);
+  color:#fff;
+  border-radius: var(--r-2xl);
+  padding: 56px 40px;
+  max-width: 900px;
+  margin: 0 auto;
+  position:relative;
+  overflow:hidden;
+}
+.pr-final-card::before{
+  content:""; position:absolute; inset:0;
+  background:
+    radial-gradient(60% 60% at 90% 10%, rgba(0,166,214,.18) 0%, transparent 60%),
+    radial-gradient(50% 60% at 10% 100%, rgba(255,111,181,.14) 0%, transparent 60%);
+  pointer-events:none;
+}
+.pr-final-card h2{
+  font-family:var(--type-display);
+  font-weight:700;
+  font-size:clamp(28px, 3.5vw, 42px);
+  letter-spacing:-.02em;
+  line-height:1.1;
+  margin-bottom:12px;
+  position:relative;
+}
+.pr-final-card p{
+  font-size:17px; color:rgba(255,255,255,.75);
+  max-width:520px; margin:0 auto 28px;
+  position:relative;
+}
+.pr-final-card .btn-brand{
+  background:#fff; color:var(--ink-900);
+  box-shadow:0 10px 24px -4px rgba(0,0,0,.25);
+  position:relative;
+}
+.pr-final-card .btn-brand:hover{ transform:translateY(-2px); box-shadow:0 16px 36px -6px rgba(0,0,0,.3);}
+
+@media (max-width: 900px){
+  .pr-plans-grid{ grid-template-columns: 1fr; max-width:460px; }
+  .cmp-row{ grid-template-columns: 1.5fr 1fr 1fr 1fr; }
+  .cmp-row > *{ padding:12px 8px; font-size:12px; }
+  .pr-hero{ padding:56px 0 24px; }
+}
+
+/* Reveal */
+.reveal { opacity:0; transform: translateY(24px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+.reveal.in { opacity:1; transform:none; }
+.delay-1{ transition-delay:.08s; } .delay-2{ transition-delay:.16s; } .delay-3{ transition-delay:.24s; }
+
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after { animation-duration:.001ms !important; transition-duration:.001ms !important; }
+  .reveal { opacity:1 !important; transform:none !important; }
+}
+
+
+
+
+/* ========== ABOUT STYLES ========== */
+
+.ab-hero{ padding:100px 0 60px; position:relative; overflow:hidden; isolation:isolate;}
+.ab-hero::before{
+  content:""; position:absolute; inset:0; z-index:-1;
+  background:
+    radial-gradient(60% 60% at 90% 0%, rgba(31,184,103,.14) 0%, transparent 60%),
+    radial-gradient(50% 50% at 0% 100%, rgba(0,166,214,.10) 0%, transparent 60%),
+    linear-gradient(180deg, #ffffff 0%, var(--cream) 100%);
+}
+.ab-hero-grid{ display:grid; grid-template-columns: 1.1fr 1fr; gap:60px; align-items:center;}
+.ab-hero h1{ font-family:var(--type-display); font-size:clamp(40px, 5.4vw, 68px); font-weight:700; letter-spacing:-.03em; line-height:1; margin-bottom:20px;}
+.ab-hero h1 em{ font-style:normal; color:var(--brand-700);}
+.ab-hero p.lead{ font-size:19px; color:var(--ink-600); max-width:540px; line-height:1.55; margin-bottom:28px;}
+.ab-hero .eyebrow{ display:inline-block; margin-bottom:14px;}
+.ab-hero-cta{ display:flex; gap:10px; flex-wrap:wrap;}
+
+.ab-collage{ position:relative; aspect-ratio: 1 / 1; width: 100%; max-width: 520px; justify-self:end;}
+.ab-col-main{ position:absolute; inset:8% 0 0 0; border-radius: var(--r-xl);
+  box-shadow: var(--shadow-xl); overflow:hidden;}
+.ab-col-main img{ width:100%; height:100%; object-fit:cover; display:block;}
+.ab-col-main::after{ content:""; position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(10,61,31,.05) 0%, rgba(10,61,31,.35) 100%); pointer-events:none;}
+.ab-float{ position:absolute; background:#fff; border-radius:var(--r-lg); box-shadow: var(--shadow-lg);
+  padding: 14px 18px; display:flex; align-items:center; gap:12px; border:1px solid var(--ink-150);
+  animation: floatY 6s ease-in-out infinite;}
+@keyframes floatY{ 0%,100%{ transform:translateY(0);} 50%{ transform: translateY(-6px);} }
+.ab-float .f-ic{ width:36px; height:36px; border-radius:10px; display:grid; place-items:center; background: var(--brand-100); color: var(--brand-700);}
+.ab-float .f-ic svg{ width:18px; height:18px;}
+.ab-float .f-t{ font-family:var(--type-display); font-weight:700; font-size:14px; color:var(--ink-900);}
+.ab-float .f-s{ font-size:12px; color:var(--ink-500);}
+.ab-f1{ top:10%; left:-6%; animation-delay:.3s;}
+.ab-f2{ bottom:10%; right:-6%; animation-delay:.9s;}
+.ab-f3{ bottom:40%; left:-10%; animation-delay:1.5s; padding:10px 14px;}
+.ab-f3 .dot{ width:8px; height:8px; border-radius:50%; background:var(--brand-500); box-shadow:0 0 0 4px rgba(31,184,103,.2);}
+
+.ab-metrics{ padding:40px 0 60px;}
+.ab-metrics-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap:20px; padding:32px;
+  background:#fff; border:1px solid var(--ink-150); border-radius:var(--r-xl); box-shadow: var(--shadow-md);}
+.ab-met{ text-align:center; padding: 8px;}
+.ab-met-v{ font-family:var(--type-display); font-weight:700; font-size:40px; letter-spacing:-.02em; color:var(--ink-900); line-height:1;}
+.ab-met-v em{ font-style:normal; color:var(--brand-700);}
+.ab-met-l{ font-size:13px; color:var(--ink-500); margin-top:6px;}
+
+.ab-origin{ padding: 80px 0; background: var(--ink-50); border-top:1px solid var(--ink-150); border-bottom:1px solid var(--ink-150);}
+.ab-origin-head{ text-align:center; max-width:640px; margin:0 auto 48px;}
+.ab-origin-head .eyebrow{ margin-bottom:14px; display:inline-block;}
+.ab-origin-head h2{ font-family:var(--type-display); font-size:clamp(30px, 3.6vw, 46px); font-weight:700; letter-spacing:-.02em; line-height:1.08;}
+.ab-origin-head h2 em{ font-style:normal; color:var(--brand-700);}
+.ab-origin-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:40px; max-width: 1040px; margin:0 auto;}
+.ab-story-card{ background:#fff; border:1px solid var(--ink-150); border-radius: var(--r-xl); overflow:hidden;
+  display:flex; flex-direction:column; box-shadow: var(--shadow-sm);}
+.ab-story-img{ aspect-ratio: 16 / 10; position:relative; overflow:hidden;}
+.ab-story-img img{ width:100%; height:100%; object-fit:cover; display:block; transition: transform .8s cubic-bezier(.2,.7,.2,1);}
+.ab-story-card:hover .ab-story-img img{ transform: scale(1.04);}
+.ab-story-img::after{ content:""; position:absolute; inset:0; background: linear-gradient(180deg, transparent 55%, rgba(10,40,25,.35) 100%); pointer-events:none;}
+.ab-story-body{ padding: 28px 30px 30px;}
+.ab-story-body h3{ font-family:var(--type-display); font-size:22px; font-weight:700; letter-spacing:-.01em; margin-bottom:12px; color:var(--ink-900);}
+.ab-story-body p{ font-size:15px; color:var(--ink-600); line-height:1.65;}
+.ab-story-body p + p { margin-top:12px;}
+.ab-story-num{ font-family:var(--type-mono); font-size:12px; letter-spacing:.1em; color:var(--brand-700); text-transform:uppercase; margin-bottom:10px; display:block;}
+
+.ab-values{ padding: 90px 0;}
+.ab-values-head{ text-align:center; max-width:620px; margin:0 auto 56px;}
+.ab-values-head .eyebrow{ margin-bottom:14px; display:inline-block;}
+.ab-values-head h2{ font-family:var(--type-display); font-size:clamp(30px, 3.6vw, 46px); font-weight:700; letter-spacing:-.02em; line-height:1.08; margin-bottom:14px;}
+.ab-values-head p{ font-size:17px; color:var(--ink-600);}
+.ab-val-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:24px; max-width:1040px; margin:0 auto;}
+.ab-val{ background:#fff; border:1px solid var(--ink-150); border-radius: var(--r-xl); padding: 36px;
+  display:grid; grid-template-columns: 88px 1fr; gap:22px; align-items:flex-start;
+  transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease;}
+.ab-val:hover{ transform: translateY(-4px); box-shadow: var(--shadow-lg);}
+.ab-val .v-ic{ width:88px; height:88px; border-radius: 20px; display:grid; place-items:center; color:#fff; box-shadow: var(--shadow-md);}
+.ab-val.v-green .v-ic{ background: linear-gradient(135deg, #1fb867 0%, #0e7d42 100%);}
+.ab-val.v-pink .v-ic{ background: linear-gradient(135deg, #ff9ec8 0%, #ff6fb5 100%);}
+.ab-val .v-ic svg{ width:40px; height:40px;}
+.ab-val h4{ font-family:var(--type-display); font-size:22px; font-weight:700; letter-spacing:-.01em; color:var(--ink-900); margin-bottom:8px;}
+.ab-val p{ font-size:15px; color:var(--ink-600); line-height:1.65;}
+
+.ab-team{ padding: 80px 0; background: var(--ink-50); border-top:1px solid var(--ink-150);}
+.ab-team-head{ text-align:center; max-width:620px; margin:0 auto 48px;}
+.ab-team-head .eyebrow{ margin-bottom:14px; display:inline-block;}
+.ab-team-head h2{ font-family:var(--type-display); font-size:clamp(28px, 3.2vw, 40px); font-weight:700; letter-spacing:-.02em; line-height:1.08;}
+.ab-team-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap:20px; max-width:1040px; margin:0 auto;}
+.ab-tm{ background:#fff; border:1px solid var(--ink-150); border-radius: var(--r-lg); padding:22px; text-align:center;}
+.ab-tm{ transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease, border-color .3s ease;}
+.ab-tm:hover{ transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--brand-200);}
+.ab-tm .av{ width:96px; height:96px; border-radius:50%; margin: 0 auto 14px; overflow:hidden; position:relative;
+  box-shadow: 0 6px 16px -6px rgba(10,40,25,.3); background: var(--ink-100);}
+.ab-tm .av img{ width:100%; height:100%; object-fit:cover; display:block;}
+.ab-tm .av::after{ content:""; position:absolute; inset:0; border-radius:50%; box-shadow: inset 0 0 0 3px #fff; pointer-events:none;}
+.ab-tm-name{ font-family:var(--type-display); font-weight:700; font-size:16px; color:var(--ink-900); margin-bottom:3px;}
+.ab-tm-role{ font-size:13px; color:var(--ink-500);}
+
+.ab-contact{ padding: 90px 0 100px;}
+.ab-contact-card{ background: linear-gradient(135deg, #0e2819 0%, #0a3d1f 55%, #0b5c31 100%);
+  color:#fff; border-radius: var(--r-2xl); padding: 64px 52px; max-width: 980px; margin: 0 auto;
+  position:relative; overflow:hidden; display:grid; grid-template-columns: 1.3fr auto; gap:40px; align-items:center;}
+.ab-contact-card::before{ content:""; position:absolute; inset:0;
+  background: radial-gradient(60% 60% at 90% 10%, rgba(0,166,214,.20) 0%, transparent 60%),
+              radial-gradient(50% 60% at 10% 100%, rgba(255,111,181,.16) 0%, transparent 60%);
+  pointer-events:none;}
+.ab-contact-card h2{ font-family:var(--type-display); font-weight:700; font-size:clamp(26px, 3vw, 38px); letter-spacing:-.02em; line-height:1.1; margin-bottom:10px; position:relative;}
+.ab-contact-card p{ font-size:16px; color:rgba(255,255,255,.75); max-width:480px; position:relative;}
+.ab-contact-card .btn{ position:relative;}
+.ab-contact-card .btn-brand{ background:#fff; color:var(--ink-900); box-shadow:0 10px 24px -4px rgba(0,0,0,.25);}
+.ab-contact-card .btn-brand:hover{ transform:translateY(-2px);}
+
+@media (max-width: 960px){
+  .ab-hero-grid{ grid-template-columns: 1fr; gap:40px;}
+  .ab-collage{ justify-self:center; max-width:380px;}
+  .ab-metrics-grid{ grid-template-columns: repeat(2, 1fr);}
+  .ab-origin-grid{ grid-template-columns: 1fr;}
+  .ab-val-grid{ grid-template-columns: 1fr;}
+  .ab-team-grid{ grid-template-columns: repeat(2, 1fr);}
+  .ab-contact-card{ grid-template-columns: 1fr; padding: 40px 28px;}
+}
+.reveal { opacity:0; transform: translateY(24px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);}
+.reveal.in { opacity:1; transform:none;}
+.delay-1{ transition-delay:.08s;} .delay-2{ transition-delay:.16s;} .delay-3{ transition-delay:.24s;}
+@media (prefers-reduced-motion: reduce){ *, *::before, *::after { animation-duration:.001ms !important; transition-duration:.001ms !important;} .reveal { opacity:1 !important; transform:none !important;}}
+
+
+
+
+/* ========== BLOG STYLES ========== */
+
+.bl-hero{ padding: 88px 0 40px; position:relative; overflow:hidden; isolation:isolate; text-align:center;}
+.bl-hero::before{
+  content:""; position:absolute; inset:0; z-index:-1;
+  background:
+    radial-gradient(60% 60% at 90% 0%, rgba(31,184,103,.14) 0%, transparent 60%),
+    radial-gradient(50% 50% at 0% 100%, rgba(0,166,214,.10) 0%, transparent 60%),
+    linear-gradient(180deg, #ffffff 0%, var(--cream) 100%);
+}
+.bl-hero .eyebrow{ display:inline-block; margin-bottom:14px;}
+.bl-hero h1{
+  font-family:var(--type-display);
+  font-size: clamp(40px, 5vw, 58px);
+  font-weight:700; letter-spacing:-.03em; line-height:1.02;
+  margin-bottom:14px;
+}
+.bl-hero h1 em{ font-style:normal; color:var(--brand-700);}
+.bl-hero p.sub{ color:var(--ink-600); font-size:18px; max-width:600px; margin:0 auto;}
+
+.bl-search{
+  max-width: 520px; margin: 32px auto 0;
+  background:#fff; border:1px solid var(--ink-200);
+  border-radius:999px; padding: 6px 8px 6px 18px;
+  display:flex; align-items:center; gap:10px;
+  box-shadow: var(--shadow-sm);
+}
+.bl-search svg{ color: var(--ink-500); flex:none;}
+.bl-search input{
+  flex:1; border:none; outline:none; font:inherit;
+  font-size:15px; color:var(--ink-900); background:transparent;
+  padding: 8px 0;
+}
+.bl-search button{
+  background: var(--ink-900); color:#fff;
+  padding: 10px 18px; border-radius:999px;
+  font-size:13px; font-weight:600;
+}
+
+.bl-tabs{
+  display:flex; gap:8px; justify-content:center; flex-wrap:wrap;
+  margin: 30px 0 0; padding: 12px 0 0;
+}
+.bl-tab{
+  padding: 8px 16px; border-radius:999px;
+  background:#fff; border:1px solid var(--ink-200);
+  font-size:13px; font-weight:500; color:var(--ink-700);
+  cursor:pointer; transition: all .2s ease;
+}
+.bl-tab:hover{ border-color: var(--ink-300); color:var(--ink-900);}
+.bl-tab.active{ background: var(--ink-900); color:#fff; border-color: var(--ink-900);}
+
+/* Featured post */
+.bl-featured{ padding: 44px 0 20px;}
+.bl-feat-card{
+  display:grid; grid-template-columns: 1.1fr 1fr;
+  gap: 40px;
+  background:#fff;
+  border:1px solid var(--ink-150);
+  border-radius: var(--r-xl);
+  overflow:hidden;
+  box-shadow: var(--shadow-md);
+}
+.bl-feat-img{ position:relative; min-height: 380px;}
+.bl-feat-img svg{ position:absolute; inset:0; width:100%; height:100%;}
+.bl-feat-body{ padding: 48px 44px; display:flex; flex-direction:column; justify-content:center;}
+.bl-feat-body .tag{
+  display:inline-flex; align-items:center; gap:6px;
+  align-self:flex-start;
+  padding: 4px 12px; border-radius:999px;
+  background: var(--brand-100); color: var(--brand-800);
+  font-size:12px; font-weight:600; letter-spacing:.02em;
+  margin-bottom:16px;
+}
+.bl-feat-body .tag .dot{ width:6px; height:6px; border-radius:50%; background: var(--brand-700);}
+.bl-feat-body h2{
+  font-family:var(--type-display);
+  font-weight:700; font-size: clamp(26px, 2.8vw, 34px);
+  letter-spacing:-.02em; line-height:1.15;
+  margin-bottom:14px; color:var(--ink-900);
+}
+.bl-feat-body p{ font-size:16px; color:var(--ink-600); line-height:1.6; margin-bottom:22px;}
+.bl-feat-meta{
+  display:flex; align-items:center; gap:14px;
+  font-size:13px; color:var(--ink-500);
+}
+.bl-feat-meta .av{
+  width:32px; height:32px; border-radius:50%;
+  background: linear-gradient(135deg,#1fb867,#0e7d42);
+  color:#fff; font-weight:700; font-size:12px;
+  display:grid; place-items:center;
+}
+.bl-feat-meta .author{ color:var(--ink-800); font-weight:600;}
+.bl-feat-meta .sep{ opacity:.4;}
+.bl-feat-link{
+  color:var(--brand-700); font-weight:600; font-size:14px;
+  display:inline-flex; align-items:center; gap:6px;
+  margin-top:18px;
+  align-self:flex-start;
+}
+.bl-feat-link:hover{ color:var(--brand-800);}
+
+/* Post grid */
+.bl-grid-sec{ padding: 56px 0 80px;}
+.bl-sec-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:28px;}
+.bl-sec-head h3{
+  font-family:var(--type-display);
+  font-size: 28px; font-weight:700; letter-spacing:-.02em;
+}
+.bl-grid{
+  display:grid; grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.bl-card{
+  background:#fff;
+  border:1px solid var(--ink-150);
+  border-radius: var(--r-lg);
+  overflow:hidden;
+  display:flex; flex-direction:column;
+  transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease, border-color .2s ease;
+}
+.bl-card:hover{ transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--ink-200);}
+.bl-card-img{ aspect-ratio: 16 / 10; position:relative; overflow:hidden;}
+.bl-card-img svg{ position:absolute; inset:0; width:100%; height:100%;}
+.bl-card-body{ padding: 22px 22px 24px; display:flex; flex-direction:column; flex:1;}
+.bl-card-tag{
+  display:inline-flex; align-items:center;
+  align-self:flex-start;
+  padding: 3px 10px; border-radius:999px;
+  background: var(--ink-100); color: var(--ink-700);
+  font-size:11px; font-weight:600; letter-spacing:.04em;
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+.bl-card-tag.t-blue{ background: var(--tech-blue-50); color: var(--tech-blue-700);}
+.bl-card-tag.t-pink{ background: var(--pink-50); color: #c3467c;}
+.bl-card-tag.t-green{ background: var(--brand-100); color: var(--brand-800);}
+.bl-card-tag.t-amber{ background: var(--yellow-100); color: #a46a00;}
+.bl-card h4{
+  font-family:var(--type-display);
+  font-size: 18px; font-weight:700; letter-spacing:-.01em;
+  color:var(--ink-900); line-height:1.3;
+  margin-bottom:10px;
+}
+.bl-card p{ font-size:14px; color:var(--ink-600); line-height:1.6; margin-bottom:16px; flex:1;}
+.bl-card-meta{
+  display:flex; align-items:center; gap:10px;
+  font-size:12px; color:var(--ink-500);
+  padding-top:16px;
+  border-top: 1px solid var(--ink-100);
+}
+.bl-card-meta .av{
+  width:24px; height:24px; border-radius:50%;
+  color:#fff; font-weight:700; font-size:10px;
+  display:grid; place-items:center; flex:none;
+}
+
+/* Newsletter */
+.bl-newsletter{
+  padding: 80px 0 100px;
+}
+.bl-news-card{
+  background: linear-gradient(135deg, #0e2819 0%, #0a3d1f 55%, #0b5c31 100%);
+  color:#fff;
+  border-radius: var(--r-2xl);
+  padding: 56px 48px;
+  max-width: 980px; margin: 0 auto;
+  position:relative; overflow:hidden;
+  display:grid; grid-template-columns: 1.1fr 1fr;
+  gap:48px; align-items:center;
+}
+.bl-news-card::before{
+  content:""; position:absolute; inset:0;
+  background:
+    radial-gradient(60% 60% at 90% 10%, rgba(0,166,214,.20) 0%, transparent 60%),
+    radial-gradient(50% 60% at 10% 100%, rgba(255,111,181,.14) 0%, transparent 60%);
+  pointer-events:none;
+}
+.bl-news-card > *{ position:relative;}
+.bl-news-card h2{
+  font-family:var(--type-display); font-weight:700;
+  font-size: clamp(26px, 3vw, 36px); letter-spacing:-.02em;
+  line-height:1.1; margin-bottom:12px;
+}
+.bl-news-card p{ color:rgba(255,255,255,.75); font-size:16px; max-width: 420px;}
+.bl-news-form{
+  background:#fff; border-radius: 999px; padding: 6px 6px 6px 22px;
+  display:flex; align-items:center; gap:8px;
+  box-shadow: 0 10px 30px -6px rgba(0,0,0,.3);
+}
+.bl-news-form input{
+  flex:1; border:none; outline:none; font:inherit;
+  font-size:15px; padding: 10px 0; background:transparent; color:var(--ink-900);
+}
+.bl-news-form button{
+  background: var(--brand-700); color:#fff;
+  padding: 12px 22px; border-radius:999px;
+  font-size:14px; font-weight:600;
+  transition: background .2s ease;
+}
+.bl-news-form button:hover{ background: var(--brand-800);}
+.bl-news-note{
+  font-size:12px; color:rgba(255,255,255,.55);
+  margin-top:14px;
+}
+
+@media (max-width: 960px){
+  .bl-feat-card{ grid-template-columns: 1fr;}
+  .bl-feat-img{ min-height: 260px;}
+  .bl-feat-body{ padding: 32px 28px;}
+  .bl-grid{ grid-template-columns: repeat(2, 1fr);}
+  .bl-news-card{ grid-template-columns: 1fr; padding: 40px 28px;}
+}
+@media (max-width: 640px){
+  .bl-grid{ grid-template-columns: 1fr;}
+}
+
+.reveal { opacity:0; transform: translateY(24px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);}
+.reveal.in { opacity:1; transform:none;}
+.delay-1{ transition-delay:.08s;} .delay-2{ transition-delay:.16s;} .delay-3{ transition-delay:.24s;}
+@media (prefers-reduced-motion: reduce){ *, *::before, *::after { animation-duration:.001ms !important; transition-duration:.001ms !important;} .reveal { opacity:1 !important; transform:none !important;}}
+
+
+
+
+/* ========== PAGE CONTAINER SYSTEM ========== */
+.page-container {
+  display: none;
+  min-height: 100vh;
+}
+.page-container.active {
+  display: block;
+}
+</style>
+
+</head>
+<body>
+
+<!-- ========== HOME PAGE ========== -->
+<div id="page-home" class="page-container active">
+<!-- ========== NAV ========== -->
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#" class="logo">
+      <span class="logo-mark">
+        <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M8 7c0 0 2-1.5 6-1.5h11c2 0 3 .8 2.2 2.8l-1.2 2.7c-.5 1-1.2 1.5-2.5 1.5H13.5c-2 0-3.5.8-4.2 2L8 7z" fill="#f5f1e8"/><path d="M10.5 16c0 0 2-1.5 5.5-1.5h8c1.8 0 2.6.8 1.9 2.8l-1 2.4c-.5 1-1.2 1.5-2.4 1.5h-8c-1.8 0-3 .7-3.5 1.8l-.5-7z" fill="#f5f1e8"/><circle cx="9" cy="26" r="2.8" fill="#f5f1e8"/></svg>
+      </span>
+      TagFly
+    </a>
+    <div class="nav-links">
+      <a href="#features">Product</a>
+      <a href="#integrations">Integrations</a>
+      <a href="Pricing.html">Pricing</a>
+      <a href="About.html">About</a>
+      <a href="Blog.html">Blog</a>
+      <a href="https://docs.tagfly.io/" target="_blank">Document</a>
+    </div>
+    <div class="nav-cta">
+      <a href="https://apps.shopify.com/tagfly?utm_source=tagfly.io&utm_medium=websitemenu&utm_campaign=website" class="btn btn-primary">
+        Try for free
+        <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-grid-lines"></div>
+  </div>
+  <div class="wrap">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="pill"><span class="dot" style="display:inline-block;margin-right:4px;"></span>New</span>
+        <span>Server-side tracking now live for TikTok & Snapchat</span>
+        <svg class="chev" viewBox="0 0 16 16" fill="none" width="12" height="12"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </div>
+      <h1>Track every purchase.<br>Optimize <em>every ad.</em></h1>
+      <p class="hero-sub">
+        Send 100% accurate Shopify data to Google Analytics, Google Ads, Facebook, TikTok, Pinterest, and Snapchat - without missing a single order.
+      </p>
+      <div class="hero-ctas">
+        <a href="https://apps.shopify.com/tagfly?utm_source=tagfly.io&utm_medium=websitemenu&utm_campaign=website" class="btn btn-brand btn-lg">Install free on Shopify
+          <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </a>
+      </div>
+      <div class="hero-meta">
+        <span><svg class="check" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Free plan available</span>
+        <span><svg class="check" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> No code required</span>
+        <span><svg class="check" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> GDPR/CCPA compliant</span>
+      </div>
+    </div>
+
+    <!-- Product screenshot mock -->
+    <div class="hero-product">
+      <div class="hero-product-top">
+        <span class="tl-dot r"></span>
+        <span class="tl-dot y"></span>
+        <span class="tl-dot g"></span>
+        <span class="url-pill">app.tagfly.io/dashboard</span>
+      </div>
+      <div class="hero-product-body">
+        <!-- sidebar -->
+        <aside class="app-sidebar">
+          <div class="app-brand">
+            <span class="logo-mark" style="width:22px;height:22px;border-radius:6px;">
+              <svg viewBox="0 0 32 32" fill="none" style="width:13px;height:13px;"><path d="M8 7c0 0 2-1.5 6-1.5h11c2 0 3 .8 2.2 2.8l-1.2 2.7c-.5 1-1.2 1.5-2.5 1.5H13.5c-2 0-3.5.8-4.2 2L8 7z" fill="#f5f1e8"/><path d="M10.5 16c0 0 2-1.5 5.5-1.5h8c1.8 0 2.6.8 1.9 2.8l-1 2.4c-.5 1-1.2 1.5-2.4 1.5h-8c-1.8 0-3 .7-3.5 1.8l-.5-7z" fill="#f5f1e8"/><circle cx="9" cy="26" r="2.8" fill="#f5f1e8"/></svg>
+            </span>
+            TagFly
+          </div>
+          <div class="app-nav-item active">
+            <svg class="ico" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/></svg>
+            Dashboard
+          </div>
+          <div class="app-nav-item">
+            <svg class="ico" viewBox="0 0 16 16" fill="none"><path d="M3 12V4M3 12l5-3 5 3M8 9V1M13 12V4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            Tracking events
+            <span class="badge">86</span>
+          </div>
+          <div class="app-nav-item">
+            <svg class="ico" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5" stroke="currentColor" stroke-width="1.3"/><path d="M8 5v3l2 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            Destinations
+          </div>
+          <div class="app-nav-item">
+            <svg class="ico" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 6h6M5 9h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            GTM Container
+          </div>
+          <div class="app-nav-item">
+            <svg class="ico" viewBox="0 0 16 16" fill="none"><path d="M8 2v5M4.5 4.5l2.5 2.5M2 8h5M4.5 11.5L7 9M8 14v-5M11.5 11.5L9 9M14 8H9M11.5 4.5L9 7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            Consent mode
+          </div>
+
+          <div class="app-nav-group">Settings</div>
+          <div class="app-nav-item">
+            <svg class="ico" viewBox="0 0 16 16" fill="none"><path d="M8 2l6 3v3c0 3.5-2.5 6.5-6 7-3.5-.5-6-3.5-6-7V5l6-3z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+            Privacy
+          </div>
+          <div class="app-nav-item">
+            <svg class="ico" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M6.5 8l1.5 1.5L10 7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Integrations
+          </div>
+        </aside>
+
+        <!-- main -->
+        <div class="app-main">
+          <div class="app-head">
+            <div>
+              <h4>Store performance</h4>
+              <div class="sub">Last 30 days · All channels · All devices</div>
+            </div>
+            <div class="app-head-actions">
+              <span class="mini-btn">Last 30 days ▾</span>
+              <span class="mini-btn primary">+ New event</span>
+            </div>
+          </div>
+
+          <div class="kpi-row">
+            <div class="kpi">
+              <div class="kpi-label">Tracked orders</div>
+              <div class="kpi-value">24,819</div>
+              <div class="kpi-delta">▲ 12.4%</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-label">Attributed revenue</div>
+              <div class="kpi-value">$482,314</div>
+              <div class="kpi-delta">▲ 8.7%</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-label">Match rate</div>
+              <div class="kpi-value">99.2%</div>
+              <div class="kpi-delta">▲ 2.1%</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-label">Blocked recovered</div>
+              <div class="kpi-value">+40.3%</div>
+              <div class="kpi-delta">▲ 3.8%</div>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-head">
+              <div class="chart-title">Conversion events captured</div>
+              <div class="chart-tabs">
+                <span class="t">24h</span>
+                <span class="t">7d</span>
+                <span class="t active">30d</span>
+                <span class="t">90d</span>
+              </div>
+            </div>
+            <div class="chart-area">
+              <svg viewBox="0 0 600 140" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#2ec5a4" stop-opacity=".35"/>
+                    <stop offset="100%" stop-color="#2ec5a4" stop-opacity="0"/>
+                  </linearGradient>
+                  <linearGradient id="g2" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#bac3bd" stop-opacity=".25"/>
+                    <stop offset="100%" stop-color="#bac3bd" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <!-- grid -->
+                <g stroke="#eef2ef" stroke-width="1">
+                  <line x1="0" y1="30" x2="600" y2="30"/>
+                  <line x1="0" y1="70" x2="600" y2="70"/>
+                  <line x1="0" y1="110" x2="600" y2="110"/>
+                </g>
+                <!-- competitor (flat-ish grey) -->
+                <path d="M0,95 C60,90 90,98 150,92 S240,100 280,85 360,92 400,80 460,88 510,78 580,82 600,78"
+                      fill="none" stroke="#c0cfc9" stroke-width="1.5" stroke-dasharray="3 3"/>
+                <path d="M0,95 C60,90 90,98 150,92 S240,100 280,85 360,92 400,80 460,88 510,78 580,82 600,78 L600,140 L0,140 Z"
+                      fill="url(#g2)"/>
+                <!-- tagfly (rising teal) -->
+                <path d="M0,110 C40,100 80,90 140,78 C200,66 240,68 290,50 C340,34 380,42 440,28 C490,18 540,22 600,10"
+                      fill="none" stroke="#14a085" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M0,110 C40,100 80,90 140,78 C200,66 240,68 290,50 C340,34 380,42 440,28 C490,18 540,22 600,10 L600,140 L0,140 Z"
+                      fill="url(#g1)"/>
+                <!-- Peak marker -->
+                <circle cx="440" cy="28" r="4" fill="#fff" stroke="#14a085" stroke-width="2"/>
+              </svg>
+            </div>
+            <div style="display:flex;gap:16px;padding-top:2px;">
+              <span style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--ink-600);"><span style="width:10px;height:2px;background:#14a085;display:inline-block;border-radius:2px;"></span>TagFly tracked</span>
+              <span style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--ink-500);"><span style="width:10px;height:2px;background:#c0cfc9;display:inline-block;border-radius:2px;"></span>Without TagFly</span>
+            </div>
+          </div>
+
+          <div class="channels">
+            <div class="channel">
+              <span class="ci" style="background:#fff;padding:2px;"><img src="assets/logo-google-ads-new.png" alt="Google Ads" style="width:100%;height:100%;object-fit:contain;"/></span>
+              <span class="cn">Google Ads</span>
+              <div class="bar-track"><div class="bar-fill" style="width:82%;"></div></div>
+              <span class="cv">$184k</span>
+            </div>
+            <div class="channel">
+              <span class="ci" style="background:#fff;padding:0;"><img src="assets/logo-meta-new.png" alt="Meta" style="width:100%;height:100%;object-fit:contain;"/></span>
+              <span class="cn">Meta Ads</span>
+              <div class="bar-track"><div class="bar-fill" style="width:68%;background:linear-gradient(90deg,#6e56cf,#a897e0);"></div></div>
+              <span class="cv">$127k</span>
+            </div>
+            <div class="channel">
+              <span class="ci" style="background:#fff;padding:0;"><img src="assets/logo-tiktok-new.webp" style="width:100%;height:100%;object-fit:contain;"/></span>
+              <span class="cn">TikTok Ads</span>
+              <div class="bar-track"><div class="bar-fill" style="width:42%;background:linear-gradient(90deg,#ff6b4a,#ff4d7d);"></div></div>
+              <span class="cv">$89k</span>
+            </div>
+            <div class="channel">
+              <span class="ci" style="background:#fff;padding:0;"><img src="assets/logo-pinterest.webp" alt="Pinterest" style="width:100%;height:100%;object-fit:contain;"/></span>
+              <span class="cn">Pinterest</span>
+              <div class="bar-track"><div class="bar-fill" style="width:28%;background:linear-gradient(90deg,#f5a524,#ff6b4a);"></div></div>
+              <span class="cv">$42k</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- floating cards -->
+      <div class="float-card float-a">
+        <div class="ico-wrap">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <div class="t1">Purchase event fired</div>
+          <div class="t2">Match quality 8.8/10</div>
+        </div>
+      </div>
+      <div class="float-card float-b">
+        <div class="ico-wrap" style="background:#fef3c7; color:#a16207;">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 4v4M8 11v.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.6"/></svg>
+        </div>
+        <div>
+          <div class="t1">+40% data recovered</div>
+          <div class="t2">bypassing ad blockers</div>
+        </div>
+      </div>
+      <div class="float-card float-c">
+        <div class="ico-wrap">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 4h12v8H2z" stroke="currentColor" stroke-width="1.5"/><path d="M2 7h12" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
+        <div>
+          <div class="t1">Server-side active</div>
+          <div class="t2">iOS restrictions bypassed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PARTNERS ========== -->
+<section class="partners reveal">
+  <div class="wrap">
+    <div class="partners-label">Trusted by growing Shopify brands - integrated with the ad platforms that matter</div>
+    <div class="partners-row">
+      <div class="partner">
+        <svg viewBox="0 0 80 24" fill="currentColor"><text x="0" y="18" font-family="Inter" font-size="15" font-weight="600" letter-spacing="-.02em">Google</text></svg>
+      </div>
+      <div class="partner">
+        <svg viewBox="0 0 60 24" fill="currentColor"><text x="0" y="18" font-family="Inter" font-size="15" font-weight="600" letter-spacing="-.02em">Meta</text></svg>
+      </div>
+      <div class="partner">
+        <svg viewBox="0 0 70 24" fill="currentColor"><text x="0" y="18" font-family="Inter" font-size="15" font-weight="600" letter-spacing="-.02em">TikTok</text></svg>
+      </div>
+      <div class="partner">
+        <svg viewBox="0 0 80 24" fill="currentColor"><text x="0" y="18" font-family="Inter" font-size="15" font-weight="600" letter-spacing="-.02em">Klaviyo</text></svg>
+      </div>
+      <div class="partner">
+        <svg viewBox="0 0 90 24" fill="currentColor"><text x="0" y="18" font-family="Inter" font-size="15" font-weight="600" letter-spacing="-.02em">Pinterest</text></svg>
+      </div>
+      <div class="partner">
+        <svg viewBox="0 0 80 24" fill="currentColor"><text x="0" y="18" font-family="Inter" font-size="15" font-weight="600" letter-spacing="-.02em">Snapchat</text></svg>
+      </div>
+      <div class="partner">
+        <svg viewBox="0 0 80 24" fill="currentColor"><text x="0" y="18" font-family="Inter" font-size="15" font-weight="600" letter-spacing="-.02em">Shopify</text></svg>
+      </div>
+      <div class="partner">
+        <svg viewBox="0 0 60 24" fill="currentColor"><text x="0" y="18" font-family="Inter" font-size="15" font-weight="600" letter-spacing="-.02em">X</text></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FEATURES SECTION ========== -->
+<section class="block reveal" id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Why TagFly</div>
+      <h2 style="font-size: 56px;">Everything your pixels<br><em>should</em> be doing -<br>without the <br>engineering effort.</h2>
+      <p>Most Shopify stores lose 30-40% of conversion data. TagFly closes the gap with a complete client + server tracking stack, wired into every major ad platform.</p>
+    </div>
+
+    <!-- Feature 1 -->
+    <div class="feature reveal">
+      <div class="feature-text">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+          <img src="assets/logo-gtm.webp" alt="GTM" style="width:48px;height:48px;object-fit:contain;"/>
+          <img src="assets/logo-ga4.png" alt="GA4" style="width:48px;height:48px;object-fit:contain;"/>
+        </div>
+        <span class="feature-tag"><svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="currentColor"/></svg> GTM & GA4</span>
+        <h3>Quickly integrate GTM & GA4 for <em>precise tracking</em></h3>
+        <p class="feature-body">
+          We ensure every shopping behavior is captured in insightful events, fueling your GA4 with rich and accurate data - with no burden on site speed.
+        </p>
+        <ul class="feature-list">
+          <li><span class="bullet"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>50+ pre-built event templates ready to go</li>
+          <li><span class="bullet"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>Zero performance hit on your storefront</li>
+          <li><span class="bullet"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>Direct Google Tag Manager integration</li>
+        </ul>
+        <a href="#" class="feature-cta">Try for free →</a>
+      </div>
+      <div class="product-visual">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:28px;height:28px;background:#fff;border-radius:6px;display:grid;place-items:center;border:1px solid var(--ink-150);">
+              <svg width="14" height="14" viewBox="0 0 16 16"><rect x="2" y="3" width="5" height="5" rx="1" fill="#8430ce"/><rect x="9" y="3" width="5" height="5" rx="1" fill="#4285f4"/><rect x="2" y="9" width="5" height="5" rx="1" fill="#fbbc05"/><rect x="9" y="9" width="5" height="5" rx="1" fill="#34a853"/></svg>
+            </div>
+            <div>
+              <div style="font-size:12px;font-weight:600;">Google Tag Manager</div>
+              <div style="font-size:10px;color:var(--ink-500);font-family:var(--type-mono);">GTM-PGJKRKFD</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:4px;">
+            <span style="font-size:10px;background:var(--brand-100);color:var(--brand-700);padding:3px 7px;border-radius:4px;font-weight:600;">Excellent</span>
+          </div>
+        </div>
+        <div class="coverage-board">
+          <div class="cov-panel">
+            <h5><span class="cov-dot" style="background:#4285f4;"></span>Client-side</h5>
+            <div class="cov-events">
+              <div class="cov-ev"><span class="ev-name">page_view</span><span class="ev-ok"><svg width="7" height="7" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span></div>
+              <div class="cov-ev"><span class="ev-name">view_item</span><span class="ev-ok"><svg width="7" height="7" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span></div>
+              <div class="cov-ev"><span class="ev-name">add_to_cart</span><span class="ev-ok"><svg width="7" height="7" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span></div>
+              <div class="cov-ev"><span class="ev-name">begin_checkout</span><span class="ev-ok"><svg width="7" height="7" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span></div>
+              <div class="cov-ev"><span class="ev-name">search</span><span class="ev-ok"><svg width="7" height="7" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span></div>
+            </div>
+          </div>
+          <div class="cov-panel">
+            <h5><span class="cov-dot" style="background:var(--brand-500);"></span>Server-side</h5>
+            <div class="cov-events">
+              <div class="cov-ev"><span class="ev-name">purchase</span><span class="ev-ok"><svg width="7" height="7" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span></div>
+              <div class="cov-ev"><span class="ev-name">add_payment_info</span><span class="ev-ok"><svg width="7" height="7" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span></div>
+              <div class="cov-ev"><span class="ev-name">subscribe</span><span class="ev-ok"><svg width="7" height="7" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span></div>
+              <div class="cov-ev"><span class="ev-name">refund</span><span class="ev-ok"><svg width="7" height="7" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span></div>
+              <div class="cov-ev"><span class="ev-name">sign_up</span><span class="ev-ok"><svg width="7" height="7" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature 2 -->
+    <div class="feature reverse reveal">
+      <div class="product-visual">
+        <div class="bypass-panel">
+          <div class="bp-head">
+            <div>
+              <div class="bp-title">Conversion match quality</div>
+              <div class="bp-meta">Meta Events Manager · Purchase</div>
+            </div>
+            <span style="font-family:var(--type-display);font-size:28px;color:var(--brand-700);letter-spacing:-.02em;">8.8<span style="font-size:14px;color:var(--ink-500);">/10</span></span>
+          </div>
+          <div class="bp-compare">
+            <div class="bp-row">
+              <div class="bp-row-label">
+                <span class="tag-pill">Browser only</span>
+                <span class="bp-row-value">62% captured</span>
+              </div>
+              <div class="bp-bar"><div class="fill" style="width:62%;"></div></div>
+            </div>
+            <div class="bp-row on">
+              <div class="bp-row-label">
+                <span class="tag-pill">Client + Server</span>
+                <span class="bp-row-value">99% captured</span>
+              </div>
+              <div class="bp-bar"><div class="fill" style="width:99%;"></div></div>
+            </div>
+          </div>
+          <div class="bp-foot">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M8 5v3l2 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+            <span>Recovered <strong style="color:var(--brand-700);">+40% of events</strong> blocked by ad blockers and iOS 14 restrictions</span>
+          </div>
+        </div>
+      </div>
+      <div class="feature-text">
+        <span class="feature-tag"><svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="currentColor"/></svg> Server-side tracking</span>
+        <h3>Accurate data - even when tracking <em>gets blocked</em></h3>
+        <p class="feature-body">
+          Bypass ad blockers and iOS restrictions with server-side tracking. Capture up to 40% more data and attribute conversions across Facebook, TikTok, Snapchat, and beyond - no matter what gets blocked in the browser.
+        </p>
+        <ul class="feature-list">
+          <li><span class="bullet"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>Clean up messy GTM setups in minutes</li>
+          <li><span class="bullet"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>No code implementation, no developers needed</li>
+          <li><span class="bullet"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>Up to 100% match between orders and revenue in Shopify</li>
+        </ul>
+        <a href="#" class="feature-cta">See how it works →</a>
+      </div>
+    </div>
+
+    <!-- Feature 3: Complete coverage -->
+    <div class="feature reveal">
+      <div class="feature-text">
+        <span class="feature-tag"><svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="currentColor"/></svg> Attribution</span>
+        <h3>Complete tracking <em>coverage,</em> across every channel</h3>
+        <p class="feature-body">
+          By incorporating both server-side and client-side tracking, we ensure every order, revenue detail, and customer action is accurately captured.
+        </p>
+        <ul class="feature-list">
+          <li><span class="bullet"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>Goodbye missing data and dumb ads</li>
+          <li><span class="bullet"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>Full view of store performance and where users come from</li>
+          <li><span class="bullet"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>Compare marketing attribution across channels and devices</li>
+        </ul>
+        <a href="#" class="feature-cta">View demo →</a>
+      </div>
+      <div class="product-visual">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div style="font-size:12px;font-weight:600;">Active destinations</div>
+          <div style="font-size:11px;color:var(--ink-500);">8 of 8 connected</div>
+        </div>
+        <div class="dest-grid">
+          <div class="dest-tile">
+            <div class="d-ico" style="background:transparent;padding:0;"><img src="assets/logo-ga4.png" alt="Google Analytics 4" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;"/></div>
+            <div>
+              <div class="d-name">Google Analytics 4</div>
+              <div class="d-status"><span class="sd"></span>Live</div>
+            </div>
+          </div>
+          <div class="dest-tile">
+            <div class="d-ico" style="background:#fff;padding:0;"><img src="assets/logo-google-ads-new.png" alt="Google Ads" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;"/></div>
+            <div>
+              <div class="d-name">Google Ads</div>
+              <div class="d-status"><span class="sd"></span>Live</div>
+            </div>
+          </div>
+          <div class="dest-tile">
+            <div class="d-ico" style="background:#fff;padding:0;"><img src="assets/logo-meta-new.png" alt="Meta" style="width:100%;height:100%;object-fit:contain;"/></div>
+            <div>
+              <div class="d-name">Meta Ads</div>
+              <div class="d-status"><span class="sd"></span>Live</div>
+            </div>
+          </div>
+          <div class="dest-tile">
+            <div class="d-ico" style="background:#fff;padding:0;"><img src="assets/logo-tiktok-new.webp" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;"/></div>
+            <div>
+              <div class="d-name">TikTok</div>
+              <div class="d-status"><span class="sd"></span>Live</div>
+            </div>
+          </div>
+          <div class="dest-tile">
+            <div class="d-ico" style="background:#fff;padding:0;"><img src="assets/logo-klaviyo-new.png" alt="Klaviyo" style="width:100%;height:100%;object-fit:contain;"/></div>
+            <div>
+              <div class="d-name">Klaviyo</div>
+              <div class="d-status"><span class="sd"></span>Live</div>
+            </div>
+          </div>
+          <div class="dest-tile">
+            <div class="d-ico" style="background:#fff;padding:0;"><img src="assets/logo-x-new.png" alt="X" style="width:100%;height:100%;object-fit:contain;"/></div>
+            <div>
+              <div class="d-name">X (Twitter)</div>
+              <div class="d-status"><span class="sd"></span>Live</div>
+            </div>
+          </div>
+          <div class="dest-tile">
+            <div class="d-ico" style="background:#fff;padding:0;"><img src="assets/logo-pinterest.webp" alt="Pinterest" style="width:100%;height:100%;object-fit:contain;"/></div>
+            <div>
+              <div class="d-name">Pinterest</div>
+              <div class="d-status"><span class="sd"></span>Live</div>
+            </div>
+          </div>
+          <div class="dest-tile">
+            <div class="d-ico" style="background:#fff;padding:0;"><img src="assets/logo-snapchat.webp" alt="Snapchat" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;"/></div>
+            <div>
+              <div class="d-name">Snapchat</div>
+              <div class="d-status"><span class="sd"></span>Live</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature 4: Server GTM Hosting -->
+    <div class="feature reverse reveal">
+      <div class="product-visual">
+        <div class="server-panel">
+          <div class="sp-head">
+            <div class="sp-head-ico">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="4" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="9" width="12" height="4" rx="1" stroke="currentColor" stroke-width="1.5"/><circle cx="5" cy="5" r=".8" fill="currentColor"/><circle cx="5" cy="11" r=".8" fill="currentColor"/></svg>
+            </div>
+            <div>
+              <div class="sp-title">Server GTM Container</div>
+              <div class="sp-sub">sgtm.tagfly.io · us-east-1 · healthy</div>
+            </div>
+            <span style="margin-left:auto;font-size:10px;color:var(--brand-700);background:var(--brand-50);padding:3px 7px;border-radius:4px;font-weight:600;">● RUNNING</span>
+          </div>
+          <div class="sp-flow">
+            <div class="sp-node">
+              <div class="n-ico" style="background:#95bf47;"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 2c-2 0-3 1.5-3 3 0 2 2 3 3 3s3-1 3-3c0-1.5-1-3-3-3zM3 10l2 4h6l2-4" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+              <div class="n-label">Shopify</div>
+              <div class="n-meta">source</div>
+            </div>
+            <span class="sp-arrow">→</span>
+            <div class="sp-node" style="background:linear-gradient(180deg,var(--brand-50),#fff);border-color:var(--brand-300);">
+              <div class="n-ico" style="background:var(--brand-600);">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M5 4h8l-1.5 3H7l-.5 2h6L11 12H5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+              <div class="n-label">TagFly sGTM</div>
+              <div class="n-meta">process</div>
+            </div>
+            <span class="sp-arrow">→</span>
+            <div class="sp-node">
+              <div class="n-ico" style="background:linear-gradient(135deg,#4285f4,#ea4335);"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M3 8h10M8 3c2 2 2 8 0 10M8 3c-2 2-2 8 0 10" stroke="currentColor" stroke-width="1.2"/></svg></div>
+              <div class="n-label">8 destinations</div>
+              <div class="n-meta">output</div>
+            </div>
+          </div>
+          <div class="sp-metrics">
+            <div class="sp-metric">
+              <div class="mv">99.99%</div>
+              <div class="ml">Uptime SLA</div>
+            </div>
+            <div class="sp-metric">
+              <div class="mv">&lt;50ms</div>
+              <div class="ml">Response time</div>
+            </div>
+            <div class="sp-metric">
+              <div class="mv">50+</div>
+              <div class="ml">Tag templates</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="feature-text">
+        <span class="feature-tag"><svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="currentColor"/></svg> Server GTM Hosting</span>
+        <h3>Maximize ROI with powerful <em>Server GTM hosting</em></h3>
+        <p class="feature-body">
+          Elevate your marketing with precise segmentation, lower acquisition costs, and richer insights. TagFly boosts your server GTM hosting with quality solutions and ready-to-use templates for all your tracking needs - giving you the tools to grow customer lifetime value and maximize every marketing dollar.
+        </p>
+        <ul class="feature-list">
+          <li><span class="bullet"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>Precise customer segmentation out of the box</li>
+          <li><span class="bullet"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>Lower customer acquisition costs</li>
+          <li><span class="bullet"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>Ready-to-use templates for every tracking need</li>
+        </ul>
+        <a href="#" class="feature-cta">Explore templates →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== INTEGRATIONS ========== -->
+<section class="integrations reveal" id="integrations">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Integrations</div>
+      <h2>One app. <em>Every ad platform</em> that matters.</h2>
+      <p>Connect your Shopify store to 8+ marketing destinations in a few clicks - with pre-built templates, event mapping, and consent mode handled.</p>
+    </div>
+
+    <div class="int-grid">
+      <div class="int-card reveal delay-1">
+        <div class="int-ico"><img src="assets/logo-ga4.png" alt="Google Analytics 4" style="width:100%;height:100%;object-fit:contain;"/></div>
+        <div class="int-name">Google Analytics 4</div>
+        <div class="int-desc int-desc-short">Deep GA4 integration with full e-commerce event schema</div>
+        <div class="int-desc int-desc-full">Deep GA4 integration with full e-commerce event schema - purchases, items, promotions, checkout funnels. Auto-maps Shopify events to GA4's enhanced measurement.</div>
+        <div class="int-tags">
+          <span>Enhanced ecommerce</span>
+          <span>Consent mode v2</span>
+          <span>Server-side</span>
+          <span>50+ events</span>
+        </div>
+        <div class="int-meta"><span class="d"></span>Live</div>
+      </div>
+      <div class="int-card reveal delay-2">
+        <div class="int-ico"><img src="assets/logo-google-ads-new.png" alt="Google Ads" style="width:100%;height:100%;object-fit:contain;"/></div>
+        <div class="int-name">Google Ads</div>
+        <div class="int-desc int-desc-short">Conversion tracking & enhanced conversions</div>
+        <div class="int-desc int-desc-full">Send accurate conversion data to Google Ads with enhanced conversions for better campaign optimization and ROAS tracking.</div>
+        <div class="int-tags">
+          <span>Enhanced conversions</span>
+          <span>Offline conversions</span>
+          <span>GCLID tracking</span>
+        </div>
+        <div class="int-meta"><span class="d"></span>Live</div>
+      </div>
+      <div class="int-card reveal delay-3">
+        <div class="int-ico"><img src="assets/logo-meta-new.png" alt="Meta" style="width:100%;height:100%;object-fit:contain;"/></div>
+        <div class="int-name">Meta (Facebook)</div>
+        <div class="int-desc int-desc-short">Pixel + Conversions API, dedup included</div>
+        <div class="int-desc int-desc-full">Combine browser pixel with server-side Conversions API for maximum event match quality. Automatic deduplication ensures clean data.</div>
+        <div class="int-tags">
+          <span>CAPI + Pixel</span>
+          <span>Deduplication</span>
+          <span>Advanced matching</span>
+        </div>
+        <div class="int-meta"><span class="d"></span>Live</div>
+      </div>
+      <div class="int-card reveal delay-0">
+        <div class="int-ico"><img src="assets/logo-tiktok-new.webp" style="width:100%;height:100%;object-fit:contain;"/></div>
+        <div class="int-name">TikTok</div>
+        <div class="int-desc int-desc-short">Pixel + Events API for iOS-resilient tracking</div>
+        <div class="int-desc int-desc-full">Bypass iOS tracking limitations with TikTok Events API. Combines web pixel with server-side events for complete attribution.</div>
+        <div class="int-tags">
+          <span>Events API</span>
+          <span>Web pixel</span>
+          <span>iOS tracking</span>
+        </div>
+        <div class="int-meta"><span class="d"></span>Live</div>
+      </div>
+      <div class="int-card reveal delay-1">
+        <div class="int-ico"><img src="assets/logo-klaviyo-new.png" alt="Klaviyo" style="width:100%;height:100%;object-fit:contain;"/></div>
+        <div class="int-name">Klaviyo</div>
+        <div class="int-desc int-desc-short">Email flows powered by server-side events</div>
+        <div class="int-desc int-desc-full">Send rich customer behavior data to Klaviyo for personalized email automation, cart recovery, and product recommendation flows.</div>
+        <div class="int-tags">
+          <span>Track & Identify</span>
+          <span>Cart recovery</span>
+          <span>Product views</span>
+        </div>
+        <div class="int-meta"><span class="d"></span>Live</div>
+      </div>
+      <div class="int-card reveal delay-2">
+        <div class="int-ico"><img src="assets/logo-x-new.png" alt="X" style="width:100%;height:100%;object-fit:contain;"/></div>
+        <div class="int-name">X (Twitter)</div>
+        <div class="int-desc int-desc-short">Website tag + Conversions API</div>
+        <div class="int-desc int-desc-full">Track conversions from X (Twitter) campaigns with pixel tracking and server-side API for improved attribution accuracy.</div>
+        <div class="int-tags">
+          <span>Conversion tracking</span>
+          <span>Event match</span>
+          <span>Campaign attribution</span>
+        </div>
+        <div class="int-meta"><span class="d"></span>Live</div>
+      </div>
+      <div class="int-card reveal delay-3">
+        <div class="int-ico"><img src="assets/logo-pinterest.webp" alt="Pinterest" style="width:100%;height:100%;object-fit:contain;"/></div>
+        <div class="int-name">Pinterest</div>
+        <div class="int-desc int-desc-short">Tag API & enhanced match</div>
+        <div class="int-desc int-desc-full">Connect Pinterest ads with enhanced match capabilities and catalog sync for dynamic product ads and conversion tracking.</div>
+        <div class="int-tags">
+          <span>Conversions API</span>
+          <span>Enhanced match</span>
+          <span>Catalog sync</span>
+        </div>
+        <div class="int-meta"><span class="d"></span>Live</div>
+      </div>
+      <div class="int-card reveal delay-0">
+        <div class="int-ico"><img src="assets/logo-snapchat.webp" alt="Snapchat" style="width:100%;height:100%;object-fit:contain;"/></div>
+        <div class="int-name">Snapchat</div>
+        <div class="int-desc int-desc-short">Snap Pixel + Conversions API</div>
+        <div class="int-desc int-desc-full">Dual tracking with Snap Pixel and Conversions API ensures reliable conversion data for your Snapchat advertising campaigns.</div>
+        <div class="int-tags">
+          <span>CAPI</span>
+          <span>Pixel tracking</span>
+          <span>App events</span>
+        </div>
+        <div class="int-meta"><span class="d"></span>Live</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== HOW IT WORKS ========== -->
+<section class="block reveal" id="setup">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Setup in minutes</div>
+      <h2>Quick install. <em>No coding.</em></h2>
+      <p>Set up your tracking easily for more focused marketing campaigns, reduce "unknown" traffic, and save days fixing tracking errors.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step reveal delay-1">
+        <div class="step-num">Step</div>
+        <h4>Enable App Embed</h4>
+        <p>Install the TagFly app on Shopify and toggle on the TagFly Data Layer app embed - that's it.</p>
+        <div class="step-visual">
+          <div style="width:100%;background:#fff;border-radius:8px;border:1px solid var(--ink-150);padding:14px;">
+            <div style="font-size:12px;font-weight:600;margin-bottom:8px;">Embed app</div>
+            <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--brand-50);border-radius:6px;margin-bottom:8px;">
+              <div style="width:26px;height:14px;background:var(--brand-500);border-radius:99px;position:relative;"><div style="position:absolute;right:1px;top:1px;width:12px;height:12px;background:#fff;border-radius:50%;"></div></div>
+              <div style="font-size:11px;font-weight:500;">TagFly Data Layer</div>
+              <span style="margin-left:auto;font-size:10px;background:var(--brand-500);color:#fff;padding:2px 6px;border-radius:4px;font-weight:600;">ON</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step reveal delay-2">
+        <div class="step-num">Step</div>
+        <h4>Set up tracking sources</h4>
+        <p>Choose your Shopify store events - product views, cart, checkout, purchase. We pre-map all 50+ ecommerce events.</p>
+        <div class="step-visual">
+          <div style="display:flex;flex-direction:column;gap:4px;width:100%;font-size:11px;">
+            <div style="display:flex;align-items:center;gap:6px;padding:6px 8px;background:#fff;border:1px solid var(--ink-150);border-radius:6px;"><span style="width:14px;height:14px;border-radius:3px;background:var(--brand-500);display:grid;place-items:center;color:#fff;"><svg width="8" height="8" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span><span style="font-family:var(--type-mono);">view_item</span></div>
+            <div style="display:flex;align-items:center;gap:6px;padding:6px 8px;background:#fff;border:1px solid var(--ink-150);border-radius:6px;"><span style="width:14px;height:14px;border-radius:3px;background:var(--brand-500);display:grid;place-items:center;color:#fff;"><svg width="8" height="8" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span><span style="font-family:var(--type-mono);">add_to_cart</span></div>
+            <div style="display:flex;align-items:center;gap:6px;padding:6px 8px;background:#fff;border:1px solid var(--ink-150);border-radius:6px;"><span style="width:14px;height:14px;border-radius:3px;background:var(--brand-500);display:grid;place-items:center;color:#fff;"><svg width="8" height="8" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span><span style="font-family:var(--type-mono);">purchase</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step reveal delay-3">
+        <div class="step-num">Step</div>
+        <h4>Set up destinations</h4>
+        <p>Connect Google Analytics, Meta, TikTok, and more. TagFly starts sending accurate data immediately.</p>
+        <div class="step-visual">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;width:100%;">
+            <div style="aspect-ratio:1;background:#fff;border-radius:6px;display:grid;place-items:center;overflow:hidden;"><img src="assets/logo-ga4.png" alt="GA4" style="width:100%;height:100%;object-fit:contain;"/></div>
+            <div style="aspect-ratio:1;background:#fff;border-radius:6px;display:grid;place-items:center;overflow:hidden;"><img src="assets/logo-meta-new.png" alt="Meta" style="width:100%;height:100%;object-fit:contain;"/></div>
+            <div style="aspect-ratio:1;background:#fff;border-radius:6px;display:grid;place-items:center;overflow:hidden;"><img src="assets/logo-tiktok-new.webp" style="width:100%;height:100%;object-fit:contain;"/></div>
+            <div style="aspect-ratio:1;background:#fff;border-radius:6px;display:grid;place-items:center;overflow:hidden;"><img src="assets/logo-pinterest.webp" alt="Pinterest" style="width:100%;height:100%;object-fit:contain;"/></div>
+            <div style="aspect-ratio:1;background:#fff;border-radius:6px;display:grid;place-items:center;overflow:hidden;"><img src="assets/logo-google-ads-new.png" alt="Google Ads" style="width:100%;height:100%;object-fit:contain;"/></div>
+            <div style="aspect-ratio:1;background:#fff;border-radius:6px;display:grid;place-items:center;overflow:hidden;"><img src="assets/logo-klaviyo-new.png" alt="Klaviyo" style="width:100%;height:100%;object-fit:contain;"/></div>
+            <div style="aspect-ratio:1;background:#fff;border-radius:6px;display:grid;place-items:center;overflow:hidden;"><img src="assets/logo-snapchat.webp" alt="Snapchat" style="width:100%;height:100%;object-fit:contain;"/></div>
+            <div style="aspect-ratio:1;background:#fff;border-radius:6px;display:grid;place-items:center;overflow:hidden;"><img src="assets/logo-x-new.png" alt="X" style="width:100%;height:100%;object-fit:contain;"/></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PRICING ========== -->
+<section class="pricing reveal" id="pricing">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Pricing</div>
+      <h2>Plans built to<br/><em>scale with you</em></h2>
+      <p>Whether your time-saving automation needs are large or small, we're here to help you scale.</p>
+    </div>
+
+    <div style="text-align:center;">
+      <div class="billing-toggle" id="billingToggle">
+        <button class="active" data-billing="monthly">Monthly</button>
+        <button data-billing="yearly">Yearly <span class="save">Save 20%</span></button>
+      </div>
+    </div>
+
+    <div class="plans">
+      <!-- Free -->
+      <div class="plan reveal delay-1">
+        <div class="plan-name">Free</div>
+        <div class="plan-price">
+          <span class="cur">$</span>0<span class="per">/ month</span>
+        </div>
+        <div class="plan-tag">Unleash the power of automation.</div>
+        <ul class="plan-features">
+          <li><svg class="ch" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>One tracking destination</li>
+          <li><svg class="ch" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>1 pixel & 1 server-side tracking</li>
+          <li><svg class="ch" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited events tracking</li>
+          <li><svg class="ch" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>GTM Integration</li>
+          <li><svg class="ch" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>24/7 live support</li>
+        </ul>
+        <a href="#" class="btn-plan">Choose plan</a>
+      </div>
+
+      <!-- Basic -->
+      <div class="plan reveal delay-2">
+        <div class="plan-name">Basic</div>
+        <div class="plan-price">
+          <span class="cur">$</span><span class="price-amount" data-monthly="9.99" data-yearly="7.99">9.99</span><span class="per">/ month</span>
+        </div>
+        <div class="plan-tag">Advanced tools to take your work to the next level.</div>
+        <ul class="plan-features">
+          <li><svg class="ch" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Multiple tracking destinations</li>
+          <li><svg class="ch" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>1 pixel & 1 server-side tracking each destination</li>
+          <li><svg class="ch" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited events tracking</li>
+          <li><svg class="ch" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>GTM Integration</li>
+          <li><svg class="ch" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>24/7 live support</li>
+        </ul>
+        <a href="#" class="btn-plan">Choose plan</a>
+      </div>
+
+      <!-- Growth (featured) -->
+      <div class="plan featured reveal delay-3">
+        <div class="plan-popular">Most popular</div>
+        <div class="plan-name">Growth</div>
+        <div class="plan-price">
+          <span class="cur">$</span><span class="price-amount" data-monthly="14.99" data-yearly="11.99">14.99</span><span class="per">/ month</span>
+        </div>
+        <div class="plan-tag">Automation plus enterprise-grade features.</div>
+        <ul class="plan-features">
+          <li><svg class="ch" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Multiple tracking destinations</li>
+          <li><svg class="ch" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited pixels & server-side tracking</li>
+          <li><svg class="ch" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited events tracking</li>
+          <li><svg class="ch" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>GTM Integration</li>
+          <li><svg class="ch" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>24/7 live support</li>
+        </ul>
+        <a href="#" class="btn-plan">Choose plan</a>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:32px;color:rgba(255,255,255,.55);font-size:13px;">
+      3-day free trial on all paid plans · No credit card required · Cancel anytime
+    </div>
+  </div>
+</section>
+
+<!-- ========== TESTIMONIALS ========== -->
+<section class="testimonials reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Reviews</div>
+      <h2><span style="white-space:nowrap">Listen to <em>Shopify merchants</em></span><br/>who use our app</h2>
+    </div>
+
+    <div class="test-grid">
+      <div class="testimonial size-lg reveal delay-1">
+        <div class="test-stars">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+        </div>
+        <div class="test-quote">"I got help from Anna at Omega to solve my installation. I can really recommend this app. The support, knowledge and friendly approach are outstanding. Thank you TagFly and thank you Anna!"</div>
+        <div class="test-author">
+          <div class="test-ava">PP</div>
+          <div>
+            <div class="test-name">puppyprints.se</div>
+            <div class="test-shop">Shopify merchant</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial size-md reveal delay-2">
+        <div class="test-stars">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+        </div>
+        <div class="test-quote">"This app is awesome. I can't believe it's free, and the support has been excellent. The pre-built GTM container is really thorough."</div>
+        <div class="test-author">
+          <div class="test-ava">LN</div>
+          <div>
+            <div class="test-name">Look NZ</div>
+            <div class="test-shop">Shopify merchant</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial size-sm reveal delay-3">
+        <div class="test-stars">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+        </div>
+        <div class="test-quote">"Great app! Easy to use and support is incredible! Thanks for your help."</div>
+        <div class="test-author">
+          <div class="test-ava">FS</div>
+          <div>
+            <div class="test-name">FIONShopCZ</div>
+            <div class="test-shop">Shopify merchant</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial size-sm reveal delay-0">
+        <div class="test-stars">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+        </div>
+        <div class="test-quote">"Joyce was really a great help! she followed up after 24 hours and was able to setup the tracking perfectly. Great app!"</div>
+        <div class="test-author">
+          <div class="test-ava">HO</div>
+          <div>
+            <div class="test-name">Hellstar Outlet</div>
+            <div class="test-shop">Shopify merchant</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial size-md reveal delay-1">
+        <div class="test-stars">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2.3 4.6 5.2.7-3.7 3.6.9 5.1L8 12.6l-4.6 2.4.9-5.1L.6 6.3l5.2-.7L8 1z"/></svg>
+        </div>
+        <div class="test-quote">"The app works perfectly and the customer support is great. The integration with Google is super easy and effective."</div>
+        <div class="test-author">
+          <div class="test-ava">G3</div>
+          <div>
+            <div class="test-name">gofor360</div>
+            <div class="test-shop">Shopify merchant</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== FAQ ========== -->
+<section class="faq reveal">
+  <div class="wrap">
+    <div class="faq-layout">
+      <div class="faq-left">
+        <div class="eyebrow">FAQ</div>
+        <h2>Frequently asked questions.</h2>
+        <p>Everything you need to know about TagFly. Can't find what you're looking for? Our team is here to help.</p>
+        <a href="#" class="btn btn-outline">Contact support</a>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary>How does TagFly work?
+            <span class="ic"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+          </summary>
+          <div class="faq-body">
+            TagFly is a tracking solution that combines client-side and server-side tracking to provide accurate performance analysis of your store without setup hassles or slowing down your page.
+            <br><br>
+            <strong>Client-side tracking:</strong> We integrate directly with Google Tag Manager, reducing the steps needed for setup. Just install the app, and we'll handle the rest.
+            <br><br>
+            <strong>Server-side tracking:</strong> This ensures more accurate data collection even when client-side tracking is blocked by browser adblockers or iOS 14 tracking restrictions. It allows us to capture checkout steps and transactions, which is more challenging to do via Google Tag Manager alone.
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>How many marketing channels does TagFly support?
+            <span class="ic"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+          </summary>
+          <div class="faq-body">
+            Currently, we integrate with 8 marketing destinations, including: <strong>Google Analytics 4, Google Ads, Meta, TikTok, Klaviyo, X (Twitter), Pinterest, and Snapchat</strong>.
+            <br><br>
+            We are continuously working to add more tracking integrations to meet your marketing needs. Stay tuned for updates!
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>Is TagFly compliant with GDPR / CCPA?
+            <span class="ic"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+          </summary>
+          <div class="faq-body">
+            Yes, we have a consent mode feature that integrates with most Shopify CMPs, allowing you to stay compliant with customer privacy regulations without sacrificing data accuracy.
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>Are there any discounts or free trials available?
+            <span class="ic"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+          </summary>
+          <div class="faq-body">
+            Yes, we offer a 3-day free trial for any paid plans. Currently, we do not offer any discounts.
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>I am using another app for tracking. What should I do when setting up TagFly?
+            <span class="ic"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+          </summary>
+          <div class="faq-body">
+            Using two tracking apps for the same pixel simultaneously can lead to duplicate event tracking. To ensure more accurate tracking, you should disable tracking in one app.
+            <br><br>
+            However, we highly recommend creating a new developer mode pixel or GA4 property specifically for use with TagFly and keeping them separate from your existing tracking setup.
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== BIG CTA ========== -->
+<section class="cta-block reveal">
+  <div class="wrap">
+    <div class="cta-card">
+      <div>
+        <div class="eyebrow" style="color:var(--brand-300);">Get started</div>
+        <h2 style="margin-top:14px;">Need a hand, or ready for a <em>deep dive?</em></h2>
+        <p>Whether you're seeking support or interested in a personalized walkthrough, our team is here to help - install the app free, or book a demo to see TagFly on your store.</p>
+        <div class="cta-actions">
+          <a href="https://apps.shopify.com/tagfly?utm_source=tagfly.io&utm_medium=websitemenu&utm_campaign=website" class="btn btn-primary btn-lg">Install free on Shopify
+            <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </a>
+          <a href="https://apps.shopify.com/tagfly?utm_source=tagfly.io&utm_medium=websitemenu&utm_campaign=website" class="btn btn-ghost btn-lg">Contact sales →</a>
+        </div>
+      </div>
+      <div class="cta-illus">
+        <div class="cta-stat">
+          <span class="cs-label">Tracked orders recovered</span>
+          <span class="cs-val"><em>+40%</em></span>
+        </div>
+        <div class="cta-stat">
+          <span class="cs-label">Shopify → Meta match rate</span>
+          <span class="cs-val"><em>99%</em></span>
+        </div>
+        <div class="cta-stat">
+          <span class="cs-label">Setup time</span>
+          <span class="cs-val"><em>5 min</em></span>
+        </div>
+        <div class="cta-stat">
+          <span class="cs-label">Ad platforms connected</span>
+          <span class="cs-val"><em>8</em></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <span class="logo-mark">
+            <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M8 7c0 0 2-1.5 6-1.5h11c2 0 3 .8 2.2 2.8l-1.2 2.7c-.5 1-1.2 1.5-2.5 1.5H13.5c-2 0-3.5.8-4.2 2L8 7z" fill="#f5f1e8"/><path d="M10.5 16c0 0 2-1.5 5.5-1.5h8c1.8 0 2.6.8 1.9 2.8l-1 2.4c-.5 1-1.2 1.5-2.4 1.5h-8c-1.8 0-3 .7-3.5 1.8l-.5-7z" fill="#f5f1e8"/><circle cx="9" cy="26" r="2.8" fill="#f5f1e8"/></svg>
+          </span>
+          TagFly
+        </a>
+        <p>Send 100% accurate Shopify data to every ad platform you run - without missing a single order.</p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Product</h5>
+        <ul>
+          <li><a href="#features">Overview</a></li>
+          <li><a href="#" data-page="pricing">Pricing</a></li>
+          <li><a href="#" data-page="blog">Blog</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#" data-page="about">About us</a></li>
+          <li><a href="#">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bot">
+      <div>© 2026 TagFly. All rights reserved. Made for Shopify merchants worldwide.</div>
+      <div class="socials">
+        <a href="#" aria-label="X"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M12 2h2.4L9.5 7.6 15 14h-4.3l-3.4-4.4L3.4 14H1l5.3-6L1 2h4.4l3 4 3.6-4zm-.8 10.8h1.4L4.8 3.2H3.4l7.8 9.6z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="5" width="3" height="10"/><circle cx="2.5" cy="2.5" r="1.5"/><path d="M6 5h3v1.5c.6-1 1.8-1.7 3-1.7 2.3 0 3 1.5 3 3.7V15h-3v-5c0-1-.3-2-1.5-2-1.2 0-1.5 1-1.5 2v5H6V5z"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M14.5 4.5c-.3-1.2-1.3-1.7-2.5-1.8C10.2 2.5 8 2.5 8 2.5s-2.2 0-4 .2c-1.2.1-2.2.6-2.5 1.8C1.2 6 1.2 8 1.2 8s0 2 .3 3.5c.3 1.2 1.3 1.7 2.5 1.8 1.8.2 4 .2 4 .2s2.2 0 4-.2c1.2-.1 2.2-.6 2.5-1.8.3-1.5.3-3.5.3-3.5s0-2-.3-3.5zM6.5 10.5V5.5l4 2.5-4 2.5z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+
+<!-- ========== PRICING PAGE ========== -->
+<div id="page-pricing" class="page-container">
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="Tagfly Website.html" class="logo">
+      <span class="logo-mark">
+        <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M8 7c0 0 2-1.5 6-1.5h11c2 0 3 .8 2.2 2.8l-1.2 2.7c-.5 1-1.2 1.5-2.5 1.5H13.5c-2 0-3.5.8-4.2 2L8 7z" fill="#f5f1e8"/><path d="M10.5 16c0 0 2-1.5 5.5-1.5h8c1.8 0 2.6.8 1.9 2.8l-1 2.4c-.5 1-1.2 1.5-2.4 1.5h-8c-1.8 0-3 .7-3.5 1.8l-.5-7z" fill="#f5f1e8"/><circle cx="9" cy="26" r="2.8" fill="#f5f1e8"/></svg>
+      </span>
+      TagFly
+    </a>
+        <div class="nav-links">
+      <a href="Tagfly Website.html#features">Product</a>
+      <a href="Tagfly Website.html#integrations">Integrations</a>
+      <a href="Pricing.html" style="color:var(--ink-900);font-weight:600;">Pricing</a>
+      <a href="About.html">About</a>
+      <a href="Blog.html">Blog</a>
+      <a href="https://docs.tagfly.io/" target="_blank">Document</a>
+    </div>
+        <div class="nav-cta">
+      <a href="https://apps.shopify.com/tagfly?utm_source=tagfly.io&utm_medium=websitemenu&utm_campaign=website" class="btn btn-primary">
+        Try for free
+        <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="pr-hero">
+  <div class="wrap pr-hero-inner">
+    <span class="eyebrow">Pricing</span>
+    <h1>Plans &amp; <em>Pricing</em></h1>
+    <p class="sub">Whether your time-saving automation needs are large or small, we're here to help you scale.</p>
+
+    <div class="pr-toggle-wrap">
+      <div class="pr-toggle" id="billingToggle">
+        <span class="slider" id="prSlider"></span>
+        <button class="active" data-billing="monthly">Monthly</button>
+        <button data-billing="yearly">Yearly <span class="save-tag">SAVE 20%</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANS -->
+<section class="pr-plans">
+  <div class="wrap">
+    <div class="pr-plans-grid">
+
+      <!-- Free -->
+      <div class="pr-plan reveal">
+        <div class="pr-name">Free</div>
+        <div class="pr-desc">Unleash the power of automation.</div>
+        <div class="pr-price-row">
+          <span class="pr-price" data-m="0" data-y="0">$0</span>
+          <span class="pr-per">/month</span>
+        </div>
+        <a href="https://apps.shopify.com/tagfly?utm_source=tagfly.io&utm_medium=websitemenu&utm_campaign=website" class="pr-cta">
+          Choose plan
+          <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="pr-feat-sep"></div>
+        <ul class="pr-feat">
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>One tracking destination</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>1 pixel &amp; 1 server-side tracking</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Unlimited events tracking</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>GTM Integration</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>24/7 live support</li>
+        </ul>
+      </div>
+
+      <!-- Basic -->
+      <div class="pr-plan reveal delay-1">
+        <div class="pr-name">Basic</div>
+        <div class="pr-desc">Advanced tools to take your work to the next level.</div>
+        <div class="pr-price-row">
+          <span class="pr-price" data-m="9.99" data-y="7.99">$9.99</span>
+          <span class="pr-per">/month</span>
+        </div>
+        <a href="https://apps.shopify.com/tagfly?utm_source=tagfly.io&utm_medium=websitemenu&utm_campaign=website" class="pr-cta">
+          Choose plan
+          <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="pr-feat-sep"></div>
+        <ul class="pr-feat">
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Multiple tracking destinations</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>1 pixel &amp; 1 server-side tracking each destination</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Unlimited events tracking</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>GTM Integration</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>24/7 live support</li>
+        </ul>
+      </div>
+
+      <!-- Growth -->
+      <div class="pr-plan featured reveal delay-2">
+        <span class="pr-popular">Most popular</span>
+        <div class="pr-name">Growth</div>
+        <div class="pr-desc">Automation plus enterprise-grade features.</div>
+        <div class="pr-price-row">
+          <span class="pr-price" data-m="14.99" data-y="11.99">$14.99</span>
+          <span class="pr-per">/month</span>
+        </div>
+        <a href="https://apps.shopify.com/tagfly?utm_source=tagfly.io&utm_medium=websitemenu&utm_campaign=website" class="pr-cta">
+          Choose plan
+          <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="pr-feat-sep"></div>
+        <ul class="pr-feat">
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Multiple tracking destinations</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Unlimited pixels &amp; server-side tracking</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Unlimited events tracking</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>GTM Integration</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>24/7 live support</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE -->
+<section class="pr-compare">
+  <div class="wrap">
+    <h2 class="reveal">Compare all features</h2>
+    <p class="sub reveal delay-1">A full breakdown of what's included in each plan — so you can pick with confidence.</p>
+
+    <div class="cmp-table reveal delay-2">
+      <div class="cmp-row cmp-head">
+        <div class="col-label">Features</div>
+        <div class="col-plan">Free</div>
+        <div class="col-plan">Basic</div>
+        <div class="col-plan">Growth</div>
+      </div>
+
+      <div class="cmp-group">Tracking</div>
+      <div class="cmp-row">
+        <div class="col-label">Tracking destinations</div>
+        <div class="col-plan">1</div>
+        <div class="col-plan">Multiple</div>
+        <div class="col-plan">Multiple</div>
+      </div>
+      <div class="cmp-row">
+        <div class="col-label">Client-side (pixel)</div>
+        <div class="col-plan">1</div>
+        <div class="col-plan">1 per destination</div>
+        <div class="col-plan">Unlimited</div>
+      </div>
+      <div class="cmp-row">
+        <div class="col-label">Server-side tracking</div>
+        <div class="col-plan">1</div>
+        <div class="col-plan">1 per destination</div>
+        <div class="col-plan">Unlimited</div>
+      </div>
+      <div class="cmp-row">
+        <div class="col-label">Events tracking</div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      </div>
+
+      <div class="cmp-group">Integrations</div>
+      <div class="cmp-row">
+        <div class="col-label">GTM Integration</div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      </div>
+      <div class="cmp-row">
+        <div class="col-label">GA4, Google Ads, Meta, TikTok</div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      </div>
+      <div class="cmp-row">
+        <div class="col-label">Klaviyo, X, Pinterest, Snapchat</div>
+        <div class="col-plan"><span class="cmp-dash">—</span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      </div>
+
+      <div class="cmp-group">Support &amp; compliance</div>
+      <div class="cmp-row">
+        <div class="col-label">24/7 live support</div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      </div>
+      <div class="cmp-row">
+        <div class="col-label">GDPR / CCPA consent mode</div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      </div>
+      <div class="cmp-row">
+        <div class="col-label">3-day free trial on paid plans</div>
+        <div class="col-plan"><span class="cmp-dash">—</span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="pr-faq">
+  <div class="wrap pr-faq-inner">
+    <h2 class="reveal">Frequently asked questions</h2>
+
+    <details class="reveal">
+      <summary>How does TagFly work?
+        <span class="faq-ic"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+      </summary>
+      <div class="faq-body">
+        TagFly is a tracking solution that combines client-side and server-side tracking to provide accurate performance analysis of your store without setup hassles or slowing down your page.<br><br>
+        <strong>Client-side tracking:</strong> We integrate directly with Google Tag Manager, reducing the steps needed for setup. Just install the app, and we'll handle the rest.<br>
+        <strong>Server-side tracking:</strong> This ensures more accurate data collection even when client-side tracking is blocked by browser adblockers or iOS 14 tracking restrictions. It allows us to capture checkout steps and transactions, which is more challenging to do via Google Tag Manager alone.
+      </div>
+    </details>
+
+    <details class="reveal">
+      <summary>How many marketing channels does TagFly support?
+        <span class="faq-ic"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+      </summary>
+      <div class="faq-body">
+        Currently, we integrate with 8 marketing destinations, including: <strong>Google Analytics 4, Google Ads, Meta, TikTok, Klaviyo, X (Twitter), Pinterest, and Snapchat</strong>.<br><br>
+        We are continuously working to add more tracking integrations to meet your marketing needs. Stay tuned for updates!
+      </div>
+    </details>
+
+    <details class="reveal">
+      <summary>Is TagFly compliant with GDPR / CCPA?
+        <span class="faq-ic"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+      </summary>
+      <div class="faq-body">
+        Yes, we have a consent mode feature that integrates with most Shopify CMPs, allowing you to stay compliant with customer privacy regulations without sacrificing data accuracy.
+      </div>
+    </details>
+
+    <details class="reveal">
+      <summary>Are there any discounts or free trials available for TagFly?
+        <span class="faq-ic"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+      </summary>
+      <div class="faq-body">
+        Yes, we offer a 3-day free trial for any paid plans. Currently, we do not offer any discounts.
+      </div>
+    </details>
+
+    <details class="reveal">
+      <summary>I am using another app for tracking at the moment. What should I do when setting up TagFly?
+        <span class="faq-ic"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+      </summary>
+      <div class="faq-body">
+        Using two tracking apps for the same pixel simultaneously can lead to duplicate event tracking. To ensure more accurate tracking, you should disable tracking in one app.<br><br>
+        However, we highly recommend creating a new developer mode pixel or GA4 property specifically for use with TagFly and keeping them separate from your existing tracking setup.
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="pr-final">
+  <div class="wrap">
+    <div class="pr-final-card reveal">
+      <h2>Do you have more questions?</h2>
+      <p>We welcome any inquiries regarding our product features, feature requests, or feedback. Reach out to us, and we'll respond as soon as possible!</p>
+      <a href="#" class="btn btn-brand btn-lg">
+        Shoot a Direct Mail
+        <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+
+
+
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <span class="logo-mark">
+            <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M8 7c0 0 2-1.5 6-1.5h11c2 0 3 .8 2.2 2.8l-1.2 2.7c-.5 1-1.2 1.5-2.5 1.5H13.5c-2 0-3.5.8-4.2 2L8 7z" fill="#f5f1e8"/><path d="M10.5 16c0 0 2-1.5 5.5-1.5h8c1.8 0 2.6.8 1.9 2.8l-1 2.4c-.5 1-1.2 1.5-2.4 1.5h-8c-1.8 0-3 .7-3.5 1.8l-.5-7z" fill="#f5f1e8"/><circle cx="9" cy="26" r="2.8" fill="#f5f1e8"/></svg>
+          </span>
+          TagFly
+        </a>
+        <p>Send 100% accurate Shopify data to every ad platform you run - without missing a single order.</p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Product</h5>
+        <ul>
+          <li><a href="#features">Overview</a></li>
+          <li><a href="#" data-page="pricing">Pricing</a></li>
+          <li><a href="#" data-page="blog">Blog</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#" data-page="about">About us</a></li>
+          <li><a href="#">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bot">
+      <div>© 2026 TagFly. All rights reserved. Made for Shopify merchants worldwide.</div>
+      <div class="socials">
+        <a href="#" aria-label="X"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M12 2h2.4L9.5 7.6 15 14h-4.3l-3.4-4.4L3.4 14H1l5.3-6L1 2h4.4l3 4 3.6-4zm-.8 10.8h1.4L4.8 3.2H3.4l7.8 9.6z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="5" width="3" height="10"/><circle cx="2.5" cy="2.5" r="1.5"/><path d="M6 5h3v1.5c.6-1 1.8-1.7 3-1.7 2.3 0 3 1.5 3 3.7V15h-3v-5c0-1-.3-2-1.5-2-1.2 0-1.5 1-1.5 2v5H6V5z"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M14.5 4.5c-.3-1.2-1.3-1.7-2.5-1.8C10.2 2.5 8 2.5 8 2.5s-2.2 0-4 .2c-1.2.1-2.2.6-2.5 1.8C1.2 6 1.2 8 1.2 8s0 2 .3 3.5c.3 1.2 1.3 1.7 2.5 1.8 1.8.2 4 .2 4 .2s2.2 0 4-.2c1.2-.1 2.2-.6 2.5-1.8.3-1.5.3-3.5.3-3.5s0-2-.3-3.5zM6.5 10.5V5.5l4 2.5-4 2.5z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+
+<!-- ========== ABOUT PAGE ========== -->
+<div id="page-about" class="page-container">
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="Tagfly Website.html" class="logo">
+      <span class="logo-mark"><svg viewBox="0 0 32 32" fill="none"><path d="M8 7c0 0 2-1.5 6-1.5h11c2 0 3 .8 2.2 2.8l-1.2 2.7c-.5 1-1.2 1.5-2.5 1.5H13.5c-2 0-3.5.8-4.2 2L8 7z" fill="#f5f1e8"/><path d="M10.5 16c0 0 2-1.5 5.5-1.5h8c1.8 0 2.6.8 1.9 2.8l-1 2.4c-.5 1-1.2 1.5-2.4 1.5h-8c-1.8 0-3 .7-3.5 1.8l-.5-7z" fill="#f5f1e8"/><circle cx="9" cy="26" r="2.8" fill="#f5f1e8"/></svg></span>
+      TagFly
+    </a>
+        <div class="nav-links">
+      <a href="Tagfly Website.html#features">Product</a>
+      <a href="Tagfly Website.html#integrations">Integrations</a>
+      <a href="Pricing.html">Pricing</a>
+      <a href="About.html" style="color:var(--ink-900);font-weight:600;">About</a>
+      <a href="Blog.html">Blog</a>
+      <a href="https://docs.tagfly.io/" target="_blank">Document</a>
+    </div>
+        <div class="nav-cta">
+      <a href="https://apps.shopify.com/tagfly?utm_source=tagfly.io&utm_medium=websitemenu&utm_campaign=website" class="btn btn-primary">
+        Try for free
+        <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<section class="ab-hero">
+  <div class="wrap ab-hero-grid">
+    <div>
+      <span class="eyebrow">About us</span>
+      <h1>Making commerce data <em>simple</em>, accurate &amp; actionable.</h1>
+      <p class="lead">At TagFly, we're more than just a platform; we're a group of innovators, dreamers, and problem-solvers dedicated to making e-commerce analytics as seamless as possible.</p>
+      <div class="ab-hero-cta">
+        <a href="Pricing.html" class="btn btn-brand btn-lg">See pricing <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+        <a href="#contact" class="btn btn-outline btn-lg">Talk to the team</a>
+      </div>
+    </div>
+    <div class="ab-collage">
+      <div class="ab-col-main">
+        <img src="assets/about-hero.jpg" alt="Member of the TagFly team"/>
+      </div>
+      <div class="ab-float ab-f1">
+        <div class="f-ic" style="background:#e8f8fd;color:var(--tech-blue-700);"><svg viewBox="0 0 20 20" fill="none"><path d="M3 15V9l4-4 3 3 4-5 3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <div><div class="f-t">+42% ROAS</div><div class="f-s">Real merchant impact</div></div>
+      </div>
+      <div class="ab-float ab-f2">
+        <div class="f-ic" style="background:#fff0f7;color:var(--pink);"><svg viewBox="0 0 20 20" fill="none"><path d="M10 2l2.5 5 5.5.8-4 3.9.9 5.3L10 14.5l-4.9 2.5.9-5.3-4-3.9L7.5 7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+        <div><div class="f-t">9 years</div><div class="f-s">Of Shopify expertise</div></div>
+      </div>
+      <div class="ab-float ab-f3">
+        <span class="dot"></span><div class="f-s" style="color:var(--ink-700);font-weight:600;">Trusted worldwide</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ab-metrics">
+  <div class="wrap">
+    <div class="ab-metrics-grid reveal">
+      <div class="ab-met"><div class="ab-met-v"><em>9+</em></div><div class="ab-met-l">Years building Shopify apps</div></div>
+      <div class="ab-met"><div class="ab-met-v">8</div><div class="ab-met-l">Marketing destinations</div></div>
+      <div class="ab-met"><div class="ab-met-v">100<em>%</em></div><div class="ab-met-l">Accurate data tracking</div></div>
+      <div class="ab-met"><div class="ab-met-v">24/7</div><div class="ab-met-l">Live merchant support</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="ab-origin">
+  <div class="wrap">
+    <div class="ab-origin-head reveal">
+      <span class="eyebrow">Our story</span>
+      <h2>The <em>origin</em> of TagFly</h2>
+    </div>
+    <div class="ab-origin-grid">
+      <div class="ab-story-card reveal">
+        <div class="ab-story-img">
+          <img src="assets/about-story-1.jpg" alt="Early days - founding team at work"/>
+        </div>
+        <div class="ab-story-body">
+          <span class="ab-story-num">01 - Foundation</span>
+          <h3>Born from 9 years of Shopify expertise</h3>
+          <p>Born from a parent company with 9 years of expertise in developing e-commerce apps, particularly for Shopify, TagFly is the culmination of our dedication to empowering merchants.</p>
+          <p>Our journey began with a simple yet powerful mission: to craft convenient solutions that help merchants thrive with the products they've passionately built.</p>
+        </div>
+      </div>
+      <div class="ab-story-card reveal delay-1">
+        <div class="ab-story-img">
+          <img src="assets/about-story-2.jpg" alt="TagFly team reviewing merchant analytics together"/>
+        </div>
+        <div class="ab-story-body">
+          <span class="ab-story-num">02 - Mission</span>
+          <h3>Data tracking made simple - and deep</h3>
+          <p>Seeing too many complicated and unreliable analytics tools, we focused on one thing: making data tracking easy but still deep with insights. We wanted to give store owners a simple tool that really shows what's going on with their customers and how their store is doing, all in clear detail.</p>
+          <p>Now, TagFly stands as a trusted ally for brands worldwide, transforming complex data into clear, actionable insights.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ab-values">
+  <div class="wrap">
+    <div class="ab-values-head reveal">
+      <span class="eyebrow">Our values</span>
+      <h2>What we stand for</h2>
+      <p>Agency is a full-service agency, busy designing and building beautiful digital products, brands, and experiences.</p>
+    </div>
+    <div class="ab-val-grid">
+      <div class="ab-val v-green reveal">
+        <div class="v-ic"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="14" r="6" stroke="currentColor" stroke-width="2.2"/><path d="M8 32c2-5 6-8 12-8s10 3 12 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></div>
+        <div><h4>People-Focused</h4><p>At the heart of everything we do lies a profound commitment to people - both our team and the merchants we serve.</p></div>
+      </div>
+      <div class="ab-val v-pink reveal delay-1">
+        <div class="v-ic"><svg viewBox="0 0 40 40" fill="none"><path d="M6 26 L14 18 L20 22 L28 12 L34 16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="34" cy="16" r="3" fill="currentColor"/><path d="M6 34 L34 34" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></div>
+        <div><h4>Result-Driven</h4><p>Every feature of TagFly, every update, and every piece of advice we give is aimed at driving success for e-commerce merchants.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ab-team">
+  <div class="wrap">
+    <div class="ab-team-head reveal">
+      <span class="eyebrow">The team</span>
+      <h2>Builders, tinkerers &amp; merchants at heart</h2>
+    </div>
+    <div class="ab-team-grid">
+      <div class="ab-tm reveal"><div class="av"><img src="assets/team-1.jpg" alt="An Trần"/></div><div class="ab-tm-name">An Trần</div><div class="ab-tm-role">Founder &amp; CEO</div></div>
+      <div class="ab-tm reveal delay-1"><div class="av"><img src="assets/team-2.jpg" alt="Minh Phạm"/></div><div class="ab-tm-name">Minh Phạm</div><div class="ab-tm-role">Head of Engineering</div></div>
+      <div class="ab-tm reveal delay-2"><div class="av"><img src="assets/team-3.jpg" alt="Linh Hoàng"/></div><div class="ab-tm-name">Linh Hoàng</div><div class="ab-tm-role">Product Design</div></div>
+      <div class="ab-tm reveal delay-3"><div class="av"><img src="assets/team-4.jpg" alt="Thảo Nguyễn"/></div><div class="ab-tm-name">Thảo Nguyễn</div><div class="ab-tm-role">Merchant Success</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="ab-contact" id="contact">
+  <div class="wrap">
+    <div class="ab-contact-card reveal">
+      <div>
+        <h2>Need a Hand or Ready for a Deep Dive?</h2>
+        <p>Whether you're seeking support or interested in a personalized walkthrough, our team is here to help.</p>
+      </div>
+      <a href="#" class="btn btn-brand btn-lg">Contact now <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <span class="logo-mark">
+            <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M8 7c0 0 2-1.5 6-1.5h11c2 0 3 .8 2.2 2.8l-1.2 2.7c-.5 1-1.2 1.5-2.5 1.5H13.5c-2 0-3.5.8-4.2 2L8 7z" fill="#f5f1e8"/><path d="M10.5 16c0 0 2-1.5 5.5-1.5h8c1.8 0 2.6.8 1.9 2.8l-1 2.4c-.5 1-1.2 1.5-2.4 1.5h-8c-1.8 0-3 .7-3.5 1.8l-.5-7z" fill="#f5f1e8"/><circle cx="9" cy="26" r="2.8" fill="#f5f1e8"/></svg>
+          </span>
+          TagFly
+        </a>
+        <p>Send 100% accurate Shopify data to every ad platform you run - without missing a single order.</p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Product</h5>
+        <ul>
+          <li><a href="#features">Overview</a></li>
+          <li><a href="#" data-page="pricing">Pricing</a></li>
+          <li><a href="#" data-page="blog">Blog</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#" data-page="about">About us</a></li>
+          <li><a href="#">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bot">
+      <div>© 2026 TagFly. All rights reserved. Made for Shopify merchants worldwide.</div>
+      <div class="socials">
+        <a href="#" aria-label="X"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M12 2h2.4L9.5 7.6 15 14h-4.3l-3.4-4.4L3.4 14H1l5.3-6L1 2h4.4l3 4 3.6-4zm-.8 10.8h1.4L4.8 3.2H3.4l7.8 9.6z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="5" width="3" height="10"/><circle cx="2.5" cy="2.5" r="1.5"/><path d="M6 5h3v1.5c.6-1 1.8-1.7 3-1.7 2.3 0 3 1.5 3 3.7V15h-3v-5c0-1-.3-2-1.5-2-1.2 0-1.5 1-1.5 2v5H6V5z"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M14.5 4.5c-.3-1.2-1.3-1.7-2.5-1.8C10.2 2.5 8 2.5 8 2.5s-2.2 0-4 .2c-1.2.1-2.2.6-2.5 1.8C1.2 6 1.2 8 1.2 8s0 2 .3 3.5c.3 1.2 1.3 1.7 2.5 1.8 1.8.2 4 .2 4 .2s2.2 0 4-.2c1.2-.1 2.2-.6 2.5-1.8.3-1.5.3-3.5.3-3.5s0-2-.3-3.5zM6.5 10.5V5.5l4 2.5-4 2.5z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+
+<!-- ========== BLOG PAGE ========== -->
+<div id="page-blog" class="page-container">
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="Tagfly Website.html" class="logo">
+      <span class="logo-mark"><svg viewBox="0 0 32 32" fill="none"><path d="M8 7c0 0 2-1.5 6-1.5h11c2 0 3 .8 2.2 2.8l-1.2 2.7c-.5 1-1.2 1.5-2.5 1.5H13.5c-2 0-3.5.8-4.2 2L8 7z" fill="#f5f1e8"/><path d="M10.5 16c0 0 2-1.5 5.5-1.5h8c1.8 0 2.6.8 1.9 2.8l-1 2.4c-.5 1-1.2 1.5-2.4 1.5h-8c-1.8 0-3 .7-3.5 1.8l-.5-7z" fill="#f5f1e8"/><circle cx="9" cy="26" r="2.8" fill="#f5f1e8"/></svg></span>
+      TagFly
+    </a>
+        <div class="nav-links">
+      <a href="Tagfly Website.html#features">Product</a>
+      <a href="Tagfly Website.html#integrations">Integrations</a>
+      <a href="Pricing.html">Pricing</a>
+      <a href="About.html">About</a>
+      <a href="Blog.html" style="color:var(--ink-900);font-weight:600;">Blog</a>
+      <a href="https://docs.tagfly.io/" target="_blank">Document</a>
+    </div>
+        <div class="nav-cta">
+      <a href="https://apps.shopify.com/tagfly?utm_source=tagfly.io&utm_medium=websitemenu&utm_campaign=website" class="btn btn-primary">
+        Try for free
+        <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<section class="bl-hero">
+  <div class="wrap">
+    <span class="eyebrow">Blog</span>
+    <h1>Insights, playbooks &amp; <em>product updates</em></h1>
+    <p class="sub">Practical guides for Shopify merchants - from tracking setup to ROAS optimization, direct from the team building TagFly.</p>
+
+    <div class="bl-search">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M13.5 13.5l3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <input placeholder="Search articles, guides, updates…" />
+      <button>Search</button>
+    </div>
+
+    <div class="bl-tabs">
+      <button class="bl-tab active">All</button>
+      <button class="bl-tab">Tracking 101</button>
+      <button class="bl-tab">Playbooks</button>
+      <button class="bl-tab">Product updates</button>
+      <button class="bl-tab">Ad platforms</button>
+      <button class="bl-tab">Compliance</button>
+    </div>
+  </div>
+</section>
+
+<section class="bl-featured">
+  <div class="wrap">
+    <article class="bl-feat-card reveal">
+      <div class="bl-feat-img">
+        <svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="fg1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#0e7d42"/><stop offset="1" stop-color="#0a3d1f"/>
+            </linearGradient>
+          </defs>
+          <rect width="600" height="400" fill="url(#fg1)"/>
+          <g opacity=".18" stroke="#fff" stroke-width="1">
+            <path d="M0 80h600M0 160h600M0 240h600M0 320h600"/>
+            <path d="M100 0v400M200 0v400M300 0v400M400 0v400M500 0v400"/>
+          </g>
+          <g transform="translate(80, 120)">
+            <rect x="0" y="100" width="50" height="140" rx="6" fill="#a8ebc1" opacity=".5"/>
+            <rect x="70" y="60" width="50" height="180" rx="6" fill="#5dd48e" opacity=".6"/>
+            <rect x="140" y="20" width="50" height="220" rx="6" fill="#1fb867" opacity=".7"/>
+            <rect x="210" y="80" width="50" height="160" rx="6" fill="#ffc53d" opacity=".85"/>
+            <rect x="280" y="0" width="50" height="240" rx="6" fill="#ff6fb5" opacity=".9"/>
+            <rect x="350" y="40" width="50" height="200" rx="6" fill="#fff"/>
+          </g>
+          <path d="M80 340 Q180 280 280 300 T480 220 L520 180" stroke="#ffc53d" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <circle cx="520" cy="180" r="7" fill="#ffc53d"/>
+        </svg>
+      </div>
+      <div class="bl-feat-body">
+        <span class="tag"><span class="dot"></span>Featured · Playbook</span>
+        <h2>The 2026 Shopify tracking playbook: fixing attribution in a post-iOS world</h2>
+        <p>iOS 14, ad blockers, and server-side tracking have upended attribution. Here's exactly how we set up pixels + server events to recover 30-40% of lost orders across 200+ Shopify stores.</p>
+        <div class="bl-feat-meta">
+          <span class="av">AT</span>
+          <span class="author">An Trần</span>
+          <span class="sep">·</span>
+          <span>April 14, 2026</span>
+          <span class="sep">·</span>
+          <span>12 min read</span>
+        </div>
+        <a href="#" class="bl-feat-link">Read article <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="bl-grid-sec">
+  <div class="wrap">
+    <div class="bl-sec-head reveal">
+      <h3>Latest articles</h3>
+      <a href="#" style="font-size:14px;color:var(--ink-600);font-weight:500;">View all →</a>
+    </div>
+
+    <div class="bl-grid">
+      <!-- 1 -->
+      <article class="bl-card reveal">
+        <div class="bl-card-img">
+          <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice">
+            <defs><linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00a6d6"/><stop offset="1" stop-color="#0085be"/></linearGradient></defs>
+            <rect width="400" height="260" fill="url(#bg1)"/>
+            <g opacity=".25" stroke="#fff" stroke-width="1" fill="none"><circle cx="200" cy="130" r="40"/><circle cx="200" cy="130" r="70"/><circle cx="200" cy="130" r="100"/></g>
+            <rect x="150" y="105" width="100" height="50" rx="8" fill="#fff"/>
+            <text x="200" y="138" text-anchor="middle" font-family="JetBrains Mono" font-size="18" font-weight="700" fill="#0085be">GA4</text>
+          </svg>
+        </div>
+        <div class="bl-card-body">
+          <span class="bl-card-tag t-blue">Tracking 101</span>
+          <h4>Setting up GA4 server-side tracking in under 10 minutes</h4>
+          <p>A step-by-step walkthrough for merchants who want accurate Shopify → GA4 data without touching Google Tag Manager.</p>
+          <div class="bl-card-meta">
+            <span class="av" style="background:linear-gradient(135deg,#00a6d6,#0085be);">MP</span>
+            <span style="color:var(--ink-800);font-weight:600;">Minh Phạm</span>
+            <span style="opacity:.4;">·</span>
+            <span>Apr 10</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2 -->
+      <article class="bl-card reveal delay-1">
+        <div class="bl-card-img">
+          <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice">
+            <defs><linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff9ec8"/><stop offset="1" stop-color="#ff6fb5"/></linearGradient></defs>
+            <rect width="400" height="260" fill="url(#bg2)"/>
+            <g transform="translate(70, 50)">
+              <rect x="0" y="60" width="40" height="100" rx="4" fill="#fff" opacity=".4"/>
+              <rect x="60" y="30" width="40" height="130" rx="4" fill="#fff" opacity=".6"/>
+              <rect x="120" y="10" width="40" height="150" rx="4" fill="#fff" opacity=".8"/>
+              <rect x="180" y="40" width="40" height="120" rx="4" fill="#fff"/>
+              <rect x="240" y="0" width="40" height="160" rx="4" fill="#0a3d1f"/>
+            </g>
+            <text x="200" y="230" text-anchor="middle" font-family="Poppins" font-size="16" font-weight="700" fill="#fff">+38% ROAS</text>
+          </svg>
+        </div>
+        <div class="bl-card-body">
+          <span class="bl-card-tag t-pink">Playbook</span>
+          <h4>How a beauty brand grew Meta ROAS by 38% in 6 weeks</h4>
+          <p>Inside the funnel fix - server-side CAPI, deduplication, and consent mode - that rescued $412K in attributable revenue.</p>
+          <div class="bl-card-meta">
+            <span class="av" style="background:linear-gradient(135deg,#ff9ec8,#ff6fb5);">LH</span>
+            <span style="color:var(--ink-800);font-weight:600;">Linh Hoàng</span>
+            <span style="opacity:.4;">·</span>
+            <span>Apr 5</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3 -->
+      <article class="bl-card reveal delay-2">
+        <div class="bl-card-img">
+          <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice">
+            <defs><linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1fb867"/><stop offset="1" stop-color="#0e7d42"/></linearGradient></defs>
+            <rect width="400" height="260" fill="url(#bg3)"/>
+            <g opacity=".2" stroke="#fff" stroke-width="1"><path d="M0 60h400M0 120h400M0 180h400"/></g>
+            <path d="M30 200 Q100 120 180 150 T360 80" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <g fill="#ffc53d">
+              <circle cx="100" cy="155" r="5"/><circle cx="180" cy="150" r="5"/><circle cx="260" cy="110" r="5"/><circle cx="360" cy="80" r="5"/>
+            </g>
+            <rect x="280" y="30" width="90" height="32" rx="16" fill="#fff"/>
+            <text x="325" y="51" text-anchor="middle" font-family="Poppins" font-size="14" font-weight="700" fill="#0e7d42">+2.4x</text>
+          </svg>
+        </div>
+        <div class="bl-card-body">
+          <span class="bl-card-tag t-green">Product update</span>
+          <h4>Introducing unlimited server-side tracking on Growth plan</h4>
+          <p>Send every checkout event to every destination - no caps, no throttles. Here's what's new and how to enable it.</p>
+          <div class="bl-card-meta">
+            <span class="av" style="background:linear-gradient(135deg,#1fb867,#0e7d42);">AT</span>
+            <span style="color:var(--ink-800);font-weight:600;">An Trần</span>
+            <span style="opacity:.4;">·</span>
+            <span>Apr 2</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4 -->
+      <article class="bl-card reveal">
+        <div class="bl-card-img">
+          <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice">
+            <defs><linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffc53d"/><stop offset="1" stop-color="#ffa41b"/></linearGradient></defs>
+            <rect width="400" height="260" fill="url(#bg4)"/>
+            <g transform="translate(120, 60)">
+              <rect x="0" y="0" width="160" height="140" rx="12" fill="#fff"/>
+              <rect x="14" y="14" width="80" height="8" rx="4" fill="#0a3d1f"/>
+              <rect x="14" y="30" width="132" height="6" rx="3" fill="#bac3bd"/>
+              <rect x="14" y="44" width="100" height="6" rx="3" fill="#bac3bd"/>
+              <rect x="14" y="74" width="132" height="50" rx="6" fill="#0e7d42"/>
+              <text x="80" y="105" text-anchor="middle" font-family="Poppins" font-size="14" font-weight="700" fill="#fff">Accept all</text>
+            </g>
+          </svg>
+        </div>
+        <div class="bl-card-body">
+          <span class="bl-card-tag t-amber">Compliance</span>
+          <h4>GDPR consent mode for Shopify: a practical guide</h4>
+          <p>Stay compliant with customer privacy regulations without sacrificing data accuracy. The full setup for EU merchants.</p>
+          <div class="bl-card-meta">
+            <span class="av" style="background:linear-gradient(135deg,#ffc53d,#ffa41b);color:#0a3d1f;">TN</span>
+            <span style="color:var(--ink-800);font-weight:600;">Thảo Nguyễn</span>
+            <span style="opacity:.4;">·</span>
+            <span>Mar 28</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5 -->
+      <article class="bl-card reveal delay-1">
+        <div class="bl-card-img">
+          <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice">
+            <defs><linearGradient id="bg5" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a241a"/><stop offset="1" stop-color="#0a120d"/></linearGradient></defs>
+            <rect width="400" height="260" fill="url(#bg5)"/>
+            <g opacity=".3" stroke="#1fb867" stroke-width="1"><path d="M0 60h400M0 120h400M0 180h400M0 240h400"/></g>
+            <g transform="translate(60, 100)">
+              <circle cx="0" cy="0" r="18" fill="#ff6fb5"/><text x="0" y="5" text-anchor="middle" font-family="Poppins" font-size="14" font-weight="700" fill="#fff">M</text>
+              <circle cx="90" cy="0" r="18" fill="#00a6d6"/><text x="90" y="5" text-anchor="middle" font-family="Poppins" font-size="14" font-weight="700" fill="#fff">T</text>
+              <circle cx="180" cy="0" r="18" fill="#ffc53d"/><text x="180" y="5" text-anchor="middle" font-family="Poppins" font-size="14" font-weight="700" fill="#0a3d1f">G</text>
+              <circle cx="270" cy="0" r="18" fill="#1fb867"/><text x="270" y="5" text-anchor="middle" font-family="Poppins" font-size="14" font-weight="700" fill="#fff">K</text>
+              <path d="M0 0 L90 0 M90 0 L180 0 M180 0 L270 0" stroke="#5dd48e" stroke-width="2" stroke-dasharray="4 4"/>
+            </g>
+          </svg>
+        </div>
+        <div class="bl-card-body">
+          <span class="bl-card-tag t-green">Ad platforms</span>
+          <h4>Meta vs TikTok vs Google Ads: which pixel to install first?</h4>
+          <p>If you're early-stage, don't fire them all. Here's how to sequence your channel rollout for the cleanest learning data.</p>
+          <div class="bl-card-meta">
+            <span class="av" style="background:linear-gradient(135deg,#1fb867,#0e7d42);">AT</span>
+            <span style="color:var(--ink-800);font-weight:600;">An Trần</span>
+            <span style="opacity:.4;">·</span>
+            <span>Mar 22</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 6 -->
+      <article class="bl-card reveal delay-2">
+        <div class="bl-card-img">
+          <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice">
+            <defs><linearGradient id="bg6" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6e56cf"/><stop offset="1" stop-color="#3d2a8a"/></linearGradient></defs>
+            <rect width="400" height="260" fill="url(#bg6)"/>
+            <g transform="translate(100, 50)">
+              <rect x="0" y="0" width="200" height="160" rx="12" fill="#fff"/>
+              <g transform="translate(16, 16)">
+                <rect width="60" height="40" rx="4" fill="#e8f8fd"/>
+                <rect x="70" width="60" height="40" rx="4" fill="#d7f5e3"/>
+                <rect x="140" width="30" height="40" rx="4" fill="#fff0f7"/>
+                <rect y="50" width="170" height="8" rx="4" fill="#bac3bd"/>
+                <rect y="66" width="120" height="8" rx="4" fill="#bac3bd"/>
+                <rect y="86" width="80" height="32" rx="16" fill="#0a3d1f"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <div class="bl-card-body">
+          <span class="bl-card-tag">Playbook</span>
+          <h4>The deduplication checklist every Shopify store should run quarterly</h4>
+          <p>Duplicate events silently inflate your ROAS reports and confuse ad algorithms. Our 12-point audit to catch them.</p>
+          <div class="bl-card-meta">
+            <span class="av" style="background:linear-gradient(135deg,#00a6d6,#0085be);">MP</span>
+            <span style="color:var(--ink-800);font-weight:600;">Minh Phạm</span>
+            <span style="opacity:.4;">·</span>
+            <span>Mar 18</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="bl-newsletter">
+  <div class="wrap">
+    <div class="bl-news-card reveal">
+      <div>
+        <h2>Get tracking tips in your inbox, monthly.</h2>
+        <p>Join 8,400+ Shopify operators getting practical playbooks on attribution, ad tracking, and growth. No spam - ever.</p>
+      </div>
+      <div>
+        <form class="bl-news-form" onsubmit="event.preventDefault(); alert('Subscribed!');">
+          <input type="email" placeholder="you@brand.com" required />
+          <button type="submit">Subscribe</button>
+        </form>
+        <div class="bl-news-note">By subscribing, you agree to our privacy policy.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <span class="logo-mark">
+            <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M8 7c0 0 2-1.5 6-1.5h11c2 0 3 .8 2.2 2.8l-1.2 2.7c-.5 1-1.2 1.5-2.5 1.5H13.5c-2 0-3.5.8-4.2 2L8 7z" fill="#f5f1e8"/><path d="M10.5 16c0 0 2-1.5 5.5-1.5h8c1.8 0 2.6.8 1.9 2.8l-1 2.4c-.5 1-1.2 1.5-2.4 1.5h-8c-1.8 0-3 .7-3.5 1.8l-.5-7z" fill="#f5f1e8"/><circle cx="9" cy="26" r="2.8" fill="#f5f1e8"/></svg>
+          </span>
+          TagFly
+        </a>
+        <p>Send 100% accurate Shopify data to every ad platform you run - without missing a single order.</p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Product</h5>
+        <ul>
+          <li><a href="#features">Overview</a></li>
+          <li><a href="#" data-page="pricing">Pricing</a></li>
+          <li><a href="#" data-page="blog">Blog</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#" data-page="about">About us</a></li>
+          <li><a href="#">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bot">
+      <div>© 2026 TagFly. All rights reserved. Made for Shopify merchants worldwide.</div>
+      <div class="socials">
+        <a href="#" aria-label="X"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M12 2h2.4L9.5 7.6 15 14h-4.3l-3.4-4.4L3.4 14H1l5.3-6L1 2h4.4l3 4 3.6-4zm-.8 10.8h1.4L4.8 3.2H3.4l7.8 9.6z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="5" width="3" height="10"/><circle cx="2.5" cy="2.5" r="1.5"/><path d="M6 5h3v1.5c.6-1 1.8-1.7 3-1.7 2.3 0 3 1.5 3 3.7V15h-3v-5c0-1-.3-2-1.5-2-1.2 0-1.5 1-1.5 2v5H6V5z"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M14.5 4.5c-.3-1.2-1.3-1.7-2.5-1.8C10.2 2.5 8 2.5 8 2.5s-2.2 0-4 .2c-1.2.1-2.2.6-2.5 1.8C1.2 6 1.2 8 1.2 8s0 2 .3 3.5c.3 1.2 1.3 1.7 2.5 1.8 1.8.2 4 .2 4 .2s2.2 0 4-.2c1.2-.1 2.2-.6 2.5-1.8.3-1.5.3-3.5.3-3.5s0-2-.3-3.5zM6.5 10.5V5.5l4 2.5-4 2.5z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+
+<script>
+// ========== PAGE ROUTING ==========
+function showPage(pageId) {
+  document.querySelectorAll('.page-container').forEach(p => p.classList.remove('active'));
+  const page = document.getElementById('page-' + pageId);
+  if (page) {
+    page.classList.add('active');
+    window.scrollTo(0, 0);
+    
+    // Update URL
+    const url = new URL(window.location);
+    url.searchParams.set('page', pageId);
+    window.history.pushState({page: pageId}, '', url);
+  }
+}
+
+// Intercept all internal links
+document.addEventListener('click', (e) => {
+  const link = e.target.closest('a');
+  if (!link) return;
+  
+  const href = link.getAttribute('href');
+  if (!href) return;
+  
+  // Map file links to pages
+  const pageMap = {
+    'Tagfly Website.html': 'home',
+    'Pricing.html': 'pricing',
+    'About.html': 'about',
+    'Blog.html': 'blog'
+  };
+  
+  for (const [file, page] of Object.entries(pageMap)) {
+    if (href.includes(file)) {
+      e.preventDefault();
+      showPage(page);
+      return;
+    }
+  }
+});
+
+// Handle back/forward
+window.addEventListener('popstate', (e) => {
+  const page = e.state?.page || new URLSearchParams(window.location.search).get('page') || 'home';
+  showPage(page);
+});
+
+// Initial page from URL
+window.addEventListener('load', () => {
+  const params = new URLSearchParams(window.location.search);
+  const page = params.get('page') || 'home';
+  showPage(page);
+  
+  // Init pricing toggle
+  setTimeout(() => {
+    const toggle = document.getElementById('billingToggle');
+    if (!toggle) return;
+    
+    const slider = document.getElementById('prSlider');
+    const btns = toggle.querySelectorAll('button');
+    const prices = document.querySelectorAll('.pr-price');
+
+    function setSlider(btn){
+      const r = btn.getBoundingClientRect();
+      const pr = toggle.getBoundingClientRect();
+      slider.style.left = (r.left - pr.left) + 'px';
+      slider.style.width = r.width + 'px';
+      slider.style.height = r.height + 'px';
+      slider.style.top = (r.top - pr.top) + 'px';
+    }
+    
+    function activate(btn){
+      btns.forEach(b => b.classList.toggle('active', b === btn));
+      setSlider(btn);
+      const mode = btn.dataset.billing;
+      prices.forEach(p => {
+        const v = mode === 'yearly' ? p.dataset.y : p.dataset.m;
+        const num = parseFloat(v);
+        p.textContent = num === 0 ? '$0' : '$' + num;
+      });
+    }
+    
+    btns.forEach(b => b.addEventListener('click', () => activate(b)));
+    requestAnimationFrame(() => activate(btns[0]));
+    window.addEventListener('resize', () => {
+      const active = toggle.querySelector('.active');
+      if (active) setSlider(active);
+    });
+  }, 100);
+});
+
+// ========== REVEAL ANIMATIONS ==========
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>

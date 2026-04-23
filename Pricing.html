@@ -1,0 +1,771 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Pricing — TagFly</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/shared.css">
+<style>
+/* Pricing page specific */
+.pr-hero{
+  padding:88px 0 40px;
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+}
+.pr-hero::before{
+  content:""; position:absolute; inset:0; z-index:-1;
+  background:
+    radial-gradient(60% 60% at 85% 0%, rgba(31,184,103,.14) 0%, rgba(31,184,103,0) 60%),
+    radial-gradient(70% 60% at 5% 5%, rgba(0,166,214,.08) 0%, rgba(0,166,214,0) 55%),
+    linear-gradient(180deg, #ffffff 0%, var(--cream) 100%);
+}
+.pr-hero-inner{ text-align:center; max-width:720px; margin:0 auto; }
+.pr-hero .eyebrow{ margin-bottom:16px; display:inline-block; }
+.pr-hero h1{
+  font-family:var(--type-display);
+  font-weight:700;
+  font-size:clamp(40px, 5.2vw, 60px);
+  letter-spacing:-.03em;
+  line-height:1.02;
+  margin-bottom:18px;
+}
+.pr-hero h1 em{
+  font-style:normal;
+  color:var(--brand-700);
+}
+.pr-hero p.sub{
+  font-size:18px; color:var(--ink-600);
+  max-width:580px; margin:0 auto;
+}
+.pr-toggle-wrap{
+  display:flex; justify-content:center;
+  margin-top:36px;
+}
+.pr-toggle{
+  display:inline-flex; align-items:center;
+  background:#fff; border:1px solid var(--ink-200);
+  border-radius:999px; padding:5px;
+  box-shadow: var(--shadow-sm);
+  position:relative;
+}
+.pr-toggle button{
+  position:relative; z-index:1;
+  padding:9px 20px; border-radius:999px;
+  font-size:14px; font-weight:600;
+  color:var(--ink-600);
+  transition:color .25s ease;
+}
+.pr-toggle button.active{ color:#fff; }
+.pr-toggle .slider{
+  position:absolute; top:5px; bottom:5px;
+  background:var(--ink-900);
+  border-radius:999px;
+  transition: left .3s cubic-bezier(.2,.7,.2,1), width .3s cubic-bezier(.2,.7,.2,1);
+  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+.pr-toggle .save-tag{
+  display:inline-flex; align-items:center;
+  font-size:10px; font-weight:700;
+  background:var(--pink); color:#fff;
+  padding:2px 6px; border-radius:4px;
+  margin-left:6px;
+  letter-spacing:.04em;
+}
+
+/* Plans grid */
+.pr-plans{
+  padding:40px 0 80px;
+  position:relative;
+}
+.pr-plans-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:20px;
+  max-width:1100px;
+  margin:0 auto;
+}
+.pr-plan{
+  background:#fff;
+  border-radius:var(--r-xl);
+  border:1px solid var(--ink-150);
+  padding:32px 28px 28px;
+  position:relative;
+  display:flex; flex-direction:column;
+  transition:transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease, border-color .2s ease;
+}
+.pr-plan:hover{ transform:translateY(-4px); box-shadow: var(--shadow-lg); }
+.pr-plan.featured{
+  border-color: transparent;
+  background:
+    linear-gradient(180deg, #0e2819 0%, #0a3d1f 100%);
+  color: #fff;
+  box-shadow: 0 40px 80px -20px rgba(6,46,38,.45), 0 16px 32px -12px rgba(10,15,13,.18);
+}
+.pr-plan.featured .pr-price,
+.pr-plan.featured .pr-name,
+.pr-plan.featured .pr-desc,
+.pr-plan.featured .pr-feat li{ color:#fff; }
+.pr-plan.featured .pr-desc{ color:rgba(255,255,255,.72); }
+.pr-plan.featured .pr-feat li{ color:rgba(255,255,255,.88); }
+.pr-plan.featured .pr-feat-sep{ background: rgba(255,255,255,.12); }
+.pr-plan.featured .pr-per{ color: rgba(255,255,255,.6); }
+.pr-popular{
+  position:absolute; top:-12px; left:50%;
+  transform:translateX(-50%);
+  font-size:11px; font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase;
+  background:var(--pink); color:#fff;
+  padding:5px 12px; border-radius:999px;
+  box-shadow:0 4px 12px rgba(255,111,181,.45);
+}
+.pr-name{
+  font-family:var(--type-display);
+  font-size:22px; font-weight:700;
+  color:var(--ink-900);
+  letter-spacing:-.01em;
+  margin-bottom:6px;
+}
+.pr-desc{
+  font-size:14px; color:var(--ink-600);
+  margin-bottom:20px; min-height:40px;
+}
+.pr-price-row{
+  display:flex; align-items:baseline; gap:4px;
+  margin-bottom:20px;
+}
+.pr-price{
+  font-family:var(--type-display);
+  font-size:44px; font-weight:700;
+  color:var(--ink-900);
+  letter-spacing:-.02em;
+  line-height:1;
+}
+.pr-per{
+  font-size:14px; color:var(--ink-500);
+  font-weight:500;
+}
+.pr-price-old{
+  font-size:14px; color:var(--ink-400);
+  text-decoration:line-through;
+  margin-left:8px;
+}
+.pr-plan.featured .pr-price-old{ color:rgba(255,255,255,.45);}
+.pr-cta{
+  display:flex; align-items:center; justify-content:center;
+  gap:6px;
+  width:100%;
+  padding:12px 18px;
+  border-radius:999px;
+  font-size:14px; font-weight:600;
+  margin-bottom:28px;
+  transition:all .2s ease;
+}
+.pr-plan:not(.featured) .pr-cta{
+  background:var(--ink-900); color:#fff;
+}
+.pr-plan:not(.featured) .pr-cta:hover{ background:var(--ink-800); transform:translateY(-1px); }
+.pr-plan.featured .pr-cta{
+  background:#fff; color:var(--ink-900);
+}
+.pr-plan.featured .pr-cta:hover{ transform:translateY(-1px); box-shadow:0 10px 24px -6px rgba(0,0,0,.35); }
+.pr-feat-sep{
+  height:1px; background:var(--ink-150);
+  margin:0 -28px 20px;
+}
+.pr-feat{
+  list-style:none; padding:0; margin:0;
+  display:flex; flex-direction:column; gap:10px;
+}
+.pr-feat li{
+  display:flex; align-items:flex-start; gap:10px;
+  font-size:14px; color:var(--ink-700);
+}
+.pr-feat .check{
+  flex:none; width:18px; height:18px; border-radius:50%;
+  background:var(--brand-100); color:var(--brand-700);
+  display:grid; place-items:center;
+  margin-top:1px;
+}
+.pr-plan.featured .pr-feat .check{
+  background:rgba(255,255,255,.14);
+  color:#a8ebc1;
+}
+.pr-feat .check svg{ width:10px; height:10px; }
+
+/* Compare table */
+.pr-compare{
+  padding:80px 0;
+  background:var(--ink-50);
+  border-top:1px solid var(--ink-150);
+  border-bottom:1px solid var(--ink-150);
+}
+.pr-compare h2{
+  font-family:var(--type-display);
+  font-size:clamp(28px, 3.2vw, 40px);
+  font-weight:700;
+  letter-spacing:-.02em;
+  text-align:center;
+  margin-bottom:12px;
+}
+.pr-compare p.sub{
+  text-align:center;
+  color:var(--ink-600);
+  max-width:520px;
+  margin:0 auto 40px;
+}
+.cmp-table{
+  max-width:960px; margin:0 auto;
+  background:#fff;
+  border:1px solid var(--ink-150);
+  border-radius:var(--r-xl);
+  overflow:hidden;
+  box-shadow: var(--shadow-md);
+}
+.cmp-row{
+  display:grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  align-items:center;
+  border-bottom:1px solid var(--ink-150);
+}
+.cmp-row:last-child{ border-bottom:none; }
+.cmp-row > *{
+  padding:16px 20px;
+  font-size:14px;
+}
+.cmp-head{
+  background:var(--ink-100);
+  border-bottom:1px solid var(--ink-200);
+}
+.cmp-head > *{
+  font-family:var(--type-display);
+  font-weight:700;
+  font-size:14px;
+  color:var(--ink-800);
+  letter-spacing:-.005em;
+}
+.cmp-head .col-plan{
+  text-align:center;
+}
+.cmp-row .col-label{
+  font-weight:500; color:var(--ink-800);
+}
+.cmp-row .col-plan{
+  text-align:center;
+  color:var(--ink-700);
+}
+.cmp-check{
+  display:inline-grid; place-items:center;
+  width:22px; height:22px; border-radius:50%;
+  background:var(--brand-100); color:var(--brand-700);
+}
+.cmp-check svg{ width:12px; height:12px; }
+.cmp-dash{ color:var(--ink-400); font-weight:600; }
+.cmp-group{
+  grid-column:1 / -1;
+  padding:14px 20px !important;
+  background:#fafbfa;
+  font-family:var(--type-mono);
+  font-size:11px !important;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--brand-700);
+  font-weight:600;
+  border-top:1px solid var(--ink-150);
+  border-bottom:1px solid var(--ink-150);
+}
+
+/* FAQ */
+.pr-faq{
+  padding:80px 0;
+  background: var(--paper);
+}
+.pr-faq-inner{
+  max-width:760px; margin:0 auto;
+}
+.pr-faq h2{
+  font-family:var(--type-display);
+  font-size:clamp(28px, 3.2vw, 40px);
+  font-weight:700;
+  letter-spacing:-.02em;
+  margin-bottom:32px;
+  text-align:center;
+}
+.pr-faq details{
+  border-bottom:1px solid var(--ink-150);
+  padding:20px 0;
+}
+.pr-faq details[open]{
+  background: linear-gradient(180deg, #ffffff, var(--ink-50) 200%);
+}
+.pr-faq summary{
+  list-style:none;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:16px;
+  cursor:pointer;
+  font-family:var(--type-display);
+  font-size:17px; font-weight:600;
+  color:var(--ink-900);
+  letter-spacing:-.01em;
+}
+.pr-faq summary::-webkit-details-marker{display:none;}
+.pr-faq .faq-ic{
+  flex:none; width:26px; height:26px; border-radius:50%;
+  border:1px solid var(--ink-200);
+  display:grid; place-items:center;
+  color:var(--ink-600);
+  transition:all .2s ease;
+}
+.pr-faq details[open] .faq-ic{
+  background:var(--brand-700); color:#fff; border-color:transparent;
+  transform:rotate(45deg);
+}
+.pr-faq .faq-ic svg{ width:12px; height:12px; }
+.pr-faq .faq-body{
+  margin-top:14px; padding-right:42px;
+  font-size:15px; color:var(--ink-600);
+  line-height:1.65;
+}
+.pr-faq .faq-body strong{ color:var(--ink-900); }
+
+/* Final CTA */
+.pr-final{
+  padding: 80px 0 100px;
+  background: linear-gradient(180deg, var(--paper) 0%, var(--cream) 100%);
+  text-align:center;
+}
+.pr-final-card{
+  background: linear-gradient(135deg, #0e2819 0%, #0a3d1f 60%, #0b5c31 100%);
+  color:#fff;
+  border-radius: var(--r-2xl);
+  padding: 56px 40px;
+  max-width: 900px;
+  margin: 0 auto;
+  position:relative;
+  overflow:hidden;
+}
+.pr-final-card::before{
+  content:""; position:absolute; inset:0;
+  background:
+    radial-gradient(60% 60% at 90% 10%, rgba(0,166,214,.18) 0%, transparent 60%),
+    radial-gradient(50% 60% at 10% 100%, rgba(255,111,181,.14) 0%, transparent 60%);
+  pointer-events:none;
+}
+.pr-final-card h2{
+  font-family:var(--type-display);
+  font-weight:700;
+  font-size:clamp(28px, 3.5vw, 42px);
+  letter-spacing:-.02em;
+  line-height:1.1;
+  margin-bottom:12px;
+  position:relative;
+}
+.pr-final-card p{
+  font-size:17px; color:rgba(255,255,255,.75);
+  max-width:520px; margin:0 auto 28px;
+  position:relative;
+}
+.pr-final-card .btn-brand{
+  background:#fff; color:var(--ink-900);
+  box-shadow:0 10px 24px -4px rgba(0,0,0,.25);
+  position:relative;
+}
+.pr-final-card .btn-brand:hover{ transform:translateY(-2px); box-shadow:0 16px 36px -6px rgba(0,0,0,.3);}
+
+@media (max-width: 900px){
+  .pr-plans-grid{ grid-template-columns: 1fr; max-width:460px; }
+  .cmp-row{ grid-template-columns: 1.5fr 1fr 1fr 1fr; }
+  .cmp-row > *{ padding:12px 8px; font-size:12px; }
+  .pr-hero{ padding:56px 0 24px; }
+}
+
+/* Reveal */
+.reveal { opacity:0; transform: translateY(24px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+.reveal.in { opacity:1; transform:none; }
+.delay-1{ transition-delay:.08s; } .delay-2{ transition-delay:.16s; } .delay-3{ transition-delay:.24s; }
+
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after { animation-duration:.001ms !important; transition-duration:.001ms !important; }
+  .reveal { opacity:1 !important; transform:none !important; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="Tagfly Website.html" class="logo">
+      <span class="logo-mark">
+        <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M8 7c0 0 2-1.5 6-1.5h11c2 0 3 .8 2.2 2.8l-1.2 2.7c-.5 1-1.2 1.5-2.5 1.5H13.5c-2 0-3.5.8-4.2 2L8 7z" fill="#f5f1e8"/><path d="M10.5 16c0 0 2-1.5 5.5-1.5h8c1.8 0 2.6.8 1.9 2.8l-1 2.4c-.5 1-1.2 1.5-2.4 1.5h-8c-1.8 0-3 .7-3.5 1.8l-.5-7z" fill="#f5f1e8"/><circle cx="9" cy="26" r="2.8" fill="#f5f1e8"/></svg>
+      </span>
+      TagFly
+    </a>
+        <div class="nav-links">
+      <a href="Tagfly Website.html#features">Product</a>
+      <a href="Tagfly Website.html#integrations">Integrations</a>
+      <a href="Pricing.html" style="color:var(--ink-900);font-weight:600;">Pricing</a>
+      <a href="About.html">About</a>
+      <a href="Blog.html">Blog</a>
+      <a href="https://docs.tagfly.io/" target="_blank">Document</a>
+    </div>
+        <div class="nav-cta">
+      <a href="https://apps.shopify.com/tagfly?utm_source=tagfly.io&utm_medium=websitemenu&utm_campaign=website" class="btn btn-primary">
+        Try for free
+        <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="pr-hero">
+  <div class="wrap pr-hero-inner">
+    <span class="eyebrow">Pricing</span>
+    <h1>Plans &amp; <em>Pricing</em></h1>
+    <p class="sub">Whether your time-saving automation needs are large or small, we're here to help you scale.</p>
+
+    <div class="pr-toggle-wrap">
+      <div class="pr-toggle" id="billingToggle">
+        <span class="slider" id="prSlider"></span>
+        <button class="active" data-billing="monthly">Monthly</button>
+        <button data-billing="yearly">Yearly <span class="save-tag">SAVE 20%</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANS -->
+<section class="pr-plans">
+  <div class="wrap">
+    <div class="pr-plans-grid">
+
+      <!-- Free -->
+      <div class="pr-plan reveal">
+        <div class="pr-name">Free</div>
+        <div class="pr-desc">Unleash the power of automation.</div>
+        <div class="pr-price-row">
+          <span class="pr-price" data-m="0" data-y="0">$0</span>
+          <span class="pr-per">/month</span>
+        </div>
+        <a href="https://apps.shopify.com/tagfly?utm_source=tagfly.io&utm_medium=websitemenu&utm_campaign=website" class="pr-cta">
+          Choose plan
+          <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="pr-feat-sep"></div>
+        <ul class="pr-feat">
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>One tracking destination</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>1 pixel &amp; 1 server-side tracking</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Unlimited events tracking</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>GTM Integration</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>24/7 live support</li>
+        </ul>
+      </div>
+
+      <!-- Basic -->
+      <div class="pr-plan reveal delay-1">
+        <div class="pr-name">Basic</div>
+        <div class="pr-desc">Advanced tools to take your work to the next level.</div>
+        <div class="pr-price-row">
+          <span class="pr-price" data-m="9.99" data-y="7.99">$9.99</span>
+          <span class="pr-per">/month</span>
+        </div>
+        <a href="https://apps.shopify.com/tagfly?utm_source=tagfly.io&utm_medium=websitemenu&utm_campaign=website" class="pr-cta">
+          Choose plan
+          <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="pr-feat-sep"></div>
+        <ul class="pr-feat">
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Multiple tracking destinations</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>1 pixel &amp; 1 server-side tracking each destination</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Unlimited events tracking</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>GTM Integration</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>24/7 live support</li>
+        </ul>
+      </div>
+
+      <!-- Growth -->
+      <div class="pr-plan featured reveal delay-2">
+        <span class="pr-popular">Most popular</span>
+        <div class="pr-name">Growth</div>
+        <div class="pr-desc">Automation plus enterprise-grade features.</div>
+        <div class="pr-price-row">
+          <span class="pr-price" data-m="14.99" data-y="11.99">$14.99</span>
+          <span class="pr-per">/month</span>
+        </div>
+        <a href="https://apps.shopify.com/tagfly?utm_source=tagfly.io&utm_medium=websitemenu&utm_campaign=website" class="pr-cta">
+          Choose plan
+          <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="pr-feat-sep"></div>
+        <ul class="pr-feat">
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Multiple tracking destinations</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Unlimited pixels &amp; server-side tracking</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Unlimited events tracking</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>GTM Integration</li>
+          <li><span class="check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>24/7 live support</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE -->
+<section class="pr-compare">
+  <div class="wrap">
+    <h2 class="reveal">Compare all features</h2>
+    <p class="sub reveal delay-1">A full breakdown of what's included in each plan — so you can pick with confidence.</p>
+
+    <div class="cmp-table reveal delay-2">
+      <div class="cmp-row cmp-head">
+        <div class="col-label">Features</div>
+        <div class="col-plan">Free</div>
+        <div class="col-plan">Basic</div>
+        <div class="col-plan">Growth</div>
+      </div>
+
+      <div class="cmp-group">Tracking</div>
+      <div class="cmp-row">
+        <div class="col-label">Tracking destinations</div>
+        <div class="col-plan">1</div>
+        <div class="col-plan">Multiple</div>
+        <div class="col-plan">Multiple</div>
+      </div>
+      <div class="cmp-row">
+        <div class="col-label">Client-side (pixel)</div>
+        <div class="col-plan">1</div>
+        <div class="col-plan">1 per destination</div>
+        <div class="col-plan">Unlimited</div>
+      </div>
+      <div class="cmp-row">
+        <div class="col-label">Server-side tracking</div>
+        <div class="col-plan">1</div>
+        <div class="col-plan">1 per destination</div>
+        <div class="col-plan">Unlimited</div>
+      </div>
+      <div class="cmp-row">
+        <div class="col-label">Events tracking</div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      </div>
+
+      <div class="cmp-group">Integrations</div>
+      <div class="cmp-row">
+        <div class="col-label">GTM Integration</div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      </div>
+      <div class="cmp-row">
+        <div class="col-label">GA4, Google Ads, Meta, TikTok</div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      </div>
+      <div class="cmp-row">
+        <div class="col-label">Klaviyo, X, Pinterest, Snapchat</div>
+        <div class="col-plan"><span class="cmp-dash">—</span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      </div>
+
+      <div class="cmp-group">Support &amp; compliance</div>
+      <div class="cmp-row">
+        <div class="col-label">24/7 live support</div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      </div>
+      <div class="cmp-row">
+        <div class="col-label">GDPR / CCPA consent mode</div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      </div>
+      <div class="cmp-row">
+        <div class="col-label">3-day free trial on paid plans</div>
+        <div class="col-plan"><span class="cmp-dash">—</span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="col-plan"><span class="cmp-check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="pr-faq">
+  <div class="wrap pr-faq-inner">
+    <h2 class="reveal">Frequently asked questions</h2>
+
+    <details class="reveal">
+      <summary>How does TagFly work?
+        <span class="faq-ic"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+      </summary>
+      <div class="faq-body">
+        TagFly is a tracking solution that combines client-side and server-side tracking to provide accurate performance analysis of your store without setup hassles or slowing down your page.<br><br>
+        <strong>Client-side tracking:</strong> We integrate directly with Google Tag Manager, reducing the steps needed for setup. Just install the app, and we'll handle the rest.<br>
+        <strong>Server-side tracking:</strong> This ensures more accurate data collection even when client-side tracking is blocked by browser adblockers or iOS 14 tracking restrictions. It allows us to capture checkout steps and transactions, which is more challenging to do via Google Tag Manager alone.
+      </div>
+    </details>
+
+    <details class="reveal">
+      <summary>How many marketing channels does TagFly support?
+        <span class="faq-ic"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+      </summary>
+      <div class="faq-body">
+        Currently, we integrate with 8 marketing destinations, including: <strong>Google Analytics 4, Google Ads, Meta, TikTok, Klaviyo, X (Twitter), Pinterest, and Snapchat</strong>.<br><br>
+        We are continuously working to add more tracking integrations to meet your marketing needs. Stay tuned for updates!
+      </div>
+    </details>
+
+    <details class="reveal">
+      <summary>Is TagFly compliant with GDPR / CCPA?
+        <span class="faq-ic"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+      </summary>
+      <div class="faq-body">
+        Yes, we have a consent mode feature that integrates with most Shopify CMPs, allowing you to stay compliant with customer privacy regulations without sacrificing data accuracy.
+      </div>
+    </details>
+
+    <details class="reveal">
+      <summary>Are there any discounts or free trials available for TagFly?
+        <span class="faq-ic"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+      </summary>
+      <div class="faq-body">
+        Yes, we offer a 3-day free trial for any paid plans. Currently, we do not offer any discounts.
+      </div>
+    </details>
+
+    <details class="reveal">
+      <summary>I am using another app for tracking at the moment. What should I do when setting up TagFly?
+        <span class="faq-ic"><svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+      </summary>
+      <div class="faq-body">
+        Using two tracking apps for the same pixel simultaneously can lead to duplicate event tracking. To ensure more accurate tracking, you should disable tracking in one app.<br><br>
+        However, we highly recommend creating a new developer mode pixel or GA4 property specifically for use with TagFly and keeping them separate from your existing tracking setup.
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="pr-final">
+  <div class="wrap">
+    <div class="pr-final-card reveal">
+      <h2>Do you have more questions?</h2>
+      <p>We welcome any inquiries regarding our product features, feature requests, or feedback. Reach out to us, and we'll respond as soon as possible!</p>
+      <a href="#" class="btn btn-brand btn-lg">
+        Shoot a Direct Mail
+        <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+
+<script>
+// Sticky nav
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 8);
+}, { passive:true });
+
+// Billing toggle
+(function(){
+  const toggle = document.getElementById('billingToggle');
+  if (!toggle) return;
+  const slider = document.getElementById('prSlider');
+  const btns = toggle.querySelectorAll('button');
+  const prices = document.querySelectorAll('.pr-price');
+
+  function setSlider(btn){
+    const r = btn.getBoundingClientRect();
+    const pr = toggle.getBoundingClientRect();
+    slider.style.left = (r.left - pr.left) + 'px';
+    slider.style.width = r.width + 'px';
+    slider.style.height = r.height + 'px';
+    slider.style.top = (r.top - pr.top) + 'px';
+  }
+  function activate(btn){
+    btns.forEach(b => b.classList.toggle('active', b === btn));
+    setSlider(btn);
+    const mode = btn.dataset.billing;
+    prices.forEach(p => {
+      const v = mode === 'yearly' ? p.dataset.y : p.dataset.m;
+      const num = parseFloat(v);
+      p.textContent = num === 0 ? '$0' : '$' + num;
+    });
+  }
+  btns.forEach(b => b.addEventListener('click', () => activate(b)));
+  // initial position
+  requestAnimationFrame(() => activate(btns[0]));
+  window.addEventListener('resize', () => {
+    const active = toggle.querySelector('.active');
+    if (active) setSlider(active);
+  });
+})();
+
+// Reveal on scroll
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <span class="logo-mark">
+            <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M8 7c0 0 2-1.5 6-1.5h11c2 0 3 .8 2.2 2.8l-1.2 2.7c-.5 1-1.2 1.5-2.5 1.5H13.5c-2 0-3.5.8-4.2 2L8 7z" fill="#f5f1e8"/><path d="M10.5 16c0 0 2-1.5 5.5-1.5h8c1.8 0 2.6.8 1.9 2.8l-1 2.4c-.5 1-1.2 1.5-2.4 1.5h-8c-1.8 0-3 .7-3.5 1.8l-.5-7z" fill="#f5f1e8"/><circle cx="9" cy="26" r="2.8" fill="#f5f1e8"/></svg>
+          </span>
+          TagFly
+        </a>
+        <p>Send 100% accurate Shopify data to every ad platform you run - without missing a single order.</p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Product</h5>
+        <ul>
+          <li><a href="#features">Overview</a></li>
+          <li><a href="#" data-page="pricing">Pricing</a></li>
+          <li><a href="#" data-page="blog">Blog</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#" data-page="about">About us</a></li>
+          <li><a href="#">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bot">
+      <div>© 2026 TagFly. All rights reserved. Made for Shopify merchants worldwide.</div>
+      <div class="socials">
+        <a href="#" aria-label="X"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M12 2h2.4L9.5 7.6 15 14h-4.3l-3.4-4.4L3.4 14H1l5.3-6L1 2h4.4l3 4 3.6-4zm-.8 10.8h1.4L4.8 3.2H3.4l7.8 9.6z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="5" width="3" height="10"/><circle cx="2.5" cy="2.5" r="1.5"/><path d="M6 5h3v1.5c.6-1 1.8-1.7 3-1.7 2.3 0 3 1.5 3 3.7V15h-3v-5c0-1-.3-2-1.5-2-1.2 0-1.5 1-1.5 2v5H6V5z"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M14.5 4.5c-.3-1.2-1.3-1.7-2.5-1.8C10.2 2.5 8 2.5 8 2.5s-2.2 0-4 .2c-1.2.1-2.2.6-2.5 1.8C1.2 6 1.2 8 1.2 8s0 2 .3 3.5c.3 1.2 1.3 1.7 2.5 1.8 1.8.2 4 .2 4 .2s2.2 0 4-.2c1.2-.1 2.2-.6 2.5-1.8.3-1.5.3-3.5.3-3.5s0-2-.3-3.5zM6.5 10.5V5.5l4 2.5-4 2.5z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
