@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Contact Us — TagFly</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/shared.css">
+<style>
+/* ========== CONTACT PAGE STYLES ========== */
+
+/* Hero */
+.ct-hero{
+  padding:100px 0 60px;
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+}
+.ct-hero::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:
+    radial-gradient(60% 60% at 85% 0%,rgba(31,184,103,.14) 0%,transparent 60%),
+    radial-gradient(70% 60% at 5% 5%,rgba(0,166,214,.10) 0%,transparent 55%),
+    radial-gradient(60% 50% at 95% 95%,rgba(255,111,181,.12) 0%,transparent 60%),
+    linear-gradient(180deg,#ffffff 0%,var(--cream) 100%);
+}
+.ct-hero-grid{
+  display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:center;
+}
+.ct-hero h1{
+  font-family:var(--type-display);
+  font-size:clamp(40px,5.4vw,68px);
+  font-weight:700;letter-spacing:-.03em;line-height:1;
+  margin-bottom:20px;
+}
+.ct-hero h1 em{font-style:normal;color:var(--brand-700);}
+.ct-hero p.lead{font-size:19px;color:var(--ink-600);max-width:540px;line-height:1.55;margin-bottom:28px;}
+.ct-hero .eyebrow{display:inline-block;margin-bottom:14px;}
+.ct-hero-cta{display:flex;gap:10px;flex-wrap:wrap;}
+
+/* Hero collage */
+.ct-collage{
+  position:relative;aspect-ratio:1/1;width:100%;max-width:520px;justify-self:end;
+}
+.ct-col-main{
+  position:absolute;inset:8% 0 0 0;border-radius:var(--r-xl);
+  box-shadow:var(--shadow-xl);overflow:hidden;
+}
+.ct-col-main img{width:100%;height:100%;object-fit:cover;display:block;}
+.ct-col-main::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(10,61,31,.05) 0%,rgba(10,61,31,.35) 100%);
+  pointer-events:none;
+}
+.ct-float{
+  position:absolute;background:#fff;border-radius:var(--r-lg);
+  box-shadow:var(--shadow-lg);padding:14px 18px;
+  display:flex;align-items:center;gap:12px;
+  border:1px solid var(--ink-150);
+  animation:floatY 6s ease-in-out infinite;
+}
+.ct-float .f-ic{
+  width:36px;height:36px;border-radius:10px;
+  display:grid;place-items:center;
+  background:var(--brand-100);color:var(--brand-700);
+}
+.ct-float .f-ic svg{width:18px;height:18px;}
+.ct-float .f-t{font-family:var(--type-display);font-weight:700;font-size:14px;color:var(--ink-900);}
+.ct-float .f-s{font-size:12px;color:var(--ink-500);}
+.ct-f1{top:10%;left:-6%;animation-delay:.3s;}
+.ct-f2{bottom:10%;right:-6%;animation-delay:.9s;}
+.ct-f3{bottom:40%;left:-10%;animation-delay:1.5s;padding:10px 14px;}
+.ct-f3 .dot{width:8px;height:8px;border-radius:50%;background:var(--brand-500);box-shadow:0 0 0 4px rgba(31,184,103,.2);}
+
+/* Contact cards */
+.ct-cards{padding:40px 0 80px;}
+.ct-cards-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+  background:#fff;border:1px solid var(--ink-150);
+  border-radius:var(--r-xl);box-shadow:var(--shadow-md);
+  padding:28px;
+}
+.ct-card{
+  text-align:center;padding:20px 16px;border-radius:var(--r-lg);
+  transition:all .3s cubic-bezier(.2,.7,.2,1);
+}
+.ct-card:hover{background:var(--ink-50);transform:translateY(-2px);}
+.ct-card-icon{
+  width:48px;height:48px;border-radius:14px;margin:0 auto 14px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--brand-50);color:var(--brand-700);
+  transition:all .3s;
+}
+.ct-card:hover .ct-card-icon{
+  background:linear-gradient(135deg,var(--brand-700),var(--brand-800));
+  color:#fff;transform:scale(1.08);
+}
+.ct-card-icon svg{width:22px;height:22px;}
+.ct-card h3{
+  font-family:var(--type-mono);font-size:11px;font-weight:500;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--ink-400);
+  margin-bottom:8px;
+}
+.ct-card a,.ct-card p{
+  color:var(--ink-800);text-decoration:none;font-size:14px;
+  font-weight:600;display:block;transition:color .2s;
+}
+.ct-card a:hover{color:var(--brand-700);}
+
+/* Split: images + form */
+.ct-split{
+  padding:80px 0 100px;background:var(--ink-50);
+  border-top:1px solid var(--ink-150);border-bottom:1px solid var(--ink-150);
+}
+.ct-split-inner{
+  display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;
+}
+.ct-split-left .eyebrow{display:inline-block;margin-bottom:14px;}
+.ct-split-left h2{
+  font-family:var(--type-display);font-size:clamp(30px,3.6vw,46px);
+  font-weight:700;letter-spacing:-.02em;line-height:1.08;margin-bottom:14px;
+}
+.ct-split-left h2 em{font-style:normal;color:var(--brand-700);}
+.ct-split-left>p{font-size:17px;color:var(--ink-600);line-height:1.65;margin-bottom:36px;}
+
+/* Image grid */
+.ct-img-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.ct-img-item{
+  border-radius:var(--r-lg);overflow:hidden;position:relative;
+  box-shadow:var(--shadow-md);transition:all .4s cubic-bezier(.2,.7,.2,1);
+}
+.ct-img-item:hover{transform:scale(1.03);box-shadow:var(--shadow-lg);}
+.ct-img-item:nth-child(2){margin-top:24px;}
+.ct-img-item:nth-child(3){margin-top:-24px;}
+.ct-img-item img{width:100%;height:100%;object-fit:cover;display:block;aspect-ratio:4/3;}
+.ct-img-badge{
+  position:absolute;bottom:12px;left:12px;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+  border-radius:var(--r-sm);padding:7px 12px;
+  display:flex;align-items:center;gap:7px;
+  box-shadow:var(--shadow-sm);animation:floatY 4s ease-in-out infinite;
+}
+.ct-img-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--brand-500);position:relative;}
+.ct-img-badge .dot::after{
+  content:"";position:absolute;inset:0;border-radius:50%;background:var(--brand-500);
+  animation:ping 1.8s cubic-bezier(0,0,.2,1) infinite;
+}
+.ct-img-badge span{font-size:12px;font-weight:600;color:var(--ink-800);}
+
+/* Form */
+.ct-form{
+  background:#fff;border-radius:var(--r-xl);padding:40px;
+  box-shadow:var(--shadow-lg);border:1px solid var(--ink-150);
+}
+.ct-form-title{font-family:var(--type-display);font-size:22px;font-weight:700;color:var(--ink-900);margin-bottom:6px;letter-spacing:-.01em;}
+.ct-form-sub{font-size:14px;color:var(--ink-500);margin-bottom:28px;}
+.ct-form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.ct-form-group{text-align:left;}
+.ct-form-group.full{grid-column:1/-1;}
+.ct-form-group label{
+  display:block;font-weight:600;font-size:11px;color:var(--ink-600);
+  margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em;
+  font-family:var(--type-mono);
+}
+.ct-form-group input,
+.ct-form-group textarea,
+.ct-form-group select{
+  width:100%;padding:11px 14px;border:1px solid var(--ink-200);
+  border-radius:var(--r-md);font-size:14px;font-family:var(--type-body);
+  color:var(--ink-900);transition:all .2s;background:var(--ink-50);
+}
+.ct-form-group input:focus,
+.ct-form-group textarea:focus,
+.ct-form-group select:focus{
+  outline:none;border-color:var(--brand-700);
+  box-shadow:0 0 0 3px rgba(14,125,66,.1);background:var(--paper);
+}
+.ct-form-group input::placeholder,
+.ct-form-group textarea::placeholder{color:var(--ink-400);}
+.ct-form-group textarea{resize:vertical;min-height:110px;}
+.ct-form-submit{margin-top:24px;}
+.ct-btn-submit{
+  display:flex;width:100%;justify-content:center;align-items:center;gap:8px;
+  border-radius:999px;font-size:15px;font-weight:500;
+  padding:12px 28px;cursor:pointer;border:none;
+  background:linear-gradient(180deg,var(--brand-700) 0%,var(--brand-800) 100%);
+  color:#fff;font-family:var(--type-sans);
+  box-shadow:0 1px 0 rgba(255,255,255,.18) inset,0 1px 2px rgba(10,61,31,.3),0 10px 24px -8px rgba(14,125,66,.45);
+  position:relative;overflow:hidden;transition:all .15s;
+}
+.ct-btn-submit::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(110deg,transparent 40%,rgba(255,255,255,.28) 50%,transparent 60%);
+  background-size:250% 100%;background-position:-150% 0;pointer-events:none;
+}
+.ct-btn-submit:hover::after{animation:shine 1s ease;}
+.ct-btn-submit:hover{transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,.18) inset,0 2px 4px rgba(10,61,31,.3),0 16px 32px -8px rgba(14,125,66,.55);}
+
+/* Stats */
+.ct-stats{
+  padding:60px 0;
+  border-bottom:1px solid var(--ink-150);
+}
+.ct-stats-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+  padding:32px;background:#fff;border:1px solid var(--ink-150);
+  border-radius:var(--r-xl);box-shadow:var(--shadow-md);
+}
+.ct-stat{text-align:center;padding:8px;}
+.ct-stat-v{
+  font-family:var(--type-display);font-weight:700;font-size:40px;
+  letter-spacing:-.02em;color:var(--ink-900);line-height:1;
+}
+.ct-stat-v em{font-style:normal;color:var(--brand-700);}
+.ct-stat-l{font-size:13px;color:var(--ink-500);margin-top:6px;}
+
+/* CTA card (same as About) */
+.ct-cta{padding:90px 0 100px;}
+.ct-cta-card{
+  background:linear-gradient(135deg,#0e2819 0%,#0a3d1f 55%,#0b5c31 100%);
+  color:#fff;border-radius:var(--r-2xl);padding:64px 52px;
+  max-width:980px;margin:0 auto;position:relative;overflow:hidden;
+  display:grid;grid-template-columns:1.3fr auto;gap:40px;align-items:center;
+}
+.ct-cta-card::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(60% 60% at 90% 10%,rgba(0,166,214,.20) 0%,transparent 60%),
+             radial-gradient(50% 60% at 10% 100%,rgba(255,111,181,.16) 0%,transparent 60%);
+  pointer-events:none;
+}
+.ct-cta-card h2{
+  font-family:var(--type-display);font-weight:700;
+  font-size:clamp(26px,3vw,38px);letter-spacing:-.02em;
+  line-height:1.1;margin-bottom:10px;position:relative;
+}
+.ct-cta-card p{font-size:16px;color:rgba(255,255,255,.75);max-width:480px;position:relative;}
+.ct-cta-card .btn{position:relative;}
+.ct-cta-card .btn-cta{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#fff;color:var(--ink-900);padding:12px 22px;
+  border-radius:999px;font-size:15px;font-weight:500;
+  box-shadow:0 10px 24px -4px rgba(0,0,0,.25);transition:all .15s;
+}
+.ct-cta-card .btn-cta:hover{transform:translateY(-2px);}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .ct-hero-grid{grid-template-columns:1fr;gap:40px;}
+  .ct-collage{justify-self:center;max-width:380px;}
+  .ct-cards-grid{grid-template-columns:repeat(2,1fr);}
+  .ct-split-inner{grid-template-columns:1fr;gap:48px;}
+  .ct-stats-grid{grid-template-columns:repeat(2,1fr);}
+  .ct-cta-card{grid-template-columns:1fr;padding:40px 28px;}
+}
+@media(max-width:640px){
+  .ct-cards-grid{grid-template-columns:1fr;}
+  .ct-form-row{grid-template-columns:1fr;}
+  .ct-img-grid{grid-template-columns:1fr;}
+  .ct-img-item:nth-child(2),.ct-img-item:nth-child(3){margin-top:0;}
+  .ct-stats-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="Tagfly Website.html" class="logo">
+      <span class="logo-mark"><svg viewBox="0 0 32 32" fill="none"><path d="M8 7c0 0 2-1.5 6-1.5h11c2 0 3 .8 2.2 2.8l-1.2 2.7c-.5 1-1.2 1.5-2.5 1.5H13.5c-2 0-3.5.8-4.2 2L8 7z" fill="#f5f1e8"/><path d="M10.5 16c0 0 2-1.5 5.5-1.5h8c1.8 0 2.6.8 1.9 2.8l-1 2.4c-.5 1-1.2 1.5-2.4 1.5h-8c-1.8 0-3 .7-3.5 1.8l-.5-7z" fill="#f5f1e8"/><circle cx="9" cy="26" r="2.8" fill="#f5f1e8"/></svg></span>
+      TagFly
+    </a>
+    <div class="nav-links">
+      <a href="Tagfly Website.html#features">Product</a>
+      <a href="Tagfly Website.html#integrations">Integrations</a>
+      <a href="Pricing.html">Pricing</a>
+      <a href="About.html">About</a>
+      <a href="Blog.html">Blog</a>
+      <a href="https://docs.tagfly.io/" target="_blank">Document</a>
+    </div>
+    <div class="nav-cta">
+      <a href="https://apps.shopify.com/tagfly?utm_source=tagfly.io&utm_medium=homepage&utm_campaign=website" class="btn btn-primary btn-lg">
+        Try for free
+        <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="ct-hero">
+  <div class="wrap ct-hero-grid">
+    <div>
+      <span class="eyebrow">Contact us</span>
+      <h1>Let's build something <em>great together.</em></h1>
+      <p class="lead">Whether you have a question, need support, or want to explore a partnership - we'd love to hear from you.</p>
+      <div class="ct-hero-cta">
+        <a href="#form" class="btn btn-brand btn-lg">Send a message <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+        <a href="/cdn-cgi/l/email-protection#6a0905041e0b091e2a1e0b0d0c0613440305" class="btn btn-outline btn-lg"><span class="__cf_email__" data-cfemail="24474b4a504547506450454342485d0a4d4b">[email&#160;protected]</span></a>
+      </div>
+    </div>
+    <div class="ct-collage">
+      <div class="ct-col-main">
+        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=800&fit=crop&auto=format" alt="Team collaborating"/>
+      </div>
+      <div class="ct-float ct-f1">
+        <div class="f-ic" style="background:#e8f8fd;color:var(--tech-blue-700);">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M3 15V9l4-4 3 3 4-5 3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </div>
+        <div><div class="f-t">24h Response</div><div class="f-s">Average reply time</div></div>
+      </div>
+      <div class="ct-float ct-f2">
+        <div class="f-ic" style="background:#fff0f7;color:var(--pink);">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M10 2l2.5 5 5.5.8-4 3.9.9 5.3L10 14.5l-4.9 2.5.9-5.3-4-3.9L7.5 7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </div>
+        <div><div class="f-t">500+ Merchants</div><div class="f-s">Trust TagFly worldwide</div></div>
+      </div>
+      <div class="ct-float ct-f3">
+        <span class="dot"></span><div class="f-s" style="color:var(--ink-700);font-weight:600;">Ha Noi, Vietnam</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT CARDS -->
+<section class="ct-cards">
+  <div class="wrap">
+    <div class="ct-cards-grid reveal">
+      <div class="ct-card">
+        <div class="ct-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        </div>
+        <h3>General Inquiries</h3>
+        <a href="/cdn-cgi/l/email-protection#b8dbd7d6ccd9dbccf8ccd9dfded4c196d1d7"><span class="__cf_email__" data-cfemail="dfbcb0b1abbebcab9fabbeb8b9b3a6f1b6b0">[email&#160;protected]</span></a>
+      </div>
+      <div class="ct-card">
+        <div class="ct-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Partnership</h3>
+        <a href="/cdn-cgi/l/email-protection#036e62716866776a6d64436c6e666462776b666e662d606c6e"><span class="__cf_email__" data-cfemail="5835392a333d2c31363f1837353d3f392c303d353d763b3735">[email&#160;protected]</span></a>
+      </div>
+      <div class="ct-card">
+        <div class="ct-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <h3>Hotline</h3>
+        <p>+84.359.316.798</p>
+      </div>
+      <div class="ct-card">
+        <div class="ct-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <h3>Address</h3>
+        <p>No. 18 Lane 11 Thai Ha, Ha Noi</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPLIT: IMAGES + FORM -->
+<section class="ct-split" id="form">
+  <div class="wrap ct-split-inner">
+    <div class="ct-split-left reveal">
+      <span class="eyebrow">Get in touch</span>
+      <h2>We're here to <em>assist you.</em></h2>
+      <p>Our team typically responds within 24 hours. Drop us a message and let's start the conversation.</p>
+      <div class="ct-img-grid">
+        <div class="ct-img-item">
+          <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=450&fit=crop&auto=format" alt="Office workspace">
+          <div class="ct-img-badge">
+            <div class="dot"></div>
+            <span>Team online</span>
+          </div>
+        </div>
+        <div class="ct-img-item">
+          <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=450&fit=crop&auto=format" alt="SaaS dashboard">
+        </div>
+        <div class="ct-img-item">
+          <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=450&fit=crop&auto=format" alt="Team meeting">
+        </div>
+        <div class="ct-img-item">
+          <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=600&h=450&fit=crop&auto=format" alt="Team discussion">
+          <div class="ct-img-badge" style="animation-delay:1s;">
+            <div class="dot" style="background:var(--tech-blue);"></div>
+            <span>Ha Noi, Vietnam</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal delay-1">
+      <form class="ct-form" id="contactForm">
+        <div class="ct-form-title">Leave us a Message</div>
+        <div class="ct-form-sub">Fill out the form and we'll be in touch as soon as possible.</div>
+        <div class="ct-form-row">
+          <div class="ct-form-group">
+            <label for="name">Name *</label>
+            <input type="text" id="name" name="name" placeholder="Your full name" required>
+          </div>
+          <div class="ct-form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" placeholder="hello@company.com" required>
+          </div>
+        </div>
+        <div class="ct-form-row">
+          <div class="ct-form-group">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000">
+          </div>
+          <div class="ct-form-group">
+            <label for="subject">Subject *</label>
+            <select id="subject" name="subject" required>
+              <option value="" disabled selected>Select a topic</option>
+              <option>General Inquiry</option>
+              <option>Technical Support</option>
+              <option>Partnership</option>
+              <option>Billing</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="ct-form-group full">
+          <label for="message">Message *</label>
+          <textarea id="message" name="message" placeholder="Tell us how we can help..." required></textarea>
+        </div>
+        <div class="ct-form-submit">
+          <button type="submit" class="ct-btn-submit">
+            Send Message
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="ct-stats">
+  <div class="wrap">
+    <div class="ct-stats-grid reveal">
+      <div class="ct-stat"><div class="ct-stat-v"><em>500+</em></div><div class="ct-stat-l">Active Merchants</div></div>
+      <div class="ct-stat"><div class="ct-stat-v">99.9<em>%</em></div><div class="ct-stat-l">Data Accuracy</div></div>
+      <div class="ct-stat"><div class="ct-stat-v"><em>24</em>h</div><div class="ct-stat-l">Average Response Time</div></div>
+      <div class="ct-stat"><div class="ct-stat-v">10<em>+</em></div><div class="ct-stat-l">Platform Integrations</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="ct-cta">
+  <div class="wrap">
+    <div class="ct-cta-card reveal">
+      <div>
+        <h2>Ready to send 100% accurate data to every ad platform?</h2>
+        <p>Join hundreds of Shopify merchants who trust TagFly to track every order, every conversion.</p>
+      </div>
+      <a href="https://apps.shopify.com/tagfly" class="btn-cta">
+        Start Free Trial
+        <svg class="chev" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER (same as About) -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="Tagfly Website.html" class="logo">
+          <span class="logo-mark"><svg viewBox="0 0 32 32" fill="none"><path d="M8 7c0 0 2-1.5 6-1.5h11c2 0 3 .8 2.2 2.8l-1.2 2.7c-.5 1-1.2 1.5-2.5 1.5H13.5c-2 0-3.5.8-4.2 2L8 7z" fill="#f5f1e8"/><path d="M10.5 16c0 0 2-1.5 5.5-1.5h8c1.8 0 2.6.8 1.9 2.8l-1 2.4c-.5 1-1.2 1.5-2.4 1.5h-8c-1.8 0-3 .7-3.5 1.8l-.5-7z" fill="#f5f1e8"/><circle cx="9" cy="26" r="2.8" fill="#f5f1e8"/></svg></span>
+          TagFly
+        </a>
+        <p>Send 100% accurate Shopify data to every ad platform you run - without missing a single order.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <ul>
+          <li><a href="Tagfly Website.html#features">Overview</a></li>
+          <li><a href="Pricing.html">Pricing</a></li>
+          <li><a href="Blog.html">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="About.html">About us</a></li>
+          <li><a href="Contact v2.html">Contact us</a></li>
+          <li><a href="#">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <div>&copy; 2026 TagFly. All rights reserved.</div>
+      <div class="socials">
+        <a href="#" aria-label="X"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M12 2h2.4L9.5 7.6 15 14h-4.3l-3.4-4.4L3.4 14H1l5.3-6L1 2h4.4l3 4 3.6-4zm-.8 10.8h1.4L4.8 3.2H3.4l7.8 9.6z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="5" width="3" height="10"/><circle cx="2.5" cy="2.5" r="1.5"/><path d="M6 5h3v1.5c.6-1 1.8-1.7 3-1.7 2.3 0 3 1.5 3 3.7V15h-3v-5c0-1-.3-2-1.5-2-1.2 0-1.5 1-1.5 2v5H6V5z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// Nav scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 8); }, {passive:true});
+
+// Reveal on scroll
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }});
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// Form
+document.getElementById('contactForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const btn = e.target.querySelector('.ct-btn-submit');
+  btn.textContent = '✓ Message Sent!';
+  setTimeout(() => {
+    btn.innerHTML = 'Send Message <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+    e.target.reset();
+  }, 2500);
+});
+
+// Smooth scroll to form
+document.querySelector('a[href="#form"]')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('form').scrollTo && document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'});
+});
+</script>
+</body>
+</html>
